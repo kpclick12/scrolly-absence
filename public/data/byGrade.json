@@ -1,0 +1,902 @@
+[
+  {
+    "lasar": "2021/22",
+    "arskurs": "F",
+    "kon": "Flicka",
+    "totalElever": 2506,
+    "franvaroProcent": 6.5,
+    "giltigProcent": 6.1,
+    "ogiltigProcent": 0.4
+  },
+  {
+    "lasar": "2021/22",
+    "arskurs": "F",
+    "kon": "Pojke",
+    "totalElever": 2506,
+    "franvaroProcent": 6.4,
+    "giltigProcent": 5.9,
+    "ogiltigProcent": 0.4
+  },
+  {
+    "lasar": "2021/22",
+    "arskurs": "1",
+    "kon": "Flicka",
+    "totalElever": 2506,
+    "franvaroProcent": 6.6,
+    "giltigProcent": 6.2,
+    "ogiltigProcent": 0.4
+  },
+  {
+    "lasar": "2021/22",
+    "arskurs": "1",
+    "kon": "Pojke",
+    "totalElever": 2506,
+    "franvaroProcent": 6.5,
+    "giltigProcent": 6,
+    "ogiltigProcent": 0.4
+  },
+  {
+    "lasar": "2021/22",
+    "arskurs": "2",
+    "kon": "Flicka",
+    "totalElever": 2506,
+    "franvaroProcent": 7,
+    "giltigProcent": 6.5,
+    "ogiltigProcent": 0.5
+  },
+  {
+    "lasar": "2021/22",
+    "arskurs": "2",
+    "kon": "Pojke",
+    "totalElever": 2506,
+    "franvaroProcent": 6.9,
+    "giltigProcent": 6.3,
+    "ogiltigProcent": 0.6
+  },
+  {
+    "lasar": "2021/22",
+    "arskurs": "3",
+    "kon": "Flicka",
+    "totalElever": 2506,
+    "franvaroProcent": 7.3,
+    "giltigProcent": 6.8,
+    "ogiltigProcent": 0.5
+  },
+  {
+    "lasar": "2021/22",
+    "arskurs": "3",
+    "kon": "Pojke",
+    "totalElever": 2506,
+    "franvaroProcent": 7.1,
+    "giltigProcent": 6.6,
+    "ogiltigProcent": 0.6
+  },
+  {
+    "lasar": "2021/22",
+    "arskurs": "4",
+    "kon": "Flicka",
+    "totalElever": 2506,
+    "franvaroProcent": 7.6,
+    "giltigProcent": 7,
+    "ogiltigProcent": 0.6
+  },
+  {
+    "lasar": "2021/22",
+    "arskurs": "4",
+    "kon": "Pojke",
+    "totalElever": 2506,
+    "franvaroProcent": 7.4,
+    "giltigProcent": 6.7,
+    "ogiltigProcent": 0.7
+  },
+  {
+    "lasar": "2021/22",
+    "arskurs": "5",
+    "kon": "Flicka",
+    "totalElever": 2506,
+    "franvaroProcent": 8,
+    "giltigProcent": 7.3,
+    "ogiltigProcent": 0.7
+  },
+  {
+    "lasar": "2021/22",
+    "arskurs": "5",
+    "kon": "Pojke",
+    "totalElever": 2506,
+    "franvaroProcent": 7.8,
+    "giltigProcent": 7,
+    "ogiltigProcent": 0.8
+  },
+  {
+    "lasar": "2021/22",
+    "arskurs": "6",
+    "kon": "Flicka",
+    "totalElever": 2506,
+    "franvaroProcent": 9,
+    "giltigProcent": 8,
+    "ogiltigProcent": 1.1
+  },
+  {
+    "lasar": "2021/22",
+    "arskurs": "6",
+    "kon": "Pojke",
+    "totalElever": 2506,
+    "franvaroProcent": 8.7,
+    "giltigProcent": 7.5,
+    "ogiltigProcent": 1.2
+  },
+  {
+    "lasar": "2021/22",
+    "arskurs": "7",
+    "kon": "Flicka",
+    "totalElever": 2506,
+    "franvaroProcent": 10.7,
+    "giltigProcent": 8.8,
+    "ogiltigProcent": 1.9
+  },
+  {
+    "lasar": "2021/22",
+    "arskurs": "7",
+    "kon": "Pojke",
+    "totalElever": 2506,
+    "franvaroProcent": 10.7,
+    "giltigProcent": 8.5,
+    "ogiltigProcent": 2.2
+  },
+  {
+    "lasar": "2021/22",
+    "arskurs": "8",
+    "kon": "Flicka",
+    "totalElever": 2506,
+    "franvaroProcent": 12.9,
+    "giltigProcent": 9.8,
+    "ogiltigProcent": 3.1
+  },
+  {
+    "lasar": "2021/22",
+    "arskurs": "8",
+    "kon": "Pojke",
+    "totalElever": 2506,
+    "franvaroProcent": 12.5,
+    "giltigProcent": 9,
+    "ogiltigProcent": 3.4
+  },
+  {
+    "lasar": "2021/22",
+    "arskurs": "9",
+    "kon": "Flicka",
+    "totalElever": 2506,
+    "franvaroProcent": 14.2,
+    "giltigProcent": 9.9,
+    "ogiltigProcent": 4.3
+  },
+  {
+    "lasar": "2021/22",
+    "arskurs": "9",
+    "kon": "Pojke",
+    "totalElever": 2506,
+    "franvaroProcent": 13.9,
+    "giltigProcent": 9.1,
+    "ogiltigProcent": 4.8
+  },
+  {
+    "lasar": "2022/23",
+    "arskurs": "F",
+    "kon": "Flicka",
+    "totalElever": 2506,
+    "franvaroProcent": 5.9,
+    "giltigProcent": 5.5,
+    "ogiltigProcent": 0.4
+  },
+  {
+    "lasar": "2022/23",
+    "arskurs": "F",
+    "kon": "Pojke",
+    "totalElever": 2506,
+    "franvaroProcent": 5.7,
+    "giltigProcent": 5.3,
+    "ogiltigProcent": 0.4
+  },
+  {
+    "lasar": "2022/23",
+    "arskurs": "1",
+    "kon": "Flicka",
+    "totalElever": 2506,
+    "franvaroProcent": 5.8,
+    "giltigProcent": 5.5,
+    "ogiltigProcent": 0.3
+  },
+  {
+    "lasar": "2022/23",
+    "arskurs": "1",
+    "kon": "Pojke",
+    "totalElever": 2506,
+    "franvaroProcent": 5.8,
+    "giltigProcent": 5.4,
+    "ogiltigProcent": 0.4
+  },
+  {
+    "lasar": "2022/23",
+    "arskurs": "2",
+    "kon": "Flicka",
+    "totalElever": 2506,
+    "franvaroProcent": 6.3,
+    "giltigProcent": 5.9,
+    "ogiltigProcent": 0.4
+  },
+  {
+    "lasar": "2022/23",
+    "arskurs": "2",
+    "kon": "Pojke",
+    "totalElever": 2506,
+    "franvaroProcent": 6.1,
+    "giltigProcent": 5.7,
+    "ogiltigProcent": 0.5
+  },
+  {
+    "lasar": "2022/23",
+    "arskurs": "3",
+    "kon": "Flicka",
+    "totalElever": 2506,
+    "franvaroProcent": 6.5,
+    "giltigProcent": 6.1,
+    "ogiltigProcent": 0.5
+  },
+  {
+    "lasar": "2022/23",
+    "arskurs": "3",
+    "kon": "Pojke",
+    "totalElever": 2506,
+    "franvaroProcent": 6.5,
+    "giltigProcent": 6,
+    "ogiltigProcent": 0.5
+  },
+  {
+    "lasar": "2022/23",
+    "arskurs": "4",
+    "kon": "Flicka",
+    "totalElever": 2506,
+    "franvaroProcent": 6.8,
+    "giltigProcent": 6.3,
+    "ogiltigProcent": 0.5
+  },
+  {
+    "lasar": "2022/23",
+    "arskurs": "4",
+    "kon": "Pojke",
+    "totalElever": 2506,
+    "franvaroProcent": 6.6,
+    "giltigProcent": 6,
+    "ogiltigProcent": 0.6
+  },
+  {
+    "lasar": "2022/23",
+    "arskurs": "5",
+    "kon": "Flicka",
+    "totalElever": 2506,
+    "franvaroProcent": 7.2,
+    "giltigProcent": 6.6,
+    "ogiltigProcent": 0.7
+  },
+  {
+    "lasar": "2022/23",
+    "arskurs": "5",
+    "kon": "Pojke",
+    "totalElever": 2506,
+    "franvaroProcent": 7,
+    "giltigProcent": 6.3,
+    "ogiltigProcent": 0.7
+  },
+  {
+    "lasar": "2022/23",
+    "arskurs": "6",
+    "kon": "Flicka",
+    "totalElever": 2506,
+    "franvaroProcent": 8.1,
+    "giltigProcent": 7.1,
+    "ogiltigProcent": 1
+  },
+  {
+    "lasar": "2022/23",
+    "arskurs": "6",
+    "kon": "Pojke",
+    "totalElever": 2506,
+    "franvaroProcent": 8,
+    "giltigProcent": 6.9,
+    "ogiltigProcent": 1.1
+  },
+  {
+    "lasar": "2022/23",
+    "arskurs": "7",
+    "kon": "Flicka",
+    "totalElever": 2506,
+    "franvaroProcent": 9.8,
+    "giltigProcent": 8,
+    "ogiltigProcent": 1.8
+  },
+  {
+    "lasar": "2022/23",
+    "arskurs": "7",
+    "kon": "Pojke",
+    "totalElever": 2506,
+    "franvaroProcent": 9.6,
+    "giltigProcent": 7.6,
+    "ogiltigProcent": 2
+  },
+  {
+    "lasar": "2022/23",
+    "arskurs": "8",
+    "kon": "Flicka",
+    "totalElever": 2506,
+    "franvaroProcent": 11.4,
+    "giltigProcent": 8.7,
+    "ogiltigProcent": 2.7
+  },
+  {
+    "lasar": "2022/23",
+    "arskurs": "8",
+    "kon": "Pojke",
+    "totalElever": 2506,
+    "franvaroProcent": 11.3,
+    "giltigProcent": 8.2,
+    "ogiltigProcent": 3.1
+  },
+  {
+    "lasar": "2022/23",
+    "arskurs": "9",
+    "kon": "Flicka",
+    "totalElever": 2506,
+    "franvaroProcent": 13,
+    "giltigProcent": 9.1,
+    "ogiltigProcent": 3.9
+  },
+  {
+    "lasar": "2022/23",
+    "arskurs": "9",
+    "kon": "Pojke",
+    "totalElever": 2506,
+    "franvaroProcent": 12.7,
+    "giltigProcent": 8.3,
+    "ogiltigProcent": 4.4
+  },
+  {
+    "lasar": "2023/24",
+    "arskurs": "F",
+    "kon": "Flicka",
+    "totalElever": 2506,
+    "franvaroProcent": 5.4,
+    "giltigProcent": 5.1,
+    "ogiltigProcent": 0.3
+  },
+  {
+    "lasar": "2023/24",
+    "arskurs": "F",
+    "kon": "Pojke",
+    "totalElever": 2506,
+    "franvaroProcent": 5.2,
+    "giltigProcent": 4.9,
+    "ogiltigProcent": 0.4
+  },
+  {
+    "lasar": "2023/24",
+    "arskurs": "1",
+    "kon": "Flicka",
+    "totalElever": 2506,
+    "franvaroProcent": 5.4,
+    "giltigProcent": 5.1,
+    "ogiltigProcent": 0.3
+  },
+  {
+    "lasar": "2023/24",
+    "arskurs": "1",
+    "kon": "Pojke",
+    "totalElever": 2506,
+    "franvaroProcent": 5.3,
+    "giltigProcent": 5,
+    "ogiltigProcent": 0.4
+  },
+  {
+    "lasar": "2023/24",
+    "arskurs": "2",
+    "kon": "Flicka",
+    "totalElever": 2506,
+    "franvaroProcent": 5.8,
+    "giltigProcent": 5.4,
+    "ogiltigProcent": 0.4
+  },
+  {
+    "lasar": "2023/24",
+    "arskurs": "2",
+    "kon": "Pojke",
+    "totalElever": 2506,
+    "franvaroProcent": 5.7,
+    "giltigProcent": 5.2,
+    "ogiltigProcent": 0.5
+  },
+  {
+    "lasar": "2023/24",
+    "arskurs": "3",
+    "kon": "Flicka",
+    "totalElever": 2506,
+    "franvaroProcent": 6,
+    "giltigProcent": 5.6,
+    "ogiltigProcent": 0.4
+  },
+  {
+    "lasar": "2023/24",
+    "arskurs": "3",
+    "kon": "Pojke",
+    "totalElever": 2506,
+    "franvaroProcent": 5.9,
+    "giltigProcent": 5.5,
+    "ogiltigProcent": 0.5
+  },
+  {
+    "lasar": "2023/24",
+    "arskurs": "4",
+    "kon": "Flicka",
+    "totalElever": 2506,
+    "franvaroProcent": 6.3,
+    "giltigProcent": 5.8,
+    "ogiltigProcent": 0.5
+  },
+  {
+    "lasar": "2023/24",
+    "arskurs": "4",
+    "kon": "Pojke",
+    "totalElever": 2506,
+    "franvaroProcent": 6.2,
+    "giltigProcent": 5.6,
+    "ogiltigProcent": 0.6
+  },
+  {
+    "lasar": "2023/24",
+    "arskurs": "5",
+    "kon": "Flicka",
+    "totalElever": 2506,
+    "franvaroProcent": 6.6,
+    "giltigProcent": 6,
+    "ogiltigProcent": 0.6
+  },
+  {
+    "lasar": "2023/24",
+    "arskurs": "5",
+    "kon": "Pojke",
+    "totalElever": 2506,
+    "franvaroProcent": 6.5,
+    "giltigProcent": 5.9,
+    "ogiltigProcent": 0.7
+  },
+  {
+    "lasar": "2023/24",
+    "arskurs": "6",
+    "kon": "Flicka",
+    "totalElever": 2506,
+    "franvaroProcent": 7.5,
+    "giltigProcent": 6.6,
+    "ogiltigProcent": 0.9
+  },
+  {
+    "lasar": "2023/24",
+    "arskurs": "6",
+    "kon": "Pojke",
+    "totalElever": 2506,
+    "franvaroProcent": 7.3,
+    "giltigProcent": 6.3,
+    "ogiltigProcent": 1
+  },
+  {
+    "lasar": "2023/24",
+    "arskurs": "7",
+    "kon": "Flicka",
+    "totalElever": 2506,
+    "franvaroProcent": 9,
+    "giltigProcent": 7.3,
+    "ogiltigProcent": 1.6
+  },
+  {
+    "lasar": "2023/24",
+    "arskurs": "7",
+    "kon": "Pojke",
+    "totalElever": 2506,
+    "franvaroProcent": 8.9,
+    "giltigProcent": 7.1,
+    "ogiltigProcent": 1.8
+  },
+  {
+    "lasar": "2023/24",
+    "arskurs": "8",
+    "kon": "Flicka",
+    "totalElever": 2506,
+    "franvaroProcent": 10.5,
+    "giltigProcent": 8,
+    "ogiltigProcent": 2.5
+  },
+  {
+    "lasar": "2023/24",
+    "arskurs": "8",
+    "kon": "Pojke",
+    "totalElever": 2506,
+    "franvaroProcent": 10.4,
+    "giltigProcent": 7.5,
+    "ogiltigProcent": 2.9
+  },
+  {
+    "lasar": "2023/24",
+    "arskurs": "9",
+    "kon": "Flicka",
+    "totalElever": 2506,
+    "franvaroProcent": 11.8,
+    "giltigProcent": 8.3,
+    "ogiltigProcent": 3.6
+  },
+  {
+    "lasar": "2023/24",
+    "arskurs": "9",
+    "kon": "Pojke",
+    "totalElever": 2506,
+    "franvaroProcent": 11.5,
+    "giltigProcent": 7.6,
+    "ogiltigProcent": 4
+  },
+  {
+    "lasar": "2024/25",
+    "arskurs": "F",
+    "kon": "Flicka",
+    "totalElever": 2506,
+    "franvaroProcent": 5.1,
+    "giltigProcent": 4.8,
+    "ogiltigProcent": 0.3
+  },
+  {
+    "lasar": "2024/25",
+    "arskurs": "F",
+    "kon": "Pojke",
+    "totalElever": 2506,
+    "franvaroProcent": 5,
+    "giltigProcent": 4.6,
+    "ogiltigProcent": 0.3
+  },
+  {
+    "lasar": "2024/25",
+    "arskurs": "1",
+    "kon": "Flicka",
+    "totalElever": 2506,
+    "franvaroProcent": 5.1,
+    "giltigProcent": 4.8,
+    "ogiltigProcent": 0.3
+  },
+  {
+    "lasar": "2024/25",
+    "arskurs": "1",
+    "kon": "Pojke",
+    "totalElever": 2506,
+    "franvaroProcent": 5,
+    "giltigProcent": 4.6,
+    "ogiltigProcent": 0.3
+  },
+  {
+    "lasar": "2024/25",
+    "arskurs": "2",
+    "kon": "Flicka",
+    "totalElever": 2506,
+    "franvaroProcent": 5.4,
+    "giltigProcent": 5,
+    "ogiltigProcent": 0.4
+  },
+  {
+    "lasar": "2024/25",
+    "arskurs": "2",
+    "kon": "Pojke",
+    "totalElever": 2506,
+    "franvaroProcent": 5.3,
+    "giltigProcent": 4.8,
+    "ogiltigProcent": 0.4
+  },
+  {
+    "lasar": "2024/25",
+    "arskurs": "3",
+    "kon": "Flicka",
+    "totalElever": 2506,
+    "franvaroProcent": 5.7,
+    "giltigProcent": 5.3,
+    "ogiltigProcent": 0.4
+  },
+  {
+    "lasar": "2024/25",
+    "arskurs": "3",
+    "kon": "Pojke",
+    "totalElever": 2506,
+    "franvaroProcent": 5.5,
+    "giltigProcent": 5.1,
+    "ogiltigProcent": 0.4
+  },
+  {
+    "lasar": "2024/25",
+    "arskurs": "4",
+    "kon": "Flicka",
+    "totalElever": 2506,
+    "franvaroProcent": 5.8,
+    "giltigProcent": 5.4,
+    "ogiltigProcent": 0.5
+  },
+  {
+    "lasar": "2024/25",
+    "arskurs": "4",
+    "kon": "Pojke",
+    "totalElever": 2506,
+    "franvaroProcent": 5.8,
+    "giltigProcent": 5.2,
+    "ogiltigProcent": 0.5
+  },
+  {
+    "lasar": "2024/25",
+    "arskurs": "5",
+    "kon": "Flicka",
+    "totalElever": 2506,
+    "franvaroProcent": 6.2,
+    "giltigProcent": 5.7,
+    "ogiltigProcent": 0.6
+  },
+  {
+    "lasar": "2024/25",
+    "arskurs": "5",
+    "kon": "Pojke",
+    "totalElever": 2506,
+    "franvaroProcent": 6,
+    "giltigProcent": 5.4,
+    "ogiltigProcent": 0.6
+  },
+  {
+    "lasar": "2024/25",
+    "arskurs": "6",
+    "kon": "Flicka",
+    "totalElever": 2506,
+    "franvaroProcent": 6.9,
+    "giltigProcent": 6.1,
+    "ogiltigProcent": 0.8
+  },
+  {
+    "lasar": "2024/25",
+    "arskurs": "6",
+    "kon": "Pojke",
+    "totalElever": 2506,
+    "franvaroProcent": 6.8,
+    "giltigProcent": 5.9,
+    "ogiltigProcent": 0.9
+  },
+  {
+    "lasar": "2024/25",
+    "arskurs": "7",
+    "kon": "Flicka",
+    "totalElever": 2506,
+    "franvaroProcent": 8.6,
+    "giltigProcent": 7,
+    "ogiltigProcent": 1.5
+  },
+  {
+    "lasar": "2024/25",
+    "arskurs": "7",
+    "kon": "Pojke",
+    "totalElever": 2506,
+    "franvaroProcent": 8.3,
+    "giltigProcent": 6.6,
+    "ogiltigProcent": 1.7
+  },
+  {
+    "lasar": "2024/25",
+    "arskurs": "8",
+    "kon": "Flicka",
+    "totalElever": 2506,
+    "franvaroProcent": 10,
+    "giltigProcent": 7.6,
+    "ogiltigProcent": 2.4
+  },
+  {
+    "lasar": "2024/25",
+    "arskurs": "8",
+    "kon": "Pojke",
+    "totalElever": 2506,
+    "franvaroProcent": 9.7,
+    "giltigProcent": 7,
+    "ogiltigProcent": 2.7
+  },
+  {
+    "lasar": "2024/25",
+    "arskurs": "9",
+    "kon": "Flicka",
+    "totalElever": 2506,
+    "franvaroProcent": 11.2,
+    "giltigProcent": 7.8,
+    "ogiltigProcent": 3.4
+  },
+  {
+    "lasar": "2024/25",
+    "arskurs": "9",
+    "kon": "Pojke",
+    "totalElever": 2506,
+    "franvaroProcent": 10.7,
+    "giltigProcent": 7,
+    "ogiltigProcent": 3.7
+  },
+  {
+    "lasar": "2025/26",
+    "arskurs": "F",
+    "kon": "Flicka",
+    "totalElever": 2506,
+    "franvaroProcent": 4.8,
+    "giltigProcent": 4.5,
+    "ogiltigProcent": 0.3
+  },
+  {
+    "lasar": "2025/26",
+    "arskurs": "F",
+    "kon": "Pojke",
+    "totalElever": 2506,
+    "franvaroProcent": 4.7,
+    "giltigProcent": 4.4,
+    "ogiltigProcent": 0.3
+  },
+  {
+    "lasar": "2025/26",
+    "arskurs": "1",
+    "kon": "Flicka",
+    "totalElever": 2506,
+    "franvaroProcent": 4.9,
+    "giltigProcent": 4.6,
+    "ogiltigProcent": 0.3
+  },
+  {
+    "lasar": "2025/26",
+    "arskurs": "1",
+    "kon": "Pojke",
+    "totalElever": 2506,
+    "franvaroProcent": 4.7,
+    "giltigProcent": 4.4,
+    "ogiltigProcent": 0.3
+  },
+  {
+    "lasar": "2025/26",
+    "arskurs": "2",
+    "kon": "Flicka",
+    "totalElever": 2506,
+    "franvaroProcent": 5.2,
+    "giltigProcent": 4.8,
+    "ogiltigProcent": 0.4
+  },
+  {
+    "lasar": "2025/26",
+    "arskurs": "2",
+    "kon": "Pojke",
+    "totalElever": 2506,
+    "franvaroProcent": 5,
+    "giltigProcent": 4.6,
+    "ogiltigProcent": 0.4
+  },
+  {
+    "lasar": "2025/26",
+    "arskurs": "3",
+    "kon": "Flicka",
+    "totalElever": 2506,
+    "franvaroProcent": 5.3,
+    "giltigProcent": 4.9,
+    "ogiltigProcent": 0.4
+  },
+  {
+    "lasar": "2025/26",
+    "arskurs": "3",
+    "kon": "Pojke",
+    "totalElever": 2506,
+    "franvaroProcent": 5.3,
+    "giltigProcent": 4.8,
+    "ogiltigProcent": 0.4
+  },
+  {
+    "lasar": "2025/26",
+    "arskurs": "4",
+    "kon": "Flicka",
+    "totalElever": 2506,
+    "franvaroProcent": 5.5,
+    "giltigProcent": 5.1,
+    "ogiltigProcent": 0.4
+  },
+  {
+    "lasar": "2025/26",
+    "arskurs": "4",
+    "kon": "Pojke",
+    "totalElever": 2506,
+    "franvaroProcent": 5.5,
+    "giltigProcent": 5,
+    "ogiltigProcent": 0.5
+  },
+  {
+    "lasar": "2025/26",
+    "arskurs": "5",
+    "kon": "Flicka",
+    "totalElever": 2506,
+    "franvaroProcent": 5.9,
+    "giltigProcent": 5.4,
+    "ogiltigProcent": 0.5
+  },
+  {
+    "lasar": "2025/26",
+    "arskurs": "5",
+    "kon": "Pojke",
+    "totalElever": 2506,
+    "franvaroProcent": 5.8,
+    "giltigProcent": 5.2,
+    "ogiltigProcent": 0.6
+  },
+  {
+    "lasar": "2025/26",
+    "arskurs": "6",
+    "kon": "Flicka",
+    "totalElever": 2506,
+    "franvaroProcent": 6.7,
+    "giltigProcent": 5.9,
+    "ogiltigProcent": 0.8
+  },
+  {
+    "lasar": "2025/26",
+    "arskurs": "6",
+    "kon": "Pojke",
+    "totalElever": 2506,
+    "franvaroProcent": 6.5,
+    "giltigProcent": 5.6,
+    "ogiltigProcent": 0.9
+  },
+  {
+    "lasar": "2025/26",
+    "arskurs": "7",
+    "kon": "Flicka",
+    "totalElever": 2506,
+    "franvaroProcent": 8,
+    "giltigProcent": 6.6,
+    "ogiltigProcent": 1.4
+  },
+  {
+    "lasar": "2025/26",
+    "arskurs": "7",
+    "kon": "Pojke",
+    "totalElever": 2506,
+    "franvaroProcent": 7.9,
+    "giltigProcent": 6.2,
+    "ogiltigProcent": 1.6
+  },
+  {
+    "lasar": "2025/26",
+    "arskurs": "8",
+    "kon": "Flicka",
+    "totalElever": 2506,
+    "franvaroProcent": 9.5,
+    "giltigProcent": 7.2,
+    "ogiltigProcent": 2.3
+  },
+  {
+    "lasar": "2025/26",
+    "arskurs": "8",
+    "kon": "Pojke",
+    "totalElever": 2506,
+    "franvaroProcent": 9.2,
+    "giltigProcent": 6.7,
+    "ogiltigProcent": 2.5
+  },
+  {
+    "lasar": "2025/26",
+    "arskurs": "9",
+    "kon": "Flicka",
+    "totalElever": 2506,
+    "franvaroProcent": 10.5,
+    "giltigProcent": 7.4,
+    "ogiltigProcent": 3.2
+  },
+  {
+    "lasar": "2025/26",
+    "arskurs": "9",
+    "kon": "Pojke",
+    "totalElever": 2506,
+    "franvaroProcent": 10.4,
+    "giltigProcent": 6.8,
+    "ogiltigProcent": 3.6
+  }
+]

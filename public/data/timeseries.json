@@ -1,0 +1,387 @@
+[
+  {
+    "lasar": "2021/22",
+    "manad": "Aug",
+    "franvaroProcent": 7.6,
+    "giltigProcent": 6.3,
+    "ogiltigProcent": 1.2
+  },
+  {
+    "lasar": "2021/22",
+    "manad": "Sep",
+    "franvaroProcent": 7.5,
+    "giltigProcent": 6.3,
+    "ogiltigProcent": 1.2
+  },
+  {
+    "lasar": "2021/22",
+    "manad": "Okt",
+    "franvaroProcent": 8.9,
+    "giltigProcent": 7.4,
+    "ogiltigProcent": 1.4
+  },
+  {
+    "lasar": "2021/22",
+    "manad": "Nov",
+    "franvaroProcent": 10.6,
+    "giltigProcent": 8.9,
+    "ogiltigProcent": 1.7
+  },
+  {
+    "lasar": "2021/22",
+    "manad": "Dec",
+    "franvaroProcent": 11.1,
+    "giltigProcent": 9.3,
+    "ogiltigProcent": 1.8
+  },
+  {
+    "lasar": "2021/22",
+    "manad": "Jan",
+    "franvaroProcent": 11.5,
+    "giltigProcent": 9.7,
+    "ogiltigProcent": 1.9
+  },
+  {
+    "lasar": "2021/22",
+    "manad": "Feb",
+    "franvaroProcent": 10.7,
+    "giltigProcent": 8.9,
+    "ogiltigProcent": 1.7
+  },
+  {
+    "lasar": "2021/22",
+    "manad": "Mar",
+    "franvaroProcent": 8.9,
+    "giltigProcent": 7.4,
+    "ogiltigProcent": 1.4
+  },
+  {
+    "lasar": "2021/22",
+    "manad": "Apr",
+    "franvaroProcent": 8,
+    "giltigProcent": 6.7,
+    "ogiltigProcent": 1.3
+  },
+  {
+    "lasar": "2021/22",
+    "manad": "Maj",
+    "franvaroProcent": 7.6,
+    "giltigProcent": 6.3,
+    "ogiltigProcent": 1.2
+  },
+  {
+    "lasar": "2021/22",
+    "manad": "Jun",
+    "franvaroProcent": 8,
+    "giltigProcent": 6.7,
+    "ogiltigProcent": 1.3
+  },
+  {
+    "lasar": "2022/23",
+    "manad": "Aug",
+    "franvaroProcent": 6.8,
+    "giltigProcent": 5.7,
+    "ogiltigProcent": 1.1
+  },
+  {
+    "lasar": "2022/23",
+    "manad": "Sep",
+    "franvaroProcent": 6.8,
+    "giltigProcent": 5.7,
+    "ogiltigProcent": 1.1
+  },
+  {
+    "lasar": "2022/23",
+    "manad": "Okt",
+    "franvaroProcent": 8,
+    "giltigProcent": 6.7,
+    "ogiltigProcent": 1.3
+  },
+  {
+    "lasar": "2022/23",
+    "manad": "Nov",
+    "franvaroProcent": 9.6,
+    "giltigProcent": 8.1,
+    "ogiltigProcent": 1.6
+  },
+  {
+    "lasar": "2022/23",
+    "manad": "Dec",
+    "franvaroProcent": 10,
+    "giltigProcent": 8.4,
+    "ogiltigProcent": 1.6
+  },
+  {
+    "lasar": "2022/23",
+    "manad": "Jan",
+    "franvaroProcent": 10.4,
+    "giltigProcent": 8.7,
+    "ogiltigProcent": 1.7
+  },
+  {
+    "lasar": "2022/23",
+    "manad": "Feb",
+    "franvaroProcent": 9.6,
+    "giltigProcent": 8.1,
+    "ogiltigProcent": 1.6
+  },
+  {
+    "lasar": "2022/23",
+    "manad": "Mar",
+    "franvaroProcent": 8,
+    "giltigProcent": 6.7,
+    "ogiltigProcent": 1.3
+  },
+  {
+    "lasar": "2022/23",
+    "manad": "Apr",
+    "franvaroProcent": 7.2,
+    "giltigProcent": 6,
+    "ogiltigProcent": 1.2
+  },
+  {
+    "lasar": "2022/23",
+    "manad": "Maj",
+    "franvaroProcent": 6.8,
+    "giltigProcent": 5.7,
+    "ogiltigProcent": 1.1
+  },
+  {
+    "lasar": "2022/23",
+    "manad": "Jun",
+    "franvaroProcent": 7.2,
+    "giltigProcent": 6.1,
+    "ogiltigProcent": 1.2
+  },
+  {
+    "lasar": "2023/24",
+    "manad": "Aug",
+    "franvaroProcent": 6.3,
+    "giltigProcent": 5.2,
+    "ogiltigProcent": 1
+  },
+  {
+    "lasar": "2023/24",
+    "manad": "Sep",
+    "franvaroProcent": 6.3,
+    "giltigProcent": 5.3,
+    "ogiltigProcent": 1
+  },
+  {
+    "lasar": "2023/24",
+    "manad": "Okt",
+    "franvaroProcent": 7.3,
+    "giltigProcent": 6.2,
+    "ogiltigProcent": 1.2
+  },
+  {
+    "lasar": "2023/24",
+    "manad": "Nov",
+    "franvaroProcent": 8.9,
+    "giltigProcent": 7.4,
+    "ogiltigProcent": 1.4
+  },
+  {
+    "lasar": "2023/24",
+    "manad": "Dec",
+    "franvaroProcent": 9.2,
+    "giltigProcent": 7.7,
+    "ogiltigProcent": 1.5
+  },
+  {
+    "lasar": "2023/24",
+    "manad": "Jan",
+    "franvaroProcent": 9.6,
+    "giltigProcent": 8,
+    "ogiltigProcent": 1.5
+  },
+  {
+    "lasar": "2023/24",
+    "manad": "Feb",
+    "franvaroProcent": 8.8,
+    "giltigProcent": 7.4,
+    "ogiltigProcent": 1.4
+  },
+  {
+    "lasar": "2023/24",
+    "manad": "Mar",
+    "franvaroProcent": 7.4,
+    "giltigProcent": 6.2,
+    "ogiltigProcent": 1.2
+  },
+  {
+    "lasar": "2023/24",
+    "manad": "Apr",
+    "franvaroProcent": 6.6,
+    "giltigProcent": 5.6,
+    "ogiltigProcent": 1.1
+  },
+  {
+    "lasar": "2023/24",
+    "manad": "Maj",
+    "franvaroProcent": 6.3,
+    "giltigProcent": 5.2,
+    "ogiltigProcent": 1
+  },
+  {
+    "lasar": "2023/24",
+    "manad": "Jun",
+    "franvaroProcent": 6.6,
+    "giltigProcent": 5.6,
+    "ogiltigProcent": 1.1
+  },
+  {
+    "lasar": "2024/25",
+    "manad": "Aug",
+    "franvaroProcent": 5.9,
+    "giltigProcent": 4.9,
+    "ogiltigProcent": 1
+  },
+  {
+    "lasar": "2024/25",
+    "manad": "Sep",
+    "franvaroProcent": 5.9,
+    "giltigProcent": 4.9,
+    "ogiltigProcent": 0.9
+  },
+  {
+    "lasar": "2024/25",
+    "manad": "Okt",
+    "franvaroProcent": 6.9,
+    "giltigProcent": 5.8,
+    "ogiltigProcent": 1.1
+  },
+  {
+    "lasar": "2024/25",
+    "manad": "Nov",
+    "franvaroProcent": 8.3,
+    "giltigProcent": 7,
+    "ogiltigProcent": 1.3
+  },
+  {
+    "lasar": "2024/25",
+    "manad": "Dec",
+    "franvaroProcent": 8.6,
+    "giltigProcent": 7.2,
+    "ogiltigProcent": 1.4
+  },
+  {
+    "lasar": "2024/25",
+    "manad": "Jan",
+    "franvaroProcent": 9,
+    "giltigProcent": 7.5,
+    "ogiltigProcent": 1.5
+  },
+  {
+    "lasar": "2024/25",
+    "manad": "Feb",
+    "franvaroProcent": 8.3,
+    "giltigProcent": 7,
+    "ogiltigProcent": 1.3
+  },
+  {
+    "lasar": "2024/25",
+    "manad": "Mar",
+    "franvaroProcent": 6.9,
+    "giltigProcent": 5.8,
+    "ogiltigProcent": 1.1
+  },
+  {
+    "lasar": "2024/25",
+    "manad": "Apr",
+    "franvaroProcent": 6.2,
+    "giltigProcent": 5.2,
+    "ogiltigProcent": 1
+  },
+  {
+    "lasar": "2024/25",
+    "manad": "Maj",
+    "franvaroProcent": 5.9,
+    "giltigProcent": 4.9,
+    "ogiltigProcent": 0.9
+  },
+  {
+    "lasar": "2024/25",
+    "manad": "Jun",
+    "franvaroProcent": 6.2,
+    "giltigProcent": 5.2,
+    "ogiltigProcent": 1
+  },
+  {
+    "lasar": "2025/26",
+    "manad": "Aug",
+    "franvaroProcent": 5.6,
+    "giltigProcent": 4.7,
+    "ogiltigProcent": 0.9
+  },
+  {
+    "lasar": "2025/26",
+    "manad": "Sep",
+    "franvaroProcent": 5.6,
+    "giltigProcent": 4.7,
+    "ogiltigProcent": 0.9
+  },
+  {
+    "lasar": "2025/26",
+    "manad": "Okt",
+    "franvaroProcent": 6.6,
+    "giltigProcent": 5.5,
+    "ogiltigProcent": 1.1
+  },
+  {
+    "lasar": "2025/26",
+    "manad": "Nov",
+    "franvaroProcent": 7.9,
+    "giltigProcent": 6.6,
+    "ogiltigProcent": 1.3
+  },
+  {
+    "lasar": "2025/26",
+    "manad": "Dec",
+    "franvaroProcent": 8.2,
+    "giltigProcent": 6.9,
+    "ogiltigProcent": 1.3
+  },
+  {
+    "lasar": "2025/26",
+    "manad": "Jan",
+    "franvaroProcent": 8.5,
+    "giltigProcent": 7.2,
+    "ogiltigProcent": 1.4
+  },
+  {
+    "lasar": "2025/26",
+    "manad": "Feb",
+    "franvaroProcent": 7.9,
+    "giltigProcent": 6.6,
+    "ogiltigProcent": 1.3
+  },
+  {
+    "lasar": "2025/26",
+    "manad": "Mar",
+    "franvaroProcent": 6.6,
+    "giltigProcent": 5.5,
+    "ogiltigProcent": 1.1
+  },
+  {
+    "lasar": "2025/26",
+    "manad": "Apr",
+    "franvaroProcent": 5.9,
+    "giltigProcent": 5,
+    "ogiltigProcent": 1
+  },
+  {
+    "lasar": "2025/26",
+    "manad": "Maj",
+    "franvaroProcent": 5.6,
+    "giltigProcent": 4.7,
+    "ogiltigProcent": 0.9
+  },
+  {
+    "lasar": "2025/26",
+    "manad": "Jun",
+    "franvaroProcent": 5.9,
+    "giltigProcent": 5,
+    "ogiltigProcent": 1
+  }
+]

@@ -1,0 +1,42 @@
+[
+  {
+    "amne": "Moderna språk",
+    "franvaroProcent": 9.2
+  },
+  {
+    "amne": "Idrott och hälsa",
+    "franvaroProcent": 8.9
+  },
+  {
+    "amne": "Slöjd",
+    "franvaroProcent": 7.2
+  },
+  {
+    "amne": "Matematik",
+    "franvaroProcent": 6.9
+  },
+  {
+    "amne": "NO (naturorienterande ämnen)",
+    "franvaroProcent": 6.9
+  },
+  {
+    "amne": "SO (samhällsorienterande ämnen)",
+    "franvaroProcent": 6.6
+  },
+  {
+    "amne": "Bild",
+    "franvaroProcent": 6.3
+  },
+  {
+    "amne": "Engelska",
+    "franvaroProcent": 5.9
+  },
+  {
+    "amne": "Musik",
+    "franvaroProcent": 5.9
+  },
+  {
+    "amne": "Svenska",
+    "franvaroProcent": 5.6
+  }
+]

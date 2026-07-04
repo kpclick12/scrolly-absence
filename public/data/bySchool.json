@@ -1,0 +1,252 @@
+[
+  {
+    "skola": "Svampenskolan",
+    "kommun": "Örebro",
+    "lat": 59.27,
+    "lon": 15.21,
+    "totalElever": 1600,
+    "franvaroProcent": 7.6,
+    "giltigProcent": 6.4,
+    "ogiltigProcent": 1.2
+  },
+  {
+    "skola": "Fristadsskolan",
+    "kommun": "Borås",
+    "lat": 57.72,
+    "lon": 12.94,
+    "totalElever": 2760,
+    "franvaroProcent": 7.5,
+    "giltigProcent": 6.3,
+    "ogiltigProcent": 1.2
+  },
+  {
+    "skola": "Stångåskolan",
+    "kommun": "Linköping",
+    "lat": 58.41,
+    "lon": 15.62,
+    "totalElever": 1860,
+    "franvaroProcent": 7.4,
+    "giltigProcent": 6.2,
+    "ogiltigProcent": 1.2
+  },
+  {
+    "skola": "Knuthöjdsskolan",
+    "kommun": "Helsingborg",
+    "lat": 56.05,
+    "lon": 12.69,
+    "totalElever": 1760,
+    "franvaroProcent": 7.4,
+    "giltigProcent": 6.2,
+    "ogiltigProcent": 1.2
+  },
+  {
+    "skola": "Ångermannaskolan",
+    "kommun": "Sundsvall",
+    "lat": 62.39,
+    "lon": 17.31,
+    "totalElever": 1200,
+    "franvaroProcent": 7.4,
+    "giltigProcent": 6.2,
+    "ogiltigProcent": 1.2
+  },
+  {
+    "skola": "Öresundsskolan",
+    "kommun": "Malmö",
+    "lat": 55.6,
+    "lon": 13,
+    "totalElever": 2060,
+    "franvaroProcent": 7.3,
+    "giltigProcent": 6.1,
+    "ogiltigProcent": 1.2
+  },
+  {
+    "skola": "Linnéskolan",
+    "kommun": "Växjö",
+    "lat": 56.88,
+    "lon": 14.81,
+    "totalElever": 2100,
+    "franvaroProcent": 7.3,
+    "giltigProcent": 6.1,
+    "ogiltigProcent": 1.2
+  },
+  {
+    "skola": "Umestrandskolan",
+    "kommun": "Umeå",
+    "lat": 63.83,
+    "lon": 20.26,
+    "totalElever": 1260,
+    "franvaroProcent": 7.2,
+    "giltigProcent": 6.1,
+    "ogiltigProcent": 1.2
+  },
+  {
+    "skola": "Kalmarsundsskolan",
+    "kommun": "Kalmar",
+    "lat": 56.66,
+    "lon": 16.36,
+    "totalElever": 1940,
+    "franvaroProcent": 7.2,
+    "giltigProcent": 6,
+    "ogiltigProcent": 1.2
+  },
+  {
+    "skola": "Domkyrkoskolan",
+    "kommun": "Lund",
+    "lat": 55.7,
+    "lon": 13.19,
+    "totalElever": 1400,
+    "franvaroProcent": 7.1,
+    "giltigProcent": 5.9,
+    "ogiltigProcent": 1.1
+  },
+  {
+    "skola": "Mälarskolan",
+    "kommun": "Västerås",
+    "lat": 59.61,
+    "lon": 16.55,
+    "totalElever": 2420,
+    "franvaroProcent": 7.1,
+    "giltigProcent": 5.9,
+    "ogiltigProcent": 1.1
+  },
+  {
+    "skola": "Storsjöskolan",
+    "kommun": "Östersund",
+    "lat": 63.18,
+    "lon": 14.64,
+    "totalElever": 2760,
+    "franvaroProcent": 6.8,
+    "giltigProcent": 5.7,
+    "ogiltigProcent": 1.1
+  },
+  {
+    "skola": "Gutaskolan",
+    "kommun": "Visby",
+    "lat": 57.64,
+    "lon": 18.3,
+    "totalElever": 2380,
+    "franvaroProcent": 6.6,
+    "giltigProcent": 5.6,
+    "ogiltigProcent": 1.1
+  },
+  {
+    "skola": "Rekarneskolan",
+    "kommun": "Eskilstuna",
+    "lat": 59.37,
+    "lon": 16.51,
+    "totalElever": 2540,
+    "franvaroProcent": 6.4,
+    "giltigProcent": 5.3,
+    "ogiltigProcent": 1
+  },
+  {
+    "skola": "Gestriklandsskolan",
+    "kommun": "Gävle",
+    "lat": 60.67,
+    "lon": 17.14,
+    "totalElever": 2040,
+    "franvaroProcent": 6.3,
+    "giltigProcent": 5.2,
+    "ogiltigProcent": 1
+  },
+  {
+    "skola": "Kungsängsskolan",
+    "kommun": "Uppsala",
+    "lat": 59.86,
+    "lon": 17.64,
+    "totalElever": 1260,
+    "franvaroProcent": 6.2,
+    "giltigProcent": 5.2,
+    "ogiltigProcent": 1
+  },
+  {
+    "skola": "Sjöstadsskolan",
+    "kommun": "Göteborg",
+    "lat": 57.71,
+    "lon": 11.97,
+    "totalElever": 1880,
+    "franvaroProcent": 6.2,
+    "giltigProcent": 5.2,
+    "ogiltigProcent": 1
+  },
+  {
+    "skola": "Vätterskolan",
+    "kommun": "Halmstad",
+    "lat": 56.67,
+    "lon": 12.86,
+    "totalElever": 1320,
+    "franvaroProcent": 6.2,
+    "giltigProcent": 5.2,
+    "ogiltigProcent": 1
+  },
+  {
+    "skola": "Sundstaskolan",
+    "kommun": "Karlstad",
+    "lat": 59.38,
+    "lon": 13.5,
+    "totalElever": 2620,
+    "franvaroProcent": 6,
+    "giltigProcent": 5.1,
+    "ogiltigProcent": 1
+  },
+  {
+    "skola": "Kopparskolan",
+    "kommun": "Falun",
+    "lat": 60.61,
+    "lon": 15.63,
+    "totalElever": 2740,
+    "franvaroProcent": 5.9,
+    "giltigProcent": 5,
+    "ogiltigProcent": 1
+  },
+  {
+    "skola": "Vasaskolan",
+    "kommun": "Stockholm",
+    "lat": 59.33,
+    "lon": 18.06,
+    "totalElever": 1720,
+    "franvaroProcent": 5.8,
+    "giltigProcent": 4.9,
+    "ogiltigProcent": 0.9
+  },
+  {
+    "skola": "Himlaskolan",
+    "kommun": "Norrköping",
+    "lat": 58.59,
+    "lon": 16.19,
+    "totalElever": 1220,
+    "franvaroProcent": 5.8,
+    "giltigProcent": 4.8,
+    "ogiltigProcent": 0.9
+  },
+  {
+    "skola": "Ryhovsskolan",
+    "kommun": "Jönköping",
+    "lat": 57.78,
+    "lon": 14.16,
+    "totalElever": 2460,
+    "franvaroProcent": 5.7,
+    "giltigProcent": 4.8,
+    "ogiltigProcent": 0.9
+  },
+  {
+    "skola": "Malmfältsskolan",
+    "kommun": "Kiruna",
+    "lat": 67.85,
+    "lon": 20.22,
+    "totalElever": 1880,
+    "franvaroProcent": 5.7,
+    "giltigProcent": 4.8,
+    "ogiltigProcent": 0.9
+  },
+  {
+    "skola": "Guldstadsskolan",
+    "kommun": "Skellefteå",
+    "lat": 64.75,
+    "lon": 20.95,
+    "totalElever": 2940,
+    "franvaroProcent": 5.5,
+    "giltigProcent": 4.6,
+    "ogiltigProcent": 0.9
+  }
+]
