@@ -72,6 +72,8 @@
     align-items: center;
     justify-content: center;
     padding: 24px;
+    background: var(--page-plane);
+    z-index: 1;
   }
   .scrolly-steps {
     display: flex;

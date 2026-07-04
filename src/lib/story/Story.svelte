@@ -5,6 +5,7 @@
   import Heatmap from "../components/Heatmap.svelte";
   import BarChart from "../components/BarChart.svelte";
   import ScatterMap from "../components/ScatterMap.svelte";
+  import BucketSwarm from "../components/BucketSwarm.svelte";
   import Legend from "../components/Legend.svelte";
   import {
     overallForYear,
@@ -36,6 +37,10 @@
     {
       kicker: "Grundskoleförvaltningen",
       headline: "En helt vanlig skoldag",
+    },
+    {
+      kicker: "Snittet döljer sanningen",
+      headline: "De flesta elever är knappt borta alls",
     },
     {
       kicker: "Över läsåret",
@@ -70,24 +75,35 @@
 
 <Scrolly onStepChange={(i) => (currentStep = i)}>
   {#snippet visual()}
-    {#key currentStep}
-      <div class="visual-frame" in:fade={{ duration: 250 }}>
-        {#if currentStep === 0}
-          <Classroom
-            total={CLASSROOM_SIZE}
-            absent={(overall.franvaroProcent / 100) * CLASSROOM_SIZE}
-            caption="{overall.franvaroProcent}% frånvaro — {latestYear}"
-          />
-        {:else if currentStep === 1}
+    <div class="visual-stack">
+      <!-- BucketSwarm stannar kvar monterad (ur/i {#key}) så att bollen faktiskt
+           hinner klumpa ihop sig och sprida ut sig — inte bara poppa upp klar. -->
+      <div class="bucket-layer" class:active={currentStep === 1}>
+        <BucketSwarm
+          dots={data.studentDistribution.dots}
+          buckets={data.studentDistribution.buckets}
+          spread={currentStep === 1}
+          caption="Varje prick ≈ {data.studentDistribution.studentsPerDot} elever"
+        />
+      </div>
+      {#key currentStep}
+        <div class="visual-frame" in:fade={{ duration: 250 }}>
+          {#if currentStep === 0}
+            <Classroom
+              total={CLASSROOM_SIZE}
+              absent={(overall.franvaroProcent / 100) * CLASSROOM_SIZE}
+              caption="{overall.franvaroProcent}% frånvaro — {latestYear}"
+            />
+          {:else if currentStep === 2}
           <Heatmap
             rows={heatmapRows}
             cols={heatmapCols}
             data={heatmapCells}
             title="Frånvaro % per läsår och månad"
           />
-        {:else if currentStep === 2}
-          <BarChart data={gradeData} color="var(--series-blue)" title="Frånvaro % per årskurs, {latestYear}" />
         {:else if currentStep === 3}
+          <BarChart data={gradeData} color="var(--series-blue)" title="Frånvaro % per årskurs, {latestYear}" />
+        {:else if currentStep === 4}
           <div class="side-by-side">
             <Classroom
               total={14}
@@ -100,11 +116,11 @@
               caption="Pojkar — {pojke.franvaroProcent}%"
             />
           </div>
-        {:else if currentStep === 4}
-          <BarChart data={subjectBars} color="var(--series-orange)" title="Lektionsfrånvaro % per ämne, {latestYear}" />
         {:else if currentStep === 5}
-          <ScatterMap data={data.bySchool} title="Frånvaro % per skola, {latestYear}" />
+          <BarChart data={subjectBars} color="var(--series-orange)" title="Lektionsfrånvaro % per ämne, {latestYear}" />
         {:else if currentStep === 6}
+          <ScatterMap data={data.bySchool} title="Frånvaro % per skola, {latestYear}" />
+        {:else if currentStep === 7}
           <div class="stack">
             <Classroom
               total={CLASSROOM_SIZE}
@@ -122,7 +138,7 @@
               ]}
             />
           </div>
-        {:else if currentStep === 7}
+        {:else if currentStep === 8}
           <Classroom
             total={CLASSROOM_SIZE}
             absent={(overall.franvaroProcent / 100) * CLASSROOM_SIZE}
@@ -130,7 +146,8 @@
           />
         {/if}
       </div>
-    {/key}
+      {/key}
+    </div>
   {/snippet}
 
   {#each steps as step, i}
@@ -148,6 +165,18 @@
         </p>
       {:else if i === 1}
         <p>
+          Men ett snitt är bara ett snitt. Om vi istället tittar på
+          <strong>varje enskild elevs</strong> egen frånvaro under läsåret ser
+          bilden annorlunda ut: de allra flesta elever är knappt borta alls.
+        </p>
+        <p>
+          En liten grupp — ofta kallad elever med hög eller kronisk frånvaro —
+          står däremot för en oproportionerligt stor del av alla missade
+          skoldagar. Det är den gruppen som riskerar att halka efter, och som
+          ett snitt på {overall.franvaroProcent}% gör osynlig.
+        </p>
+      {:else if i === 2}
+        <p>
           Frånvaron är som lägst i början av höstterminen. Sedan stiger den brant
           under vintern — förkylnings- och influensasäsongen syns tydligt i varje
           läsår, från november till februari.
@@ -156,37 +185,37 @@
           Notera också den förhöjda frånvaron läsåret 2021/22, i den post-pandemiska
           perioden, som sakta klingat av sedan dess.
         </p>
-      {:else if i === 2}
+      {:else if i === 3}
         <p>
           Från förskoleklass till årskurs 5 är skillnaderna små. Sedan stiger
           frånvaron påtagligt — särskilt från årskurs 7 och uppåt, i högstadiet,
           där både sjukfrånvaro och skolk ökar.
         </p>
-      {:else if i === 3}
+      {:else if i === 4}
         <p>
           Skillnaden i total frånvaro mellan flickor och pojkar är liten. Men under
           ytan skiljer sig <em>typen</em> av frånvaro — flickor har något högre
           giltig (sjuk-) frånvaro, medan pojkar har något högre ogiltig frånvaro.
         </p>
-      {:else if i === 4}
+      {:else if i === 5}
         <p>
           Detta är lektionsfrånvaro — inte hela skoldagar. Idrott och moderna
           språk sticker ut med högst frånvaro, medan kärnämnen som svenska och
           engelska ligger lägre.
         </p>
-      {:else if i === 5}
+      {:else if i === 6}
         <p>
           Frånvaron varierar mellan skolor — inte bara mellan årskurser eller
           ämnen. Vissa skolor ligger tydligt över genomsnittet, andra tydligt
           under.
         </p>
-      {:else if i === 6}
+      {:else if i === 7}
         <p>
           All frånvaro är inte densamma. En del är sjukanmäld eller på annat sätt
           giltig — men en växande andel, särskilt i högstadiet, är ogiltig
           frånvaro: eleven är borta utan giltigt skäl.
         </p>
-      {:else if i === 7}
+      {:else if i === 8}
         <p>
           Vi har tittat på läsår, årskurs, kön, ämne och skola var för sig. Nedan
           kan du kombinera filtren själv och utforska frånvaron i grundskole­förvaltningens
@@ -198,11 +227,28 @@
 </Scrolly>
 
 <style>
-  .visual-frame {
+  .visual-stack {
+    position: relative;
+    width: 100%;
+    min-height: 380px;
+  }
+  .visual-frame,
+  .bucket-layer {
+    position: absolute;
+    inset: 0;
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+  .bucket-layer {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+  }
+  .bucket-layer.active {
+    opacity: 1;
+    pointer-events: auto;
   }
   .side-by-side {
     display: flex;

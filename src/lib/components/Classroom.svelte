@@ -1,5 +1,4 @@
 <script>
-  import { onMount } from "svelte";
   import gsap from "gsap";
 
   let {
@@ -30,8 +29,25 @@
 
   let seatRank = $derived(seededOrder(total));
 
+  // Rader av bänkar, uppdelade i två block med en mittgång — som en riktig
+  // sittplan sedd uppifrån, med tavlan längst fram.
   const cols = $derived(Math.max(4, Math.ceil(Math.sqrt(total * 1.4))));
   const rows = $derived(Math.ceil(total / cols));
+  const leftCols = $derived(Math.ceil(cols / 2));
+
+  const UNIT_W = 42;
+  const UNIT_H = 50;
+  const AISLE = 22;
+  const BOARD_MARGIN = 26;
+
+  function colX(col) {
+    return col < leftCols
+      ? col * UNIT_W
+      : leftCols * UNIT_W + AISLE + (col - leftCols) * UNIT_W;
+  }
+
+  const svgWidth = $derived(cols * UNIT_W + AISLE);
+  const svgHeight = $derived(rows * UNIT_H + BOARD_MARGIN);
 
   function colorForSeat(seatIndex) {
     const emptyCount = Math.round(absent);
@@ -73,24 +89,37 @@
 </script>
 
 <figure class="classroom">
-  <svg viewBox="0 0 {cols * 40} {rows * 40}" role="img" aria-label={caption}>
+  <svg viewBox="0 0 {svgWidth} {svgHeight}" role="img" aria-label={caption}>
+    <rect
+      class="board"
+      x={svgWidth / 2 - Math.min(svgWidth * 0.4, 90)}
+      y="4"
+      width={Math.min(svgWidth * 0.8, 180)}
+      height="7"
+      rx="3"
+    />
     {#each Array(total) as _, i}
       {@const col = i % cols}
       {@const row = Math.floor(i / cols)}
-      <g transform="translate({col * 40 + 20},{row * 40 + 20})">
-        <!-- backrest -->
-        <rect x="-9" y="-15" width="18" height="7" rx="2" class="backrest" />
-        <!-- seat -->
-        <rect
-          bind:this={seatEls[i]}
-          x="-11"
-          y="-8"
-          width="22"
-          height="16"
-          rx="3"
-          class="seat"
-          fill="var(--seat-occupied)"
-        />
+      {@const cx = colX(col) + UNIT_W / 2}
+      {@const cy = row * UNIT_H + BOARD_MARGIN + UNIT_H / 2}
+      <g transform="translate({cx},{cy})">
+        <!-- bänk, sedd uppifrån, alltid neutral -->
+        <rect class="desk" x="-15" y="-19" width="30" height="12" rx="2" />
+        <!-- stol -->
+        <g transform="translate(0,6)">
+          <rect x="-8" y="6" width="16" height="4" rx="1.5" class="chair-back" />
+          <rect
+            bind:this={seatEls[i]}
+            x="-9"
+            y="-8"
+            width="18"
+            height="14"
+            rx="4"
+            class="seat"
+            fill="var(--seat-occupied)"
+          />
+        </g>
       </g>
     {/each}
   </svg>
@@ -110,9 +139,18 @@
     height: auto;
     display: block;
   }
-  .backrest {
+  .board {
+    fill: var(--text-muted);
+    opacity: 0.5;
+  }
+  .desk {
+    fill: var(--gridline);
+    stroke: var(--baseline);
+    stroke-width: 1;
+  }
+  .chair-back {
     fill: var(--baseline);
-    opacity: 0.6;
+    opacity: 0.7;
   }
   .seat {
     stroke: var(--surface-1);

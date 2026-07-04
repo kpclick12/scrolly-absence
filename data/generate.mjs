@@ -341,6 +341,63 @@ for (const lasar of LASAR) {
 }
 writeFileSync(join(OUT_DIR, "explore.json"), JSON.stringify(explore));
 
+// --- 7) studentDistribution.json: varje elevs egen frånvaro, inte bara snittet ---
+// Medelvärdet (6-7%) döljer att de allra flesta elever knappt är borta alls,
+// medan en liten grupp har mycket hög (kronisk) frånvaro. Vi samplar 500
+// "prickar" (1 prick ≈ 100 elever) och lottar var och en till en av fyra
+// hinkar, med sannolikheter valda så att det viktade snittet hamnar nära
+// den faktiska totalen ovan.
+const BUCKETS = [
+  { id: 0, label: "0–15%", min: 0, max: 15, share: 0.86 },
+  { id: 1, label: "15–30%", min: 15, max: 30, share: 0.095 },
+  { id: 2, label: "30–50%", min: 30, max: 50, share: 0.03 },
+  { id: 3, label: "50–100%", min: 50, max: 100, share: 0.015 },
+];
+const SAMPLE_SIZE = 500;
+const studentsPerDot = Math.round(actualTotal / SAMPLE_SIZE);
+
+function pickBucket() {
+  const r = rand();
+  let acc = 0;
+  for (const b of BUCKETS) {
+    acc += b.share;
+    if (r < acc) return b.id;
+  }
+  return BUCKETS[BUCKETS.length - 1].id;
+}
+
+const dots = Array.from({ length: SAMPLE_SIZE }, (_, id) => ({
+  id,
+  bucket: pickBucket(),
+}));
+
+const bucketCounts = BUCKETS.map((b) => ({
+  ...b,
+  dots: dots.filter((d) => d.bucket === b.id).length,
+}));
+const bucketsOut = bucketCounts.map((b) => ({
+  id: b.id,
+  label: b.label,
+  min: b.min,
+  max: b.max,
+  dots: b.dots,
+  andelElever: round1((b.dots / SAMPLE_SIZE) * 100),
+  antalElever: Math.round((b.dots / SAMPLE_SIZE) * actualTotal),
+}));
+
+const studentDistribution = {
+  totalElever: actualTotal,
+  sampleSize: SAMPLE_SIZE,
+  studentsPerDot,
+  senasteLasar: latestYear,
+  buckets: bucketsOut,
+  dots,
+};
+writeFileSync(
+  join(OUT_DIR, "studentDistribution.json"),
+  JSON.stringify(studentDistribution)
+);
+
 console.log("Genererade testdata i public/data/:");
 console.log("  overview.json  ", JSON.stringify(overview));
 console.log("  timeseries.json", timeseries.length, "rader");
@@ -348,3 +405,7 @@ console.log("  byGrade.json   ", byGrade.length, "rader");
 console.log("  bySubject.json ", bySubject.length, "rader");
 console.log("  bySchool.json  ", bySchool.length, "rader");
 console.log("  explore.json   ", explore.length, "rader");
+console.log(
+  "  studentDistribution.json",
+  bucketsOut.map((b) => `${b.label}: ${b.andelElever}%`).join(", ")
+);

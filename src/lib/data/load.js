@@ -5,6 +5,7 @@ const FILES = [
   "bySubject",
   "bySchool",
   "explore",
+  "studentDistribution",
 ];
 
 export async function loadData() {
