@@ -29,13 +29,15 @@
     {#each cols as col}
       <div class="col-label">{col}</div>
     {/each}
-    {#each rows as row}
+    {#each rows as row, ri}
       <div class="row-label">{row}</div>
-      {#each cols as col}
+      {#each cols as col, ci}
         {@const v = byKey.get(`${row}__${col}`)}
         <div
           class="cell"
-          style="background:{v != null ? color(v) : 'var(--gridline)'}"
+          style="background:{v != null
+            ? color(v)
+            : 'var(--gridline)'}; animation-delay: {ri * 90 + ci * 22}ms"
           title="{row} {col}: {v}{unit}"
         ></div>
       {/each}
@@ -78,5 +80,16 @@
     aspect-ratio: 1;
     border-radius: 2px;
     min-width: 12px;
+    animation: cell-in 0.45s ease backwards;
+  }
+  @keyframes cell-in {
+    from {
+      opacity: 0;
+      transform: scale(0.6);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
   }
 </style>

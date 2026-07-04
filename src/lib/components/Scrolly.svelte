@@ -87,10 +87,14 @@
     .scrolly {
       grid-template-columns: 1fr;
     }
+    /* Panelen kramar sitt innehåll — ett högt diagram får plats,
+       ett lågt lämnar mer rum åt texten. Aldrig högre än skärmen. */
     .scrolly-sticky {
-      height: 54svh;
+      height: auto;
+      min-height: 40svh;
+      max-height: 92svh;
       top: 0;
-      padding: 12px 16px;
+      padding: 14px 16px;
     }
     .scrolly-steps {
       padding-top: 6svh;

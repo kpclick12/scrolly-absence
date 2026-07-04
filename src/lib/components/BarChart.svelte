@@ -1,4 +1,5 @@
 <script>
+  import { onMount } from "svelte";
   import { scaleLinear } from "d3-scale";
 
   let {
@@ -13,22 +14,31 @@
     maxValue ?? Math.max(...data.map((d) => d.value)) * 1.15
   );
   const x = $derived(scaleLinear().domain([0, domainMax]).range([0, 100]));
+
+  // Staplarna växer in när steget blir aktivt (komponenten monteras om per steg)
+  let revealed = $state(false);
+  onMount(() => {
+    requestAnimationFrame(() => requestAnimationFrame(() => (revealed = true)));
+  });
 </script>
 
 <figure class="barchart">
   {#if title}<figcaption class="title">{title}</figcaption>{/if}
   <div class="rows">
-    {#each data as d (d.label)}
+    {#each data as d, i (d.label)}
       <div class="row">
         <span class="label">{d.label}</span>
         <div class="bar-line">
           <div class="track">
             <div
               class="bar"
-              style="width:{x(d.value)}%; background:{d.color ?? color};"
+              style="width:{revealed ? x(d.value) : 0}%; background:{d.color ??
+                color}; transition-delay: {i * 45}ms;"
             ></div>
           </div>
-          <span class="value">{d.value.toFixed(1)}{unit}</span>
+          <span class="value" class:revealed style="transition-delay: {i * 45 + 250}ms">
+            {d.value.toFixed(1)}{unit}
+          </span>
         </div>
       </div>
     {/each}
@@ -82,6 +92,11 @@
     color: var(--text-primary);
     font-variant-numeric: tabular-nums;
     text-align: right;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+  .value.revealed {
+    opacity: 1;
   }
   @media (max-width: 860px) {
     .title {

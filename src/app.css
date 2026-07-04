@@ -1,3 +1,19 @@
+/* Självhostad (GDPR-vänlig — inga anrop till tredje part). Variabel vikt 400-900. */
+@font-face {
+  font-family: "Playfair Display";
+  font-style: normal;
+  font-weight: 400 900;
+  font-display: swap;
+  src: url("/fonts/playfair-display-latin.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Playfair Display";
+  font-style: italic;
+  font-weight: 400 900;
+  font-display: swap;
+  src: url("/fonts/playfair-display-latin-italic.woff2") format("woff2");
+}
+
 :root {
   --surface-1: #fcfaf5;
   --page-plane: #f4f0e6;
@@ -14,7 +30,7 @@
   --hero-gold: #ffcd37;
   --hero-lightblue: #a8cfe8;
 
-  --serif: Georgia, "Times New Roman", "Liberation Serif", serif;
+  --serif: "Playfair Display", Georgia, "Times New Roman", "Liberation Serif", serif;
 
   /* Göteborgs Stads grafiska profil, nedslipade till att klara
      dataviz-paletten (ljushet/krominans/CVD-separation, se palette-skill). */

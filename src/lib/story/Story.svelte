@@ -340,18 +340,25 @@
   .visual-stack {
     position: relative;
     width: 100%;
-    min-height: 380px;
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
-  .visual-frame,
-  .bucket-layer {
-    position: absolute;
-    inset: 0;
+  /* Ligger i flödet så att panelen får sitt innehålls höjd — inget klipps. */
+  .visual-frame {
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
   }
+  /* Svärmen ligger kvar monterad som ett lager ovanpå, för animationens skull. */
   .bucket-layer {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.4s ease;
@@ -370,9 +377,17 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
     text-align: center;
-    max-width: 360px;
+    max-width: 380px;
+  }
+  .stat-tile::before {
+    content: "";
+    width: 56px;
+    height: 5px;
+    border-radius: 3px;
+    background: var(--series-red);
+    margin-bottom: 6px;
   }
   .stat-value {
     font-family: var(--serif);
@@ -386,15 +401,19 @@
     font-size: 14px;
     color: var(--text-muted);
   }
+  /* Kortets bakgrund är alltid täckande — annars blöder diagrammet igenom
+     texten på mobil när kortet glider över panelen. Bara innehållet tonas. */
   :global(.scrolly-step) {
     background: var(--surface-1);
     border-left: 6px solid var(--hero-navy);
     padding: 28px 32px;
     box-shadow: 0 2px 10px rgba(22, 40, 58, 0.08);
-    opacity: 0.4;
+  }
+  :global(.scrolly-step > *) {
+    opacity: 0.35;
     transition: opacity 0.3s ease;
   }
-  :global(.scrolly-step.is-active) {
+  :global(.scrolly-step.is-active > *) {
     opacity: 1;
   }
   :global(.scrolly-step) .kicker {

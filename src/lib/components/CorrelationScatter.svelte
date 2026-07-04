@@ -77,12 +77,14 @@
 
     {#each data as d (d.skola)}
       <circle
+        class="dot"
         cx={x(d.sociIndex)}
         cy={y(d.franvaroProcent)}
         r="7"
         fill={colorFor(d.franvaroProcent)}
         stroke="var(--surface-1)"
         stroke-width="2"
+        style="animation-delay: {((d.sociIndex - 30) / 170) * 700}ms; transform-origin: {x(d.sociIndex)}px {y(d.franvaroProcent)}px"
       >
         <title>{d.skola}: index {d.sociIndex}, {d.franvaroProcent}% frånvaro</title>
       </circle>
@@ -131,6 +133,26 @@
     stroke: var(--text-muted);
     stroke-width: 1.5;
     stroke-dasharray: 5 4;
-    opacity: 0.7;
+    opacity: 0;
+    animation: trend-in 0.6s ease 1s forwards;
+  }
+  .dot {
+    /* skolorna landar vänster till höger, längs sambandet */
+    animation: dot-in 0.4s cubic-bezier(0.3, 1.4, 0.5, 1) backwards;
+  }
+  @keyframes dot-in {
+    from {
+      opacity: 0;
+      transform: scale(0);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  @keyframes trend-in {
+    to {
+      opacity: 0.7;
+    }
   }
 </style>
