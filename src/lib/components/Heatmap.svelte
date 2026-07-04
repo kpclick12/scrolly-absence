@@ -1,5 +1,6 @@
 <script>
   import { scaleQuantize } from "d3-scale";
+  import ColorLegend from "./ColorLegend.svelte";
 
   // Divergerande blå-röd: blått = låg frånvaro, rött = hög. Byggd på
   // Göteborgsblå + profilens röda, med neutral mitt.
@@ -40,6 +41,7 @@
       {/each}
     {/each}
   </div>
+  <ColorLegend colors={BLUE_RAMP} low="Låg frånvaro" high="Hög" />
 </figure>
 
 <style>

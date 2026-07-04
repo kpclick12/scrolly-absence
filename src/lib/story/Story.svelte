@@ -14,9 +14,29 @@
     gradeBarData,
   } from "./aggregate.js";
 
+  import gsap from "gsap";
+
   let { data } = $props();
 
   let currentStep = $state(0);
+
+  // Slutsiffran räknas upp när steget blir aktivt — siffran är poängen,
+  // så låt den landa med tyngd istället för att bara stå där.
+  let statValue = $state(0);
+  let statCounted = false;
+  $effect(() => {
+    if (currentStep === 10 && !statCounted) {
+      statCounted = true;
+      const target = data.overview.elevFranvarandeEnGenomsnittsdag;
+      const proxy = { v: 0 };
+      gsap.to(proxy, {
+        v: target,
+        duration: 1.6,
+        ease: "power3.out",
+        onUpdate: () => (statValue = Math.round(proxy.v)),
+      });
+    }
+  });
 
   const latestYear = $derived(data.overview.senasteLasar);
   const overall = $derived(overallForYear(data.byGrade, latestYear));
@@ -183,7 +203,7 @@
         {:else if currentStep === 10}
           <div class="stat-tile">
             <span class="stat-value">
-              {data.overview.elevFranvarandeEnGenomsnittsdag.toLocaleString("sv-SE")}
+              {statValue.toLocaleString("sv-SE")}
             </span>
             <span class="stat-label">
               av {data.overview.totalElever.toLocaleString("sv-SE")} elever borta en genomsnittsdag, {latestYear}
@@ -355,10 +375,12 @@
     max-width: 360px;
   }
   .stat-value {
-    font-size: 56px;
-    font-weight: 600;
-    color: var(--text-primary);
+    font-family: var(--serif);
+    font-size: 68px;
+    font-weight: 700;
+    color: var(--hero-navy);
     line-height: 1;
+    font-variant-numeric: tabular-nums;
   }
   .stat-label {
     font-size: 14px;

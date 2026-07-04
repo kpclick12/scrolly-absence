@@ -30,6 +30,7 @@
   /* Tomma stolar = frånvaro = rött, samma grammatik som diagrammen */
   --seat-empty: var(--series-red);
   --seat-occupied: var(--baseline);
+  --person: #56708a;
   --giltig: var(--series-blue);
   --ogiltig: var(--series-red);
   --kon-flicka: var(--series-magenta);
@@ -66,6 +67,7 @@
     --series-red: #d64b27;
     --series-magenta: #d73a7a;
     --series-orange: #d64b27;
+    --person: #9db3c6;
   }
 }
 

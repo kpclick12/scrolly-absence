@@ -14,6 +14,26 @@
       error = e.message;
     }
   });
+
+  // Bakgrundsmotiv i heron: ett svagt rutnät av stolar där en handfull
+  // lyser guld — frånvaron, synlig redan innan berättelsen börjat.
+  const MOTIF_COLS = 12;
+  const MOTIF_ROWS = 7;
+  const motifChairs = (() => {
+    let seed = 4711;
+    const rand = () => {
+      seed = (seed * 9301 + 49297) % 233280;
+      return seed / 233280;
+    };
+    const n = MOTIF_COLS * MOTIF_ROWS;
+    const idx = [...Array(n).keys()];
+    for (let i = n - 1; i > 0; i--) {
+      const j = Math.floor(rand() * (i + 1));
+      [idx[i], idx[j]] = [idx[j], idx[i]];
+    }
+    const golds = new Set(idx.slice(0, 6)); // ~7% av stolarna, som frånvaron
+    return Array.from({ length: n }, (_, i) => golds.has(i));
+  })();
 </script>
 
 {#if error}
@@ -22,6 +42,27 @@
   <p class="status">Laddar data…</p>
 {:else}
   <header class="hero">
+    <svg
+      class="hero-motif"
+      viewBox="0 0 {MOTIF_COLS * 46} {MOTIF_ROWS * 58}"
+      preserveAspectRatio="xMidYMid slice"
+      aria-hidden="true"
+    >
+      {#each motifChairs as gold, i}
+        {@const col = i % MOTIF_COLS}
+        {@const row = Math.floor(i / MOTIF_COLS)}
+        <g
+          class="motif-chair"
+          class:gold
+          transform="translate({col * 46 + 23},{row * 58 + 29})"
+        >
+          <rect x="-9" y="-15" width="18" height="17" rx="3" />
+          <rect x="-11" y="4" width="22" height="5" rx="2" />
+          <rect x="-9" y="9" width="2.5" height="7" rx="1" />
+          <rect x="6.5" y="9" width="2.5" height="7" rx="1" />
+        </g>
+      {/each}
+    </svg>
     <div class="hero-inner">
       <p class="eyebrow">Göteborgs Stad · Grundskoleförvaltningen</p>
       <h1>
@@ -63,14 +104,32 @@
     color: var(--text-muted);
   }
   .hero {
+    position: relative;
     min-height: 100svh;
     display: flex;
     align-items: center;
     background:
       radial-gradient(120% 90% at 80% 10%, var(--hero-navy) 0%, var(--hero-navy-deep) 100%);
     color: #ffffff;
+    overflow: hidden;
+  }
+  .hero-motif {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    /* håll motivet ur vägen för rubriken — synligt mest i kanterna */
+    -webkit-mask-image: radial-gradient(ellipse 75% 65% at 44% 46%, transparent 0%, transparent 38%, #000 78%);
+    mask-image: radial-gradient(ellipse 75% 65% at 44% 46%, transparent 0%, transparent 38%, #000 78%);
+  }
+  .motif-chair rect {
+    fill: rgba(255, 255, 255, 0.045);
+  }
+  .motif-chair.gold rect {
+    fill: rgba(255, 205, 55, 0.38);
   }
   .hero-inner {
+    position: relative;
     max-width: 700px;
     margin: 0 auto;
     padding: 48px 32px;

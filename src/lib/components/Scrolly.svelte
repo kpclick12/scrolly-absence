@@ -88,11 +88,12 @@
       grid-template-columns: 1fr;
     }
     .scrolly-sticky {
-      height: 46svh;
+      height: 54svh;
       top: 0;
+      padding: 12px 16px;
     }
     .scrolly-steps {
-      padding-top: 8svh;
+      padding-top: 6svh;
     }
   }
 </style>

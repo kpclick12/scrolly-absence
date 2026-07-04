@@ -21,13 +21,15 @@
     {#each data as d (d.label)}
       <div class="row">
         <span class="label">{d.label}</span>
-        <div class="track">
-          <div
-            class="bar"
-            style="width:{x(d.value)}%; background:{d.color ?? color};"
-          ></div>
+        <div class="bar-line">
+          <div class="track">
+            <div
+              class="bar"
+              style="width:{x(d.value)}%; background:{d.color ?? color};"
+            ></div>
+          </div>
+          <span class="value">{d.value.toFixed(1)}{unit}</span>
         </div>
-        <span class="value">{d.value.toFixed(1)}{unit}</span>
       </div>
     {/each}
   </div>
@@ -37,33 +39,33 @@
   .barchart {
     margin: 0;
     width: 100%;
+    max-width: 520px;
   }
   .title {
     font-size: 14px;
     color: var(--text-muted);
-    margin-bottom: 10px;
+    margin-bottom: 14px;
   }
   .rows {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 13px;
   }
-  .row {
-    display: grid;
-    grid-template-columns: minmax(90px, auto) 1fr 48px;
+  .label {
+    display: block;
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 4px;
+    line-height: 1.3;
+  }
+  .bar-line {
+    display: flex;
     align-items: center;
     gap: 10px;
   }
-  .label {
-    font-size: 13px;
-    color: var(--text-secondary);
-    text-align: right;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
   .track {
-    height: 16px;
+    flex: 1;
+    height: 13px;
     background: var(--gridline);
     border-radius: 4px;
     overflow: hidden;
@@ -71,11 +73,34 @@
   .bar {
     height: 100%;
     border-radius: 4px;
-    transition: width 0.5s ease;
+    transition: width 0.6s cubic-bezier(0.25, 1, 0.35, 1);
   }
   .value {
+    flex: 0 0 52px;
     font-size: 13px;
+    font-weight: 700;
     color: var(--text-primary);
     font-variant-numeric: tabular-nums;
+    text-align: right;
+  }
+  @media (max-width: 860px) {
+    .title {
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
+    .rows {
+      gap: 7px;
+    }
+    .label {
+      font-size: 12px;
+      margin-bottom: 2px;
+    }
+    .track {
+      height: 10px;
+    }
+    .value {
+      font-size: 12px;
+      flex-basis: 44px;
+    }
   }
 </style>

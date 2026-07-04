@@ -1,5 +1,6 @@
 <script>
   import { scaleLinear } from "d3-scale";
+  import ColorLegend from "./ColorLegend.svelte";
 
   // Divergerande skala: blått = låg frånvaro, rött = hög. 5 steg med grå
   // mitt — de blekaste stegen ur 7-stegsrampen försvinner mot cremefärgad
@@ -90,6 +91,7 @@
     <text x={(M.left + W - M.right) / 2} y={H - 8} class="axis-label" text-anchor="middle">{xLabel}</text>
     <text x={12} y={(M.top + H - M.bottom) / 2} class="axis-label" text-anchor="middle" transform="rotate(-90 12 {(M.top + H - M.bottom) / 2})">{yLabel}</text>
   </svg>
+  <ColorLegend colors={DIVERGING} low="Låg frånvaro" high="Hög" />
 </figure>
 
 <style>

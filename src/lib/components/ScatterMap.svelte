@@ -1,5 +1,6 @@
 <script>
   import { scaleLinear, scaleQuantize } from "d3-scale";
+  import ColorLegend from "./ColorLegend.svelte";
 
   // Divergerande blå-röd: blått = låg frånvaro, rött = hög. 5 steg med grå
   // mitt så små punkter inte försvinner mot bakgrunden.
@@ -40,6 +41,7 @@
       </g>
     {/each}
   </svg>
+  <ColorLegend colors={BLUE_RAMP} low="Låg frånvaro" high="Hög" />
   <p class="note">Förenklad, illustrativ karta (ej exakt kartprojektion).</p>
 </figure>
 

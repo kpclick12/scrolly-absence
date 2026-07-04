@@ -1,7 +1,4 @@
 <script>
-  import { onMount } from "svelte";
-  import gsap from "gsap";
-
   let {
     total = 24,
     absent = 0,
@@ -33,11 +30,16 @@
   const cols = $derived(Math.max(4, Math.ceil(Math.sqrt(total * 1.4))));
   const rows = $derived(Math.ceil(total / cols));
 
-  function colorForSeat(seatIndex) {
-    const emptyCount = Math.round(absent);
-    if (seatRank[seatIndex] >= emptyCount) return null; // occupied
+  const UNIT_W = 46;
+  const UNIT_H = 58;
+  const TOP = 26; // plats för tavlan
+
+  function isEmpty(seatIndex) {
+    return seatRank[seatIndex] < Math.round(absent);
+  }
+
+  function emptyColor(seatIndex) {
     if (!segments) return "var(--seat-empty)";
-    // walk the scattered order and assign to segments in proportion
     const orderInEmpty = seatRank[seatIndex];
     let acc = 0;
     for (const seg of segments) {
@@ -46,51 +48,50 @@
     }
     return "var(--seat-empty)";
   }
-
-  let seatEls = $state([]);
-  let prevColors = [];
-
-  $effect(() => {
-    const colors = Array.from({ length: total }, (_, i) => colorForSeat(i));
-    seatEls.slice(0, total).forEach((el, i) => {
-      if (!el) return;
-      const isNewlyEmpty = !prevColors[i] && colors[i];
-      gsap.to(el, {
-        fill: colors[i] ?? "var(--seat-occupied)",
-        duration: 0.5,
-        ease: "power2.out",
-      });
-      if (isNewlyEmpty) {
-        gsap.fromTo(
-          el.closest("g"),
-          { scale: 1.35, transformOrigin: "50% 50%" },
-          { scale: 1, duration: 0.45, ease: "back.out(2.5)" }
-        );
-      }
-    });
-    prevColors = colors;
-  });
 </script>
 
 <figure class="classroom">
-  <svg viewBox="0 0 {cols * 40} {rows * 40}" role="img" aria-label={caption}>
+  <svg
+    viewBox="0 0 {cols * UNIT_W} {rows * UNIT_H + TOP}"
+    role="img"
+    aria-label={caption}
+  >
+    <!-- tavlan längst fram -->
+    <rect
+      class="board"
+      x={cols * UNIT_W * 0.18}
+      y="4"
+      width={cols * UNIT_W * 0.64}
+      height="6"
+      rx="3"
+    />
     {#each Array(total) as _, i}
       {@const col = i % cols}
       {@const row = Math.floor(i / cols)}
-      <g transform="translate({col * 40 + 20},{row * 40 + 20})">
-        <!-- backrest -->
-        <rect x="-9" y="-15" width="18" height="7" rx="2" class="backrest" />
-        <!-- seat -->
-        <rect
-          bind:this={seatEls[i]}
-          x="-11"
-          y="-8"
-          width="22"
-          height="16"
-          rx="3"
-          class="seat"
-          fill="var(--seat-occupied)"
-        />
+      {@const empty = isEmpty(i)}
+      <g
+        class="seat-unit"
+        class:empty
+        style="--empty-color: {emptyColor(i)}; transition-delay: {(seatRank[i] % 12) * 30}ms"
+        transform="translate({col * UNIT_W + UNIT_W / 2},{row * UNIT_H + TOP + UNIT_H / 2})"
+      >
+        <!-- stol: ryggstöd, sits, ben -->
+        <g class="chair">
+          <rect x="-10" y="-17" width="20" height="20" rx="3" class="backrest" />
+          <rect x="-12" y="5" width="24" height="6" rx="2" class="seat" />
+          <rect x="-10" y="11" width="3" height="8" rx="1.2" class="leg" />
+          <rect x="7" y="11" width="3" height="8" rx="1.2" class="leg" />
+        </g>
+        <!-- eleven: huvud + axlar -->
+        <g class="person">
+          <circle cx="0" cy="-13" r="6.5" />
+          <path d="M -9.5 7 Q -9.5 -5 0 -5 Q 9.5 -5 9.5 7 Z" />
+        </g>
+        <!-- kontur av eleven som saknas -->
+        <g class="ghost">
+          <circle cx="0" cy="-13" r="6.5" />
+          <path d="M -9.5 7 Q -9.5 -5 0 -5 Q 9.5 -5 9.5 7 Z" />
+        </g>
       </g>
     {/each}
   </svg>
@@ -103,23 +104,55 @@
   .classroom {
     margin: 0;
     width: 100%;
-    max-width: 480px;
+    max-width: 460px;
   }
   svg {
     width: 100%;
     height: auto;
     display: block;
   }
-  .backrest {
+  .board {
     fill: var(--baseline);
-    opacity: 0.6;
+    opacity: 0.8;
   }
-  .seat {
+  .backrest,
+  .seat,
+  .leg {
+    fill: var(--seat-occupied);
+    transition: fill 0.45s ease;
+    transition-delay: inherit;
+  }
+  .person {
+    fill: var(--person, #56708a);
+    opacity: 1;
+    transform-origin: 0 0;
+    transition: opacity 0.45s ease, transform 0.45s ease;
+    transition-delay: inherit;
+  }
+  .ghost {
+    /* konturen av eleven som saknas, urkarvad ur den röda stolen */
+    fill: none;
     stroke: var(--surface-1);
-    stroke-width: 1.5;
+    stroke-width: 1.6;
+    stroke-dasharray: 3.5 3;
+    opacity: 0;
+    transition: opacity 0.45s ease;
+    transition-delay: inherit;
+  }
+  .seat-unit.empty .backrest,
+  .seat-unit.empty .seat,
+  .seat-unit.empty .leg {
+    fill: var(--empty-color, var(--seat-empty));
+  }
+  .seat-unit.empty .person {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.92);
+  }
+  .seat-unit.empty .ghost {
+    opacity: 0.45;
   }
   figcaption {
-    margin-top: 8px;
+    margin-top: 10px;
     font-size: 14px;
     color: var(--text-muted);
     text-align: center;
