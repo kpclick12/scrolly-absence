@@ -31,6 +31,16 @@
     data.bySubject.map((d) => ({ label: d.amne, value: d.franvaroProcent }))
   );
 
+  // Skolverkets garanterade undervisningstid, hela grundskolan (åk 1-9, klocktimmar).
+  // Matematik är bara en dryg sjundedel av all undervisningstid — så samma
+  // antal frånvarotimmar väger mycket tyngre om man tänker sig dem samlade
+  // i just matematiken, ett kumulativt ämne där varje moment bygger på det förra.
+  const TIMPLAN_TOTAL = 6890;
+  const TIMPLAN_MATEMATIK = 1090;
+  const mathReframed = $derived(
+    Math.round(overall.franvaroProcent * (TIMPLAN_TOTAL / TIMPLAN_MATEMATIK) * 10) / 10
+  );
+
   const CLASSROOM_SIZE = 22;
 
   const steps = $derived([
@@ -203,6 +213,18 @@
           språk sticker ut med högst frånvaro, medan kärnämnen som svenska och
           engelska ligger lägre.
         </p>
+        <p>
+          Men tänk om samma frånvaro istället satt samlad i ett enda ämne.
+          Matematik utgör bara en dryg sjundedel av all undervisningstid i
+          grundskolan — så {overall.franvaroProcent}% av all skoltid motsvarar
+          hela <strong>{mathReframed}%</strong> av all matematikundervisning du
+          någonsin får, om den frånvaron bara hade drabbat matematiken.
+        </p>
+        <p>
+          Det är allvarligare än det låter: matematik bygger hela tiden vidare
+          på det ni redan gått igenom, så tid du missar där väger tyngre —
+          och kan följa med genom hela skolgången.
+        </p>
       {:else if i === 6}
         <p>
           Frånvaron varierar mellan skolor — inte bara mellan årskurser eller
@@ -278,7 +300,7 @@
     opacity: 1;
   }
   :global(.scrolly-step) .kicker {
-    font-size: 13px;
+    font-size: 12px;
     text-transform: uppercase;
     letter-spacing: 0.06em;
     color: var(--series-blue);
@@ -286,11 +308,13 @@
     font-weight: 600;
   }
   :global(.scrolly-step) h2 {
-    margin: 0 0 14px;
-    font-size: 26px;
+    margin: 0 0 12px;
+    font-size: 21px;
   }
   :global(.scrolly-step) p {
-    margin: 0 0 12px;
+    margin: 0 0 10px;
+    font-size: 14px;
+    line-height: 1.55;
   }
   :global(.scrolly-step) p:last-child {
     margin-bottom: 0;
