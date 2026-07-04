@@ -385,6 +385,19 @@ const bucketsOut = bucketCounts.map((b) => ({
   antalElever: Math.round((b.dots / SAMPLE_SIZE) * actualTotal),
 }));
 
+// Långvarig (sammanhängande) frånvaro: minst två veckor (10 skoldagar) i rad.
+// Många kommuners frånvarorutiner triggar en elevhälsoutredning ungefär vid
+// den gränsen — det är alltså inte ett godtyckligt val. Sannolikheten att ha
+// haft en sådan period ökar kraftigt med elevens totala frånvaronivå: den
+// som ändå ligger på 0–15% för året har oftast bara enstaka spridda dagar,
+// medan kronisk (50–100%) frånvaro nästan alltid innebär långa sammanhängande
+// perioder (skolvägran, långvarig sjukdom, "hemmasittare").
+const LONG_ABSENCE_PROB = { 0: 0.02, 1: 0.2, 2: 0.55, 3: 0.9 };
+const langvarigFranvaroAndel = bucketsOut.reduce(
+  (sum, b) => sum + (b.dots / SAMPLE_SIZE) * LONG_ABSENCE_PROB[b.id],
+  0
+);
+
 const studentDistribution = {
   totalElever: actualTotal,
   sampleSize: SAMPLE_SIZE,
@@ -392,6 +405,11 @@ const studentDistribution = {
   senasteLasar: latestYear,
   buckets: bucketsOut,
   dots,
+  langvarigFranvaro: {
+    troskelSkoldagar: 10,
+    andelElever: round1(langvarigFranvaroAndel * 100),
+    antalElever: Math.round(langvarigFranvaroAndel * actualTotal),
+  },
 };
 writeFileSync(
   join(OUT_DIR, "studentDistribution.json"),
@@ -407,5 +425,7 @@ console.log("  bySchool.json  ", bySchool.length, "rader");
 console.log("  explore.json   ", explore.length, "rader");
 console.log(
   "  studentDistribution.json",
-  bucketsOut.map((b) => `${b.label}: ${b.andelElever}%`).join(", ")
+  bucketsOut.map((b) => `${b.label}: ${b.andelElever}%`).join(", "),
+  "| långvarig frånvaro:",
+  studentDistribution.langvarigFranvaro.andelElever + "%"
 );
