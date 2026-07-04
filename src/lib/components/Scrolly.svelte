@@ -73,9 +73,10 @@
     justify-content: center;
     padding: 24px;
     background: var(--page-plane);
-    z-index: 1;
   }
   .scrolly-steps {
+    position: relative;
+    z-index: 1;
     display: flex;
     flex-direction: column;
     gap: 60svh;

@@ -51,6 +51,12 @@
     return { x: zone.x + p.x, y: zone.y + p.y, color: BLUE_STEPS[dot.bucket] };
   }
 
+  // Engångs-ögonblicksbild av startläget (alltid klumpad, komponenten monteras
+  // innan spread någonsin blir true). Måste vara icke-reaktiv — annars snappar
+  // Svelte själv attributen till slutläget vid varje spread-ändring, och GSAP
+  // får inget avstånd kvar att animera.
+  const initialPositions = dots.map((dot) => targetFor(dot, false));
+
   let dotEls = $state([]);
 
   $effect(() => {
@@ -72,13 +78,12 @@
 <figure class="swarm">
   <svg viewBox="0 0 {W} {H}" role="img" aria-label={caption}>
     {#each dots as dot, i}
-      {@const t0 = targetFor(dot, spread)}
       <circle
         bind:this={dotEls[i]}
-        cx={t0.x}
-        cy={t0.y}
+        cx={initialPositions[i].x}
+        cy={initialPositions[i].y}
         r="3.2"
-        fill={t0.color}
+        fill={initialPositions[i].color}
       />
     {/each}
     {#if !spread}
