@@ -3,8 +3,9 @@
 
   let { dots = [], buckets = [], spread = false, caption = "" } = $props();
 
-  // ordinal Göteborgsblå-ramp, ljus->mörk — samma "mer blått = mer frånvaro"-grammatik som heatmapen
-  const BLUE_STEPS = ["#519fdd", "#0c7dc3", "#005f9e", "#003d6f"];
+  // Divergerande allvarsskala: blått = låg frånvaro, rött = hög (kronisk).
+  // Validerad kategoriskt (CVD/ljushet) som 4 steg.
+  const BLUE_STEPS = ["#0068b2", "#499fe3", "#dc785f", "#a7391d"];
 
   const W = 640;
   const H = 340;

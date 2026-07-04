@@ -91,6 +91,16 @@ const schoolEffect = Object.fromEntries(
   SKOLOR.map((s) => [s.skola, randRange(-0.35, 0.55)])
 );
 
+// Socioekonomiskt index per skola (~30-200, högre = större utmaningar).
+// Härlett ur samma skoleffekt som driver frånvaron, plus brus — så sambandet
+// blir tydligt men inte perfekt, som i verkligheten.
+const sociIndex = Object.fromEntries(
+  SKOLOR.map((s) => {
+    const base = 30 + ((schoolEffect[s.skola] + 0.35) / 0.9) * 170;
+    return [s.skola, Math.round(Math.min(200, Math.max(30, base + randRange(-45, 45))))];
+  })
+);
+
 // Grundfrånvaro stiger med årskurs, störst hopp från åk 6 och uppåt.
 const GRADE_BASE = {
   F: 0.045, "1": 0.045, "2": 0.048, "3": 0.05, "4": 0.052, "5": 0.055,
@@ -305,6 +315,7 @@ const bySchool = SKOLOR.map((s) => {
     kommun: s.kommun,
     lat: s.lat,
     lon: s.lon,
+    sociIndex: sociIndex[s.skola],
     totalElever: total,
     franvaroProcent: round1((absent / total) * 100),
     giltigProcent: round1(((absent - invalid) / total) * 100),

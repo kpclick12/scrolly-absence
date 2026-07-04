@@ -7,6 +7,7 @@
   import ScatterMap from "../components/ScatterMap.svelte";
   import BucketSwarm from "../components/BucketSwarm.svelte";
   import CalendarStrip from "../components/CalendarStrip.svelte";
+  import CorrelationScatter from "../components/CorrelationScatter.svelte";
   import {
     overallForYear,
     overallForYearByKon,
@@ -96,6 +97,10 @@
       headline: "Skillnader mellan skolor",
     },
     {
+      kicker: "Socioekonomi",
+      headline: "Frånvaron följer skolans förutsättningar",
+    },
+    {
       kicker: "Giltig eller ogiltig",
       headline: "Sjukanmäld — eller skolkar eleven?",
     },
@@ -132,11 +137,13 @@
             <CalendarStrip
               weeks={CAL_WEEKS}
               highlighted={scatteredDays}
+              color="var(--series-blue)"
               title="10 spridda sjukdagar under året"
             />
             <CalendarStrip
               weeks={CAL_WEEKS}
               highlighted={continuousDays}
+              color="var(--series-red)"
               title="10 dagar i följd, två veckor"
               caption="Samma antal dagar — men det sammanhängande blocket väger tyngre."
             />
@@ -161,12 +168,19 @@
         {:else if currentStep === 7}
           <ScatterMap data={data.bySchool} title="Frånvaro % per skola, {latestYear}" />
         {:else if currentStep === 8}
+          <CorrelationScatter
+            data={data.bySchool}
+            title="Socioekonomiskt index vs frånvaro per skola, {latestYear}"
+            xLabel="Socioekonomiskt index (högre = större utmaningar)"
+            yLabel="Frånvaro %"
+          />
+        {:else if currentStep === 9}
           <BarChart
             data={giltigOgiltigBars}
             color="var(--giltig)"
             title="Frånvaro % efter typ, {latestYear}"
           />
-        {:else if currentStep === 9}
+        {:else if currentStep === 10}
           <div class="stat-tile">
             <span class="stat-value">
               {data.overview.elevFranvarandeEnGenomsnittsdag.toLocaleString("sv-SE")}
@@ -273,15 +287,29 @@
         </p>
       {:else if i === 8}
         <p>
+          Skillnaderna mellan skolor är inte slumpmässiga. Varje skola har ett
+          <strong>socioekonomiskt index</strong> — från cirka 30 till 200, där
+          ett högre värde betyder större utmaningar i elevernas uppväxtvillkor.
+        </p>
+        <p>
+          Sätter man indexet mot frånvaron träder mönstret fram: skolor med
+          <span class="badge badge-blue">lågt index</span> ligger oftast under
+          genomsnittet, medan skolor med
+          <span class="badge badge-red">högt index</span> oftare ligger över.
+          Frånvaron är med andra ord inte bara en fråga om individer — den
+          hänger ihop med skolans förutsättningar.
+        </p>
+      {:else if i === 9}
+        <p>
           All frånvaro är inte densamma. En del är sjukanmäld eller på annat sätt
           giltig — men en växande andel, särskilt i högstadiet, är ogiltig
           frånvaro: eleven är borta utan giltigt skäl.
         </p>
-      {:else if i === 9}
+      {:else if i === 10}
         <p>
-          Vi har tittat på läsår, årskurs, kön, ämne och skola var för sig. Nedan
-          kan du kombinera filtren själv och utforska frånvaron i grundskole­förvaltningens
-          data.
+          Vi har tittat på läsår, årskurs, kön, ämne, skola och socioekonomi
+          var för sig. Nedan kan du kombinera filtren själv och utforska
+          frånvaron i grundskole­förvaltningens data.
         </p>
       {/if}
     </section>
@@ -338,11 +366,10 @@
   }
   :global(.scrolly-step) {
     background: var(--surface-1);
-    border: 1px solid var(--border);
-    border-radius: 12px;
+    border-left: 6px solid var(--hero-navy);
     padding: 28px 32px;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
-    opacity: 0.45;
+    box-shadow: 0 2px 10px rgba(22, 40, 58, 0.08);
+    opacity: 0.4;
     transition: opacity 0.3s ease;
   }
   :global(.scrolly-step.is-active) {
@@ -351,19 +378,21 @@
   :global(.scrolly-step) .kicker {
     font-size: 12px;
     text-transform: uppercase;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.14em;
     color: var(--series-blue);
-    margin: 0 0 6px;
-    font-weight: 600;
+    margin: 0 0 8px;
+    font-weight: 700;
   }
   :global(.scrolly-step) h2 {
-    margin: 0 0 12px;
-    font-size: 21px;
+    font-family: var(--serif);
+    margin: 0 0 14px;
+    font-size: 24px;
+    line-height: 1.2;
   }
   :global(.scrolly-step) p {
-    margin: 0 0 10px;
-    font-size: 14px;
-    line-height: 1.55;
+    margin: 0 0 12px;
+    font-size: 15px;
+    line-height: 1.6;
   }
   :global(.scrolly-step) p:last-child {
     margin-bottom: 0;

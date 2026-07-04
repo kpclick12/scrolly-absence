@@ -1,10 +1,9 @@
 <script>
   import { scaleLinear, scaleQuantize } from "d3-scale";
 
-  const BLUE_RAMP = [
-    "#d9eeff", "#b4d9fa", "#89c1f1", "#519fdd",
-    "#0c7dc3", "#005f9e", "#003d6f",
-  ];
+  // Divergerande blå-röd: blått = låg frånvaro, rött = hög. 5 steg med grå
+  // mitt så små punkter inte försvinner mot bakgrunden.
+  const BLUE_RAMP = ["#0068b2", "#649ecf", "#98948a", "#cc8370", "#a7391d"];
 
   let { data = [], title = "", unit = "%" } = $props();
 
