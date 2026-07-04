@@ -1,10 +1,10 @@
 <script>
   import { scaleQuantize } from "d3-scale";
 
-  // sekventiell blå-ramp (ljus -> mörk), se dataviz-palettens 100->700-steg
+  // sekventiell ramp i Göteborgsblå (ljus -> mörk), validerad mot dataviz-paletten
   const BLUE_RAMP = [
-    "#cde2fb", "#9ec5f4", "#6da7ec", "#3987e5",
-    "#256abf", "#184f95", "#0d366b",
+    "#d9eeff", "#b4d9fa", "#89c1f1", "#519fdd",
+    "#0c7dc3", "#005f9e", "#003d6f",
   ];
 
   let { rows = [], cols = [], data = [], title = "", unit = "%" } = $props();

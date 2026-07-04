@@ -1,6 +1,5 @@
 <script>
-  import Classroom from "./Classroom.svelte";
-  import Legend from "./Legend.svelte";
+  import BarChart from "./BarChart.svelte";
 
   let { data } = $props();
 
@@ -47,7 +46,10 @@
     };
   });
 
-  const CLASSROOM_SIZE = 22;
+  const resultBars = $derived([
+    { label: "Giltig (sjuk/anmäld)", value: result.giltigProcent, color: "var(--giltig)" },
+    { label: "Ogiltig (skolk)", value: result.ogiltigProcent, color: "var(--ogiltig)" },
+  ]);
 </script>
 
 <section class="explore">
@@ -90,20 +92,10 @@
     <p class="empty">Inga elever matchar den här kombinationen.</p>
   {:else}
     <div class="result">
-      <Classroom
-        total={CLASSROOM_SIZE}
-        absent={(result.franvaroProcent / 100) * CLASSROOM_SIZE}
-        segments={[
-          { label: "Giltig (sjuk/anmäld)", color: "var(--giltig)", value: result.giltigProcent },
-          { label: "Ogiltig (skolk)", color: "var(--ogiltig)", value: result.ogiltigProcent },
-        ]}
-        caption="{result.franvaroProcent}% frånvaro · {result.totalElever.toLocaleString('sv-SE')} elever i urvalet"
-      />
-      <Legend
-        items={[
-          { label: "Giltig (sjuk/anmäld)", color: "var(--giltig)" },
-          { label: "Ogiltig (skolk)", color: "var(--ogiltig)" },
-        ]}
+      <BarChart
+        data={resultBars}
+        color="var(--giltig)"
+        title="{result.franvaroProcent}% frånvaro · {result.totalElever.toLocaleString('sv-SE')} elever i urvalet"
       />
     </div>
 

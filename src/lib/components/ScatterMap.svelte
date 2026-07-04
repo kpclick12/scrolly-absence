@@ -2,8 +2,8 @@
   import { scaleLinear, scaleQuantize } from "d3-scale";
 
   const BLUE_RAMP = [
-    "#cde2fb", "#9ec5f4", "#6da7ec", "#3987e5",
-    "#256abf", "#184f95", "#0d366b",
+    "#d9eeff", "#b4d9fa", "#89c1f1", "#519fdd",
+    "#0c7dc3", "#005f9e", "#003d6f",
   ];
 
   let { data = [], title = "", unit = "%" } = $props();

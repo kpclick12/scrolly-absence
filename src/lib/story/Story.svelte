@@ -7,7 +7,6 @@
   import ScatterMap from "../components/ScatterMap.svelte";
   import BucketSwarm from "../components/BucketSwarm.svelte";
   import CalendarStrip from "../components/CalendarStrip.svelte";
-  import Legend from "../components/Legend.svelte";
   import {
     overallForYear,
     overallForYearByKon,
@@ -31,6 +30,16 @@
   const subjectBars = $derived(
     data.bySubject.map((d) => ({ label: d.amne, value: d.franvaroProcent }))
   );
+  const konBars = $derived([
+    { label: "Flickor — giltig", value: flicka.giltigProcent, color: "var(--giltig)" },
+    { label: "Flickor — ogiltig", value: flicka.ogiltigProcent, color: "var(--ogiltig)" },
+    { label: "Pojkar — giltig", value: pojke.giltigProcent, color: "var(--giltig)" },
+    { label: "Pojkar — ogiltig", value: pojke.ogiltigProcent, color: "var(--ogiltig)" },
+  ]);
+  const giltigOgiltigBars = $derived([
+    { label: "Giltig (sjuk/anmäld)", value: overall.giltigProcent, color: "var(--giltig)" },
+    { label: "Ogiltig (skolk)", value: overall.ogiltigProcent, color: "var(--ogiltig)" },
+  ]);
 
   // Skolverkets garanterade undervisningstid, hela grundskolan (åk 1-9, klocktimmar).
   // Matematik är bara en dryg sjundedel av all undervisningstid — så samma
@@ -142,46 +151,30 @@
         {:else if currentStep === 4}
           <BarChart data={gradeData} color="var(--series-blue)" title="Frånvaro % per årskurs, {latestYear}" />
         {:else if currentStep === 5}
-          <div class="side-by-side">
-            <Classroom
-              total={14}
-              absent={(flicka.franvaroProcent / 100) * 14}
-              caption="Flickor — {flicka.franvaroProcent}%"
-            />
-            <Classroom
-              total={14}
-              absent={(pojke.franvaroProcent / 100) * 14}
-              caption="Pojkar — {pojke.franvaroProcent}%"
-            />
-          </div>
+          <BarChart
+            data={konBars}
+            color="var(--giltig)"
+            title="Giltig/ogiltig frånvaro % per kön, {latestYear}"
+          />
         {:else if currentStep === 6}
           <BarChart data={subjectBars} color="var(--series-orange)" title="Lektionsfrånvaro % per ämne, {latestYear}" />
         {:else if currentStep === 7}
           <ScatterMap data={data.bySchool} title="Frånvaro % per skola, {latestYear}" />
         {:else if currentStep === 8}
-          <div class="stack">
-            <Classroom
-              total={CLASSROOM_SIZE}
-              absent={(overall.franvaroProcent / 100) * CLASSROOM_SIZE}
-              segments={[
-                { label: 'Giltig (sjuk/anmäld)', color: 'var(--giltig)', value: overall.giltigProcent },
-                { label: 'Ogiltig (skolk)', color: 'var(--ogiltig)', value: overall.ogiltigProcent },
-              ]}
-              caption="{overall.franvaroProcent}% total frånvaro"
-            />
-            <Legend
-              items={[
-                { label: 'Giltig (sjuk/anmäld)', color: 'var(--giltig)' },
-                { label: 'Ogiltig (skolk)', color: 'var(--ogiltig)' },
-              ]}
-            />
-          </div>
-        {:else if currentStep === 9}
-          <Classroom
-            total={CLASSROOM_SIZE}
-            absent={(overall.franvaroProcent / 100) * CLASSROOM_SIZE}
-            caption="{data.overview.elevFranvarandeEnGenomsnittsdag.toLocaleString('sv-SE')} av {data.overview.totalElever.toLocaleString('sv-SE')} elever"
+          <BarChart
+            data={giltigOgiltigBars}
+            color="var(--giltig)"
+            title="Frånvaro % efter typ, {latestYear}"
           />
+        {:else if currentStep === 9}
+          <div class="stat-tile">
+            <span class="stat-value">
+              {data.overview.elevFranvarandeEnGenomsnittsdag.toLocaleString("sv-SE")}
+            </span>
+            <span class="stat-label">
+              av {data.overview.totalElever.toLocaleString("sv-SE")} elever borta en genomsnittsdag, {latestYear}
+            </span>
+          </div>
         {/if}
       </div>
       {/key}
@@ -319,20 +312,29 @@
     opacity: 1;
     pointer-events: auto;
   }
-  .side-by-side {
-    display: flex;
-    gap: 24px;
-    width: 100%;
-    justify-content: center;
-  }
-  .side-by-side :global(.classroom) {
-    max-width: 200px;
-  }
   .stack {
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
+  }
+  .stat-tile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    text-align: center;
+    max-width: 360px;
+  }
+  .stat-value {
+    font-size: 56px;
+    font-weight: 600;
+    color: var(--text-primary);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 14px;
+    color: var(--text-muted);
   }
   :global(.scrolly-step) {
     background: var(--surface-1);

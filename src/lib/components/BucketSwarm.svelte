@@ -3,8 +3,8 @@
 
   let { dots = [], buckets = [], spread = false, caption = "" } = $props();
 
-  // sekventiell blå-ramp, ljus->mörk — samma "mer blått = mer frånvaro"-grammatik som heatmapen
-  const BLUE_STEPS = ["#9ec5f4", "#5598e7", "#184f95", "#0d366b"];
+  // ordinal Göteborgsblå-ramp, ljus->mörk — samma "mer blått = mer frånvaro"-grammatik som heatmapen
+  const BLUE_STEPS = ["#519fdd", "#0c7dc3", "#005f9e", "#003d6f"];
 
   const W = 640;
   const H = 340;
