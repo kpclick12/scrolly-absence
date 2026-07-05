@@ -186,6 +186,12 @@
   .result :global(.heatmap) {
     max-width: 460px;
   }
+  /* Med bara 5 kolumner blir kvadratiska celler enorma på mobil —
+     fast radhöjd ger ett kompakt rutnät och jämna rader. */
+  .result :global(.heatmap .cell) {
+    aspect-ratio: auto;
+    height: 30px;
+  }
   .empty {
     text-align: center;
     color: var(--text-muted);
