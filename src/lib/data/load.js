@@ -1,24 +1,25 @@
-const FILES = [
-  "overview",
-  "timeseries",
-  "byGrade",
-  "bySubject",
-  "bySchool",
-  "explore",
-  "studentDistribution",
-  "stadiumTrend",
-  "lovEffekt",
-  "progression",
-];
+// Datat importeras statiskt och bundlas med appen — kod och data är alltid
+// atomiskt konsistenta, och inget "Laddar data…"-läge behövs.
+import overview from "../../data/overview.json";
+import timeseries from "../../data/timeseries.json";
+import byGrade from "../../data/byGrade.json";
+import bySubject from "../../data/bySubject.json";
+import bySchool from "../../data/bySchool.json";
+import explore from "../../data/explore.json";
+import studentDistribution from "../../data/studentDistribution.json";
+import stadiumTrend from "../../data/stadiumTrend.json";
+import lovEffekt from "../../data/lovEffekt.json";
+import progression from "../../data/progression.json";
 
-export async function loadData() {
-  const base = import.meta.env.BASE_URL;
-  const entries = await Promise.all(
-    FILES.map(async (name) => {
-      const res = await fetch(`${base}data/${name}.json`);
-      if (!res.ok) throw new Error(`Kunde inte läsa ${name}.json`);
-      return [name, await res.json()];
-    })
-  );
-  return Object.fromEntries(entries);
-}
+export const appData = {
+  overview,
+  timeseries,
+  byGrade,
+  bySubject,
+  bySchool,
+  explore,
+  studentDistribution,
+  stadiumTrend,
+  lovEffekt,
+  progression,
+};

@@ -1,19 +1,7 @@
 <script>
-  import { onMount } from "svelte";
-  import { loadData } from "./lib/data/load.js";
+  import { appData as data } from "./lib/data/load.js";
   import Story from "./lib/story/Story.svelte";
   import ExploreView from "./lib/components/ExploreView.svelte";
-
-  let data = $state(null);
-  let error = $state(null);
-
-  onMount(async () => {
-    try {
-      data = await loadData();
-    } catch (e) {
-      error = e.message;
-    }
-  });
 
   // Bakgrundsmotiv i heron: ett svagt rutnät av stolar där en handfull
   // lyser guld — frånvaron, synlig redan innan berättelsen börjat.
@@ -36,12 +24,7 @@
   })();
 </script>
 
-{#if error}
-  <p class="status">Kunde inte ladda data: {error}</p>
-{:else if !data}
-  <p class="status">Laddar data…</p>
-{:else}
-  <header class="hero">
+<header class="hero">
     <svg
       class="hero-motif"
       viewBox="0 0 {MOTIF_COLS * 46} {MOTIF_ROWS * 58}"
@@ -108,17 +91,11 @@
       koncept och layout — inte verkliga elevuppgifter.
     </p>
   </footer>
-{/if}
 
 <style>
   main {
     max-width: 1100px;
     margin: 0 auto;
-  }
-  .status {
-    padding: 40px;
-    text-align: center;
-    color: var(--text-muted);
   }
   .hero {
     position: relative;

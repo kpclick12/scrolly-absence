@@ -8,7 +8,10 @@ import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const OUT_DIR = join(__dirname, "..", "public", "data");
+// Skrivs till src/ så att datat bundlas in i appen (importeras statiskt).
+// Ingen runtime-fetch = inga trasiga "Laddar data"-lägen när GitHub Pages
+// CDN serverar gammalt/blandat innehåll direkt efter en deploy.
+const OUT_DIR = join(__dirname, "..", "src", "data");
 mkdirSync(OUT_DIR, { recursive: true });
 
 // --- Seedad PRNG (mulberry32) för reproducerbarhet ---
