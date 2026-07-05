@@ -6,6 +6,7 @@ const FILES = [
   "bySchool",
   "explore",
   "studentDistribution",
+  "stadiumTrend",
 ];
 
 export async function loadData() {

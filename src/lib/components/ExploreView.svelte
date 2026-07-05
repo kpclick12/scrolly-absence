@@ -1,83 +1,85 @@
 <script>
-  import BarChart from "./BarChart.svelte";
+  import Heatmap from "./Heatmap.svelte";
 
   let { data } = $props();
 
   const ALLA = "Alla";
-  const lasarOptions = $derived([ALLA, ...new Set(data.explore.map((r) => r.lasar))]);
+  const ARSKURSER = ["F", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
   const skolaOptions = $derived([ALLA, ...new Set(data.explore.map((r) => r.skola))].sort());
-  const arskursOptions = $derived([
-    ALLA,
-    ...["F", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
-  ]);
   const konOptions = [ALLA, "Flicka", "Pojke"];
+  const lasarList = $derived([...new Set(data.explore.map((r) => r.lasar))]);
 
-  let lasar = $state(ALLA);
   let skola = $state(ALLA);
-  let arskurs = $state(ALLA);
   let kon = $state(ALLA);
   let showTable = $state(false);
 
   const filtered = $derived(
     data.explore.filter(
       (r) =>
-        (lasar === ALLA || r.lasar === lasar) &&
         (skola === ALLA || r.skola === skola) &&
-        (arskurs === ALLA || r.arskurs === arskurs) &&
         (kon === ALLA || r.kon === kon)
     )
+  );
+
+  // Årskurs × läsår, viktat på elevantal — samma mönster som stadietrenden,
+  // men i full upplösning och filtrerbart.
+  const heatCells = $derived.by(() => {
+    const acc = new Map();
+    for (const r of filtered) {
+      const key = `${r.arskurs}__${r.lasar}`;
+      const cur = acc.get(key) ?? { t: 0, a: 0 };
+      cur.t += r.totalElever;
+      cur.a += (r.totalElever * r.franvaroProcent) / 100;
+      acc.set(key, cur);
+    }
+    const cells = [];
+    for (const ak of ARSKURSER) {
+      for (const lasar of lasarList) {
+        const cur = acc.get(`${ak}__${lasar}`);
+        if (cur && cur.t > 0) {
+          cells.push({
+            row: ak === "F" ? "F-klass" : `Åk ${ak}`,
+            col: lasar,
+            value: Math.round((cur.a / cur.t) * 1000) / 10,
+          });
+        }
+      }
+    }
+    return cells;
+  });
+  const heatRows = $derived(
+    ARSKURSER.map((ak) => (ak === "F" ? "F-klass" : `Åk ${ak}`))
   );
 
   const result = $derived.by(() => {
     let total = 0;
     let absent = 0;
-    let invalid = 0;
     for (const r of filtered) {
+      if (r.lasar !== lasarList[lasarList.length - 1]) continue;
       total += r.totalElever;
       absent += (r.totalElever * r.franvaroProcent) / 100;
-      invalid += (r.totalElever * r.ogiltigProcent) / 100;
     }
-    if (total === 0) return { totalElever: 0, franvaroProcent: 0, giltigProcent: 0, ogiltigProcent: 0 };
+    if (total === 0) return { totalElever: 0, franvaroProcent: 0 };
     return {
       totalElever: total,
       franvaroProcent: Math.round((absent / total) * 1000) / 10,
-      giltigProcent: Math.round(((absent - invalid) / total) * 1000) / 10,
-      ogiltigProcent: Math.round((invalid / total) * 1000) / 10,
     };
   });
-
-  const resultBars = $derived([
-    { label: "Giltig (sjuk/anmäld)", value: result.giltigProcent, color: "var(--giltig)" },
-    { label: "Ogiltig (skolk)", value: result.ogiltigProcent, color: "var(--ogiltig)" },
-  ]);
 </script>
 
 <section class="explore">
   <h2>Utforska själv</h2>
   <p class="intro">
-    Kombinera filter för läsår, skola, årskurs och kön för att se hur frånvaron
-    ser ut för just den grupp du är intresserad av.
+    Hela mönstret i en bild: varje ruta är en årskurs under ett läsår.
+    Ju rödare, desto högre frånvaro. Filtrera på skola och kön och se om
+    högstadietrappan syns även där.
   </p>
 
   <div class="filters">
     <label>
-      Läsår
-      <select bind:value={lasar}>
-        {#each lasarOptions as opt}<option value={opt}>{opt}</option>{/each}
-      </select>
-    </label>
-    <label>
       Skola
       <select bind:value={skola}>
         {#each skolaOptions as opt}<option value={opt}>{opt}</option>{/each}
-      </select>
-    </label>
-    <label>
-      Årskurs
-      <select bind:value={arskurs}>
-        {#each arskursOptions as opt}
-          <option value={opt}>{opt === ALLA ? ALLA : opt === "F" ? "Förskoleklass" : `Åk ${opt}`}</option>
-        {/each}
       </select>
     </label>
     <label>
@@ -92,11 +94,14 @@
     <p class="empty">Inga elever matchar den här kombinationen.</p>
   {:else}
     <div class="result">
-      <BarChart
-        data={resultBars}
-        color="var(--giltig)"
-        title="{result.franvaroProcent}% frånvaro · {result.totalElever.toLocaleString('sv-SE')} elever i urvalet"
-      />
+      {#key `${skola}__${kon}`}
+        <Heatmap
+          rows={heatRows}
+          cols={lasarList}
+          data={heatCells}
+          title="Frånvaro % per årskurs och läsår · {result.franvaroProcent}% i snitt {lasarList[lasarList.length - 1]} · {result.totalElever.toLocaleString('sv-SE')} elever i urvalet"
+        />
+      {/key}
     </div>
 
     <button class="toggle-table" onclick={() => (showTable = !showTable)}>
@@ -177,6 +182,9 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+  }
+  .result :global(.heatmap) {
+    max-width: 460px;
   }
   .empty {
     text-align: center;

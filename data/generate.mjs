@@ -101,15 +101,24 @@ const sociIndex = Object.fromEntries(
   })
 );
 
-// Grundfrånvaro stiger med årskurs, störst hopp från åk 6 och uppåt.
+// Grundfrånvaro per årskurs (senaste läsåret). Verklighetsnära nivåer:
+// låg-/mellanstadiet runt 5-9%, högstadiet 16-22% — snittet över F-9 ≈ 10%.
 const GRADE_BASE = {
-  F: 0.045, "1": 0.045, "2": 0.048, "3": 0.05, "4": 0.052, "5": 0.055,
-  "6": 0.062, "7": 0.075, "8": 0.088, "9": 0.098,
+  F: 0.052, "1": 0.055, "2": 0.058, "3": 0.062, "4": 0.07, "5": 0.078,
+  "6": 0.088, "7": 0.16, "8": 0.19, "9": 0.22,
 };
 
-// Läsårstrend: förhöjd post-pandemisk frånvaro som sakta minskar.
-const YEAR_TREND = {
-  "2021/22": 1.35, "2022/23": 1.22, "2023/24": 1.12, "2024/25": 1.05, "2025/26": 1.0,
+// Kärnan i berättelsen: högstadiets frånvaro har ÖKAT läsår för läsår,
+// medan låg- och mellanstadiet legat i princip stilla.
+function stadium(arskurs) {
+  if (arskurs === "F" || +arskurs <= 3) return "lag";
+  if (+arskurs <= 6) return "mellan";
+  return "hog";
+}
+const YEAR_TREND_BY_STADIUM = {
+  lag:    { "2021/22": 1.02, "2022/23": 0.99, "2023/24": 1.01, "2024/25": 1.0, "2025/26": 1.0 },
+  mellan: { "2021/22": 0.98, "2022/23": 1.01, "2023/24": 0.99, "2024/25": 1.01, "2025/26": 1.0 },
+  hog:    { "2021/22": 0.68, "2022/23": 0.76, "2023/24": 0.85, "2024/25": 0.93, "2025/26": 1.0 },
 };
 
 // Andel av frånvaron som är ogiltig (skolk) ökar med årskurs.
@@ -147,13 +156,13 @@ function round1(n) {
 
 function absenceRate({ arskurs, kon, skola, lasar, monthFactor = 1 }) {
   let rate = GRADE_BASE[arskurs];
-  rate *= YEAR_TREND[lasar];
+  rate *= YEAR_TREND_BY_STADIUM[stadium(arskurs)][lasar];
   rate *= monthFactor;
   rate *= 1 + schoolEffect[skola] * 0.4;
   if (kon === "Flicka") rate *= 1.04; // något högre giltig/sjukfrånvaro
   if (kon === "Pojke") rate *= 1.02; // något högre ogiltig frånvaro (se invalidShare)
   rate *= randRange(0.94, 1.06); // litet brus
-  return Math.min(rate, 0.35);
+  return Math.min(rate, 0.4);
 }
 
 function invalidShare({ arskurs, kon }) {
@@ -269,10 +278,13 @@ const SUBJECT_FACTOR = {
   Musik: 0.9,
   "Slöjd": 1.1,
 };
+// Ämnesfrånvaron beräknas för högstadiet (åk 7-9) — det är där problemet
+// finns, och ett snitt över alla årskurser skulle dölja nivåerna.
 const bySubject = AMNEN.map((amne) => {
   let total = 0;
   let absent = 0;
   for (const e of enrollment) {
+    if (stadium(e.arskurs) !== "hog") continue;
     const rate = absenceRate({
       arskurs: e.arskurs,
       kon: e.kon,
@@ -352,17 +364,46 @@ for (const lasar of LASAR) {
 }
 writeFileSync(join(OUT_DIR, "explore.json"), JSON.stringify(explore));
 
+// --- 6b) stadiumTrend.json: frånvaro per stadium och läsår ---
+// Berättelsens nyckeldiagram: högstadiet drar ifrån medan låg- och
+// mellanstadiet ligger stilla.
+const STADIER = [
+  { id: "lag", label: "Lågstadiet (F–3)", arskurser: ["F", "1", "2", "3"] },
+  { id: "mellan", label: "Mellanstadiet (4–6)", arskurser: ["4", "5", "6"] },
+  { id: "hog", label: "Högstadiet (7–9)", arskurser: ["7", "8", "9"] },
+];
+const stadiumTrend = STADIER.map((st) => ({
+  id: st.id,
+  label: st.label,
+  serie: LASAR.map((lasar) => {
+    let total = 0;
+    let absent = 0;
+    for (const e of enrollment) {
+      if (!st.arskurser.includes(e.arskurs)) continue;
+      total += e.elever;
+      absent +=
+        e.elever *
+        absenceRate({ arskurs: e.arskurs, kon: e.kon, skola: e.skola, lasar });
+    }
+    return { lasar, franvaroProcent: round1((absent / total) * 100) };
+  }),
+}));
+writeFileSync(
+  join(OUT_DIR, "stadiumTrend.json"),
+  JSON.stringify(stadiumTrend, null, 2)
+);
+
 // --- 7) studentDistribution.json: varje elevs egen frånvaro, inte bara snittet ---
-// Medelvärdet (6-7%) döljer att de allra flesta elever knappt är borta alls,
-// medan en liten grupp har mycket hög (kronisk) frånvaro. Vi samplar 500
+// Medelvärdet (~10%) döljer att de flesta elever har låg frånvaro,
+// medan en betydande grupp har mycket hög (kronisk) frånvaro. Vi samplar 500
 // "prickar" (1 prick ≈ 100 elever) och lottar var och en till en av fyra
 // hinkar, med sannolikheter valda så att det viktade snittet hamnar nära
 // den faktiska totalen ovan.
 const BUCKETS = [
-  { id: 0, label: "0–15%", min: 0, max: 15, share: 0.86 },
-  { id: 1, label: "15–30%", min: 15, max: 30, share: 0.095 },
-  { id: 2, label: "30–50%", min: 30, max: 50, share: 0.03 },
-  { id: 3, label: "50–100%", min: 50, max: 100, share: 0.015 },
+  { id: 0, label: "0–15%", min: 0, max: 15, share: 0.78 },
+  { id: 1, label: "15–30%", min: 15, max: 30, share: 0.14 },
+  { id: 2, label: "30–50%", min: 30, max: 50, share: 0.05 },
+  { id: 3, label: "50–100%", min: 50, max: 100, share: 0.03 },
 ];
 const SAMPLE_SIZE = 500;
 const studentsPerDot = Math.round(actualTotal / SAMPLE_SIZE);

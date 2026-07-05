@@ -1,0 +1,80 @@
+[
+  {
+    "id": "lag",
+    "label": "Lågstadiet (F–3)",
+    "serie": [
+      {
+        "lasar": "2021/22",
+        "franvaroProcent": 6.2
+      },
+      {
+        "lasar": "2022/23",
+        "franvaroProcent": 6
+      },
+      {
+        "lasar": "2023/24",
+        "franvaroProcent": 6.2
+      },
+      {
+        "lasar": "2024/25",
+        "franvaroProcent": 6.1
+      },
+      {
+        "lasar": "2025/26",
+        "franvaroProcent": 6.1
+      }
+    ]
+  },
+  {
+    "id": "mellan",
+    "label": "Mellanstadiet (4–6)",
+    "serie": [
+      {
+        "lasar": "2021/22",
+        "franvaroProcent": 8.2
+      },
+      {
+        "lasar": "2022/23",
+        "franvaroProcent": 8.5
+      },
+      {
+        "lasar": "2023/24",
+        "franvaroProcent": 8.3
+      },
+      {
+        "lasar": "2024/25",
+        "franvaroProcent": 8.5
+      },
+      {
+        "lasar": "2025/26",
+        "franvaroProcent": 8.5
+      }
+    ]
+  },
+  {
+    "id": "hog",
+    "label": "Högstadiet (7–9)",
+    "serie": [
+      {
+        "lasar": "2021/22",
+        "franvaroProcent": 13.9
+      },
+      {
+        "lasar": "2022/23",
+        "franvaroProcent": 15.5
+      },
+      {
+        "lasar": "2023/24",
+        "franvaroProcent": 17.3
+      },
+      {
+        "lasar": "2024/25",
+        "franvaroProcent": 18.9
+      },
+      {
+        "lasar": "2025/26",
+        "franvaroProcent": 20.3
+      }
+    ]
+  }
+]

@@ -70,10 +70,11 @@
         <span class="hero-line2">stolar</span>
       </h1>
       <p class="subtitle">
-        Varje dag är tusentals av grundskolans
-        {data.overview.totalElever.toLocaleString("sv-SE")} elever inte i
-        klassrummet. Vad frånvaron döljer — och varför den inte drabbar alla
-        lika. En berättelse i data om läsåret {data.overview.senasteLasar}.
+        Var tionde av grundskolans
+        {data.overview.totalElever.toLocaleString("sv-SE")} elever är inte i
+        klassrummet en vanlig skoldag — och i högstadiet är det var femte.
+        Varför frånvaron växer, vem den drabbar och vad som döljer sig bakom
+        snittet. En berättelse i data, {data.overview.senasteLasar}.
       </p>
       <p class="data-note">Data: syntetisk testdata (ej verkliga elevuppgifter).</p>
       <p class="scroll-hint">Scrolla<span class="scroll-tick">|</span></p>

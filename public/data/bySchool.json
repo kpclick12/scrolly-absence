@@ -6,9 +6,9 @@
     "lon": 15.21,
     "sociIndex": 173,
     "totalElever": 2320,
-    "franvaroProcent": 7.7,
-    "giltigProcent": 6.4,
-    "ogiltigProcent": 1.2
+    "franvaroProcent": 12.8,
+    "giltigProcent": 10.4,
+    "ogiltigProcent": 2.4
   },
   {
     "skola": "Fristadsskolan",
@@ -17,9 +17,9 @@
     "lon": 12.94,
     "sociIndex": 200,
     "totalElever": 1960,
-    "franvaroProcent": 7.5,
-    "giltigProcent": 6.3,
-    "ogiltigProcent": 1.2
+    "franvaroProcent": 12.6,
+    "giltigProcent": 10.2,
+    "ogiltigProcent": 2.3
   },
   {
     "skola": "Ångermannaskolan",
@@ -28,20 +28,9 @@
     "lon": 17.31,
     "sociIndex": 130,
     "totalElever": 2580,
-    "franvaroProcent": 7.4,
-    "giltigProcent": 6.2,
-    "ogiltigProcent": 1.2
-  },
-  {
-    "skola": "Öresundsskolan",
-    "kommun": "Malmö",
-    "lat": 55.6,
-    "lon": 13,
-    "sociIndex": 165,
-    "totalElever": 1680,
-    "franvaroProcent": 7.3,
-    "giltigProcent": 6.2,
-    "ogiltigProcent": 1.2
+    "franvaroProcent": 12.5,
+    "giltigProcent": 10.2,
+    "ogiltigProcent": 2.3
   },
   {
     "skola": "Stångåskolan",
@@ -50,9 +39,9 @@
     "lon": 15.62,
     "sociIndex": 161,
     "totalElever": 1340,
-    "franvaroProcent": 7.3,
-    "giltigProcent": 6.1,
-    "ogiltigProcent": 1.2
+    "franvaroProcent": 12.2,
+    "giltigProcent": 9.9,
+    "ogiltigProcent": 2.3
   },
   {
     "skola": "Knuthöjdsskolan",
@@ -61,20 +50,9 @@
     "lon": 12.69,
     "sociIndex": 154,
     "totalElever": 2120,
-    "franvaroProcent": 7.3,
-    "giltigProcent": 6.1,
-    "ogiltigProcent": 1.2
-  },
-  {
-    "skola": "Umestrandskolan",
-    "kommun": "Umeå",
-    "lat": 63.83,
-    "lon": 20.26,
-    "sociIndex": 121,
-    "totalElever": 1320,
-    "franvaroProcent": 7.3,
-    "giltigProcent": 6.1,
-    "ogiltigProcent": 1.2
+    "franvaroProcent": 12.2,
+    "giltigProcent": 9.9,
+    "ogiltigProcent": 2.3
   },
   {
     "skola": "Linnéskolan",
@@ -83,9 +61,31 @@
     "lon": 14.81,
     "sociIndex": 165,
     "totalElever": 2440,
-    "franvaroProcent": 7.3,
-    "giltigProcent": 6.1,
-    "ogiltigProcent": 1.2
+    "franvaroProcent": 12.2,
+    "giltigProcent": 9.9,
+    "ogiltigProcent": 2.3
+  },
+  {
+    "skola": "Umestrandskolan",
+    "kommun": "Umeå",
+    "lat": 63.83,
+    "lon": 20.26,
+    "sociIndex": 121,
+    "totalElever": 1320,
+    "franvaroProcent": 12.1,
+    "giltigProcent": 9.8,
+    "ogiltigProcent": 2.2
+  },
+  {
+    "skola": "Öresundsskolan",
+    "kommun": "Malmö",
+    "lat": 55.6,
+    "lon": 13,
+    "sociIndex": 165,
+    "totalElever": 1680,
+    "franvaroProcent": 12,
+    "giltigProcent": 9.8,
+    "ogiltigProcent": 2.2
   },
   {
     "skola": "Domkyrkoskolan",
@@ -94,9 +94,9 @@
     "lon": 13.19,
     "sociIndex": 114,
     "totalElever": 1600,
-    "franvaroProcent": 7.1,
-    "giltigProcent": 5.9,
-    "ogiltigProcent": 1.1
+    "franvaroProcent": 11.9,
+    "giltigProcent": 9.7,
+    "ogiltigProcent": 2.2
   },
   {
     "skola": "Mälarskolan",
@@ -105,9 +105,9 @@
     "lon": 16.55,
     "sociIndex": 166,
     "totalElever": 2000,
-    "franvaroProcent": 7,
-    "giltigProcent": 5.9,
-    "ogiltigProcent": 1.1
+    "franvaroProcent": 11.8,
+    "giltigProcent": 9.6,
+    "ogiltigProcent": 2.2
   },
   {
     "skola": "Kalmarsundsskolan",
@@ -116,9 +116,9 @@
     "lon": 16.36,
     "sociIndex": 140,
     "totalElever": 2340,
-    "franvaroProcent": 7,
-    "giltigProcent": 5.9,
-    "ogiltigProcent": 1.1
+    "franvaroProcent": 11.8,
+    "giltigProcent": 9.6,
+    "ogiltigProcent": 2.2
   },
   {
     "skola": "Storsjöskolan",
@@ -127,20 +127,9 @@
     "lon": 14.64,
     "sociIndex": 158,
     "totalElever": 2320,
-    "franvaroProcent": 6.8,
-    "giltigProcent": 5.7,
-    "ogiltigProcent": 1.1
-  },
-  {
-    "skola": "Rekarneskolan",
-    "kommun": "Eskilstuna",
-    "lat": 59.37,
-    "lon": 16.51,
-    "sociIndex": 118,
-    "totalElever": 1200,
-    "franvaroProcent": 6.5,
-    "giltigProcent": 5.4,
-    "ogiltigProcent": 1
+    "franvaroProcent": 11.2,
+    "giltigProcent": 9.1,
+    "ogiltigProcent": 2.1
   },
   {
     "skola": "Gutaskolan",
@@ -149,9 +138,20 @@
     "lon": 18.3,
     "sociIndex": 127,
     "totalElever": 2680,
-    "franvaroProcent": 6.5,
-    "giltigProcent": 5.5,
-    "ogiltigProcent": 1.1
+    "franvaroProcent": 10.8,
+    "giltigProcent": 8.8,
+    "ogiltigProcent": 2
+  },
+  {
+    "skola": "Rekarneskolan",
+    "kommun": "Eskilstuna",
+    "lat": 59.37,
+    "lon": 16.51,
+    "sociIndex": 118,
+    "totalElever": 1200,
+    "franvaroProcent": 10.6,
+    "giltigProcent": 8.6,
+    "ogiltigProcent": 2
   },
   {
     "skola": "Sjöstadsskolan",
@@ -160,9 +160,9 @@
     "lon": 11.97,
     "sociIndex": 80,
     "totalElever": 1380,
-    "franvaroProcent": 6.3,
-    "giltigProcent": 5.3,
-    "ogiltigProcent": 1
+    "franvaroProcent": 10.5,
+    "giltigProcent": 8.5,
+    "ogiltigProcent": 2
   },
   {
     "skola": "Gestriklandsskolan",
@@ -171,9 +171,9 @@
     "lon": 17.14,
     "sociIndex": 88,
     "totalElever": 1860,
-    "franvaroProcent": 6.3,
-    "giltigProcent": 5.3,
-    "ogiltigProcent": 1
+    "franvaroProcent": 10.5,
+    "giltigProcent": 8.6,
+    "ogiltigProcent": 2
   },
   {
     "skola": "Kungsängsskolan",
@@ -182,20 +182,9 @@
     "lon": 17.64,
     "sociIndex": 46,
     "totalElever": 2220,
-    "franvaroProcent": 6.2,
-    "giltigProcent": 5.2,
-    "ogiltigProcent": 1
-  },
-  {
-    "skola": "Sundstaskolan",
-    "kommun": "Karlstad",
-    "lat": 59.38,
-    "lon": 13.5,
-    "sociIndex": 103,
-    "totalElever": 1100,
-    "franvaroProcent": 6.1,
-    "giltigProcent": 5.1,
-    "ogiltigProcent": 1
+    "franvaroProcent": 10.4,
+    "giltigProcent": 8.4,
+    "ogiltigProcent": 1.9
   },
   {
     "skola": "Vätterskolan",
@@ -204,20 +193,20 @@
     "lon": 12.86,
     "sociIndex": 40,
     "totalElever": 2700,
-    "franvaroProcent": 6.1,
-    "giltigProcent": 5.1,
-    "ogiltigProcent": 1
+    "franvaroProcent": 10.3,
+    "giltigProcent": 8.4,
+    "ogiltigProcent": 1.9
   },
   {
-    "skola": "Himlaskolan",
-    "kommun": "Norrköping",
-    "lat": 58.59,
-    "lon": 16.19,
-    "sociIndex": 30,
-    "totalElever": 2420,
-    "franvaroProcent": 5.9,
-    "giltigProcent": 4.9,
-    "ogiltigProcent": 1
+    "skola": "Sundstaskolan",
+    "kommun": "Karlstad",
+    "lat": 59.38,
+    "lon": 13.5,
+    "sociIndex": 103,
+    "totalElever": 1100,
+    "franvaroProcent": 10,
+    "giltigProcent": 8.2,
+    "ogiltigProcent": 1.8
   },
   {
     "skola": "Kopparskolan",
@@ -226,9 +215,9 @@
     "lon": 15.63,
     "sociIndex": 95,
     "totalElever": 2560,
-    "franvaroProcent": 5.9,
-    "giltigProcent": 4.9,
-    "ogiltigProcent": 0.9
+    "franvaroProcent": 10,
+    "giltigProcent": 8.1,
+    "ogiltigProcent": 1.9
   },
   {
     "skola": "Vasaskolan",
@@ -237,9 +226,20 @@
     "lon": 18.06,
     "sociIndex": 34,
     "totalElever": 2680,
-    "franvaroProcent": 5.7,
-    "giltigProcent": 4.8,
-    "ogiltigProcent": 0.9
+    "franvaroProcent": 9.6,
+    "giltigProcent": 7.8,
+    "ogiltigProcent": 1.8
+  },
+  {
+    "skola": "Himlaskolan",
+    "kommun": "Norrköping",
+    "lat": 58.59,
+    "lon": 16.19,
+    "sociIndex": 30,
+    "totalElever": 2420,
+    "franvaroProcent": 9.6,
+    "giltigProcent": 7.8,
+    "ogiltigProcent": 1.8
   },
   {
     "skola": "Malmfältsskolan",
@@ -248,9 +248,9 @@
     "lon": 20.22,
     "sociIndex": 37,
     "totalElever": 2300,
-    "franvaroProcent": 5.7,
-    "giltigProcent": 4.8,
-    "ogiltigProcent": 0.9
+    "franvaroProcent": 9.6,
+    "giltigProcent": 7.8,
+    "ogiltigProcent": 1.8
   },
   {
     "skola": "Ryhovsskolan",
@@ -259,9 +259,9 @@
     "lon": 14.16,
     "sociIndex": 61,
     "totalElever": 1580,
-    "franvaroProcent": 5.6,
-    "giltigProcent": 4.7,
-    "ogiltigProcent": 0.9
+    "franvaroProcent": 9.5,
+    "giltigProcent": 7.7,
+    "ogiltigProcent": 1.8
   },
   {
     "skola": "Guldstadsskolan",
@@ -270,8 +270,8 @@
     "lon": 20.95,
     "sociIndex": 79,
     "totalElever": 1440,
-    "franvaroProcent": 5.5,
-    "giltigProcent": 4.6,
-    "ogiltigProcent": 0.9
+    "franvaroProcent": 9.4,
+    "giltigProcent": 7.7,
+    "ogiltigProcent": 1.8
   }
 ]

@@ -8,6 +8,7 @@
   import BucketSwarm from "../components/BucketSwarm.svelte";
   import CalendarStrip from "../components/CalendarStrip.svelte";
   import CorrelationScatter from "../components/CorrelationScatter.svelte";
+  import LineChart from "../components/LineChart.svelte";
   import {
     overallForYear,
     overallForYearByKon,
@@ -25,7 +26,7 @@
   let statValue = $state(0);
   let statCounted = false;
   $effect(() => {
-    if (currentStep === 10 && !statCounted) {
+    if (currentStep === 11 && !statCounted) {
       statCounted = true;
       const target = data.overview.elevFranvarandeEnGenomsnittsdag;
       const proxy = { v: 0 };
@@ -62,6 +63,17 @@
     { label: "Ogiltig (skolk)", value: overall.ogiltigProcent, color: "var(--ogiltig)" },
   ]);
 
+  // Stadietrenden — berättelsens nyckeldiagram. Högstadiet i rött.
+  const STADIUM_COLORS = { lag: "#649ecf", mellan: "#0068b2", hog: "#a7391d" };
+  const trendSeries = $derived(
+    data.stadiumTrend.map((s) => ({ ...s, color: STADIUM_COLORS[s.id] }))
+  );
+  const hogTrend = $derived(data.stadiumTrend.find((s) => s.id === "hog").serie);
+  const hogFirst = $derived(hogTrend[0].franvaroProcent);
+  const hogNow = $derived(hogTrend[hogTrend.length - 1].franvaroProcent);
+  // ~178 skoldagar per läsår -> missade veckor vid högstadiets nivå
+  const hogWeeksLost = $derived(Math.round((hogNow / 100) * 178 / 5));
+
   // Skolverkets garanterade undervisningstid, hela grundskolan (åk 1-9, klocktimmar).
   // Matematik är bara en dryg sjundedel av all undervisningstid — så samma
   // antal frånvarotimmar väger mycket tyngre om man tänker sig dem samlade
@@ -89,6 +101,10 @@
       headline: "En helt vanlig skoldag",
     },
     {
+      kicker: "Larmet",
+      headline: "Högstadiet drar ifrån",
+    },
+    {
       kicker: "Snittet döljer sanningen",
       headline: "De flesta elever är knappt borta alls",
     },
@@ -102,14 +118,14 @@
     },
     {
       kicker: "Årskurs",
-      headline: "Frånvaron ökar med åldern",
+      headline: "Trappan upp mot högstadiet",
     },
     {
       kicker: "Kön",
       headline: "Flickor och pojkar",
     },
     {
-      kicker: "Ämne",
+      kicker: "Ämne i högstadiet",
       headline: "Vissa lektioner tappar fler elever",
     },
     {
@@ -136,11 +152,11 @@
     <div class="visual-stack">
       <!-- BucketSwarm stannar kvar monterad (ur/i {#key}) så att bollen faktiskt
            hinner klumpa ihop sig och sprida ut sig — inte bara poppa upp klar. -->
-      <div class="bucket-layer" class:active={currentStep === 1}>
+      <div class="bucket-layer" class:active={currentStep === 2}>
         <BucketSwarm
           dots={data.studentDistribution.dots}
           buckets={data.studentDistribution.buckets}
-          spread={currentStep === 1}
+          spread={currentStep === 2}
           caption="Varje prick ≈ {data.studentDistribution.studentsPerDot} elever"
         />
       </div>
@@ -152,7 +168,12 @@
               absent={(overall.franvaroProcent / 100) * CLASSROOM_SIZE}
               caption="{overall.franvaroProcent}% frånvaro — {latestYear}"
             />
-          {:else if currentStep === 2}
+          {:else if currentStep === 1}
+          <LineChart
+            series={trendSeries}
+            title="Frånvaro % per stadium och läsår"
+          />
+        {:else if currentStep === 3}
           <div class="stack">
             <CalendarStrip
               weeks={CAL_WEEKS}
@@ -168,39 +189,39 @@
               caption="Samma antal dagar — men det sammanhängande blocket väger tyngre."
             />
           </div>
-        {:else if currentStep === 3}
+        {:else if currentStep === 4}
           <Heatmap
             rows={heatmapRows}
             cols={heatmapCols}
             data={heatmapCells}
             title="Frånvaro % per läsår och månad"
           />
-        {:else if currentStep === 4}
-          <BarChart data={gradeData} color="var(--series-blue)" title="Frånvaro % per årskurs, {latestYear}" />
         {:else if currentStep === 5}
+          <BarChart data={gradeData} color="var(--series-blue)" title="Frånvaro % per årskurs, {latestYear}" />
+        {:else if currentStep === 6}
           <BarChart
             data={konBars}
             color="var(--giltig)"
             title="Giltig/ogiltig frånvaro % per kön, {latestYear}"
           />
-        {:else if currentStep === 6}
-          <BarChart data={subjectBars} color="var(--series-orange)" title="Lektionsfrånvaro % per ämne, {latestYear}" />
         {:else if currentStep === 7}
-          <ScatterMap data={data.bySchool} title="Frånvaro % per skola, {latestYear}" />
+          <BarChart data={subjectBars} color="var(--series-orange)" title="Lektionsfrånvaro % per ämne i högstadiet (åk 7–9), {latestYear}" />
         {:else if currentStep === 8}
+          <ScatterMap data={data.bySchool} title="Frånvaro % per skola, {latestYear}" />
+        {:else if currentStep === 9}
           <CorrelationScatter
             data={data.bySchool}
             title="Socioekonomiskt index vs frånvaro per skola, {latestYear}"
             xLabel="Socioekonomiskt index (högre = större utmaningar)"
             yLabel="Frånvaro %"
           />
-        {:else if currentStep === 9}
+        {:else if currentStep === 10}
           <BarChart
             data={giltigOgiltigBars}
             color="var(--giltig)"
             title="Frånvaro % efter typ, {latestYear}"
           />
-        {:else if currentStep === 10}
+        {:else if currentStep === 11}
           <div class="stat-tile">
             <span class="stat-value">
               {statValue.toLocaleString("sv-SE")}
@@ -223,24 +244,39 @@
         <p>
           Just nu, en helt vanlig dag under läsåret {latestYear}, är i genomsnitt
           <strong>{overall.franvaroProcent}%</strong> av grundskoleförvaltningens
-          {data.overview.totalElever.toLocaleString("sv-SE")} elever hemma. I en klass
-          om {CLASSROOM_SIZE} elever motsvarar det ungefär
-          <strong>{Math.round((overall.franvaroProcent / 100) * CLASSROOM_SIZE)} tomma stolar</strong> —
-          varje dag, i varje klassrum.
+          {data.overview.totalElever.toLocaleString("sv-SE")} elever inte i skolan —
+          ungefär <strong>var tionde elev</strong>. I en klass om {CLASSROOM_SIZE}
+          elever är det {Math.round((overall.franvaroProcent / 100) * CLASSROOM_SIZE)}
+          tomma stolar, varje dag, i varje klassrum.
         </p>
+        <p>Och snittet döljer det verkliga larmet.</p>
       {:else if i === 1}
+        <p>
+          Dela upp eleverna efter stadium och bilden blir skarp: i lågstadiet
+          och mellanstadiet har frånvaron legat stilla i fem år. I
+          <strong>högstadiet har den ökat varje läsår</strong> — från
+          {hogFirst}% till <strong>{hogNow}%</strong>.
+        </p>
+        <p>
+          {hogNow}% betyder att <strong>var femte högstadieelev</strong> är
+          borta en vanlig skoldag. I en klass om 25 är det fem tomma stolar.
+          För en enskild elev på den nivån motsvarar det en missad skoldag i
+          veckan — ungefär <strong>{hogWeeksLost} veckors undervisning</strong>
+          på ett enda läsår.
+        </p>
+      {:else if i === 2}
         <p>
           Men ett snitt är bara ett snitt. Om vi istället tittar på
           <strong>varje enskild elevs</strong> egen frånvaro under läsåret ser
-          bilden annorlunda ut: de allra flesta elever är knappt borta alls.
+          bilden annorlunda ut: de flesta elever är sällan borta.
         </p>
         <p>
-          En liten grupp — ofta kallad elever med hög eller kronisk frånvaro —
-          står däremot för en oproportionerligt stor del av alla missade
-          skoldagar. Det är den gruppen som riskerar att halka efter, och som
-          ett snitt på {overall.franvaroProcent}% gör osynlig.
+          En betydande grupp — elever med hög eller kronisk frånvaro — står
+          däremot för en oproportionerligt stor del av alla missade skoldagar.
+          Det är den gruppen som riskerar att halka efter, och som snittet gör
+          osynlig.
         </p>
-      {:else if i === 2}
+      {:else if i === 3}
         <p>
           Tio dagars frånvaro kan se väldigt olika ut. Spridda över året, som
           enstaka förkylningar, är de sällan ett tecken på något allvarligt.
@@ -259,36 +295,38 @@
           {data.studentDistribution.langvarigFranvaro.antalElever.toLocaleString("sv-SE")}
           elever — minst en sådan sammanhängande period under läsåret.
         </p>
-      {:else if i === 3}
+      {:else if i === 4}
         <p>
           Frånvaron är som lägst i början av höstterminen. Sedan stiger den brant
           under vintern — förkylnings- och influensasäsongen syns tydligt i varje
           läsår, från november till februari.
         </p>
         <p>
-          Notera också den förhöjda frånvaron läsåret 2021/22, i den post-pandemiska
-          perioden, som sakta klingat av sedan dess.
-        </p>
-      {:else if i === 4}
-        <p>
-          Från förskoleklass till årskurs 5 är skillnaderna små. Sedan stiger
-          frånvaron påtagligt — särskilt från årskurs 7 och uppåt, i högstadiet,
-          där både sjukfrånvaro och skolk ökar.
+          Men lägg märke till att vintertopparna inte längre klingar av till
+          samma nivå som förr — golvet höjs, läsår för läsår.
         </p>
       {:else if i === 5}
+        <p>
+          Samma mönster som stadietrenden, i finare upplösning. Från
+          förskoleklass till årskurs 6 stiger frånvaron långsamt. Sedan kommer
+          språnget: <strong>från årskurs 7 nästan fördubblas den</strong>, och i
+          årskurs 9 är den uppe i {gradeData[gradeData.length - 1].value}% —
+          fyra gånger nivån i förskoleklass.
+        </p>
+      {:else if i === 6}
         <p>
           Skillnaden i total frånvaro mellan flickor och pojkar är liten. Men under
           ytan skiljer sig <em>typen</em> av frånvaro — flickor har något högre
           giltig (sjuk-) frånvaro, medan pojkar har något högre ogiltig frånvaro.
         </p>
-      {:else if i === 6}
+      {:else if i === 7}
         <p>
-          Detta är lektionsfrånvaro — inte hela skoldagar. Idrott och moderna
-          språk sticker ut med högst frånvaro, medan kärnämnen som svenska och
-          engelska ligger lägre.
+          Här zoomar vi in på högstadiet, där problemet finns — och tittar på
+          lektionsfrånvaro per ämne, inte hela skoldagar. Idrott och moderna
+          språk tappar flest elever, men även kärnämnena ligger högt.
         </p>
         <p>
-          Men tänk om samma frånvaro istället satt samlad i ett enda ämne.
+          Och tänk om samma frånvaro istället satt samlad i ett enda ämne.
           Matematik utgör bara en dryg sjundedel av all undervisningstid i
           grundskolan — så {overall.franvaroProcent}% av all skoltid motsvarar
           hela <strong>{mathReframed}%</strong> av all matematikundervisning du
@@ -299,13 +337,13 @@
           på det ni redan gått igenom, så tid du missar där väger tyngre —
           och kan följa med genom hela skolgången.
         </p>
-      {:else if i === 7}
+      {:else if i === 8}
         <p>
           Frånvaron varierar mellan skolor — inte bara mellan årskurser eller
           ämnen. Vissa skolor ligger tydligt över genomsnittet, andra tydligt
           under.
         </p>
-      {:else if i === 8}
+      {:else if i === 9}
         <p>
           Skillnaderna mellan skolor är inte slumpmässiga. Varje skola har ett
           <strong>socioekonomiskt index</strong> — från cirka 30 till 200, där
@@ -319,17 +357,19 @@
           Frånvaron är med andra ord inte bara en fråga om individer — den
           hänger ihop med skolans förutsättningar.
         </p>
-      {:else if i === 9}
-        <p>
-          All frånvaro är inte densamma. En del är sjukanmäld eller på annat sätt
-          giltig — men en växande andel, särskilt i högstadiet, är ogiltig
-          frånvaro: eleven är borta utan giltigt skäl.
-        </p>
       {:else if i === 10}
         <p>
-          Vi har tittat på läsår, årskurs, kön, ämne, skola och socioekonomi
-          var för sig. Nedan kan du kombinera filtren själv och utforska
-          frånvaron i grundskole­förvaltningens data.
+          Går det att skylla på skolk? Nej. Merparten av frånvaron är
+          <strong>giltig</strong> — sjukanmäld eller anmäld på annat sätt.
+          Men för eleven spelar uppdelningen mindre roll:
+          <strong>borta är borta</strong>. Undervisningen som missas kommer
+          inte tillbaka, oavsett om frånvaron var anmäld eller inte.
+        </p>
+      {:else if i === 11}
+        <p>
+          Vi har tittat på läsår, stadium, årskurs, kön, ämne, skola och
+          socioekonomi var för sig. Nedan kan du utforska mönstret själv —
+          årskurs för årskurs, läsår för läsår.
         </p>
       {/if}
     </section>
