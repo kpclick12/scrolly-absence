@@ -1,0 +1,95 @@
+{
+  "grupper": [
+    {
+      "id": "lag",
+      "label": "Låg i åk 4 (<10%)",
+      "serie": [
+        {
+          "lasar": "Åk 4",
+          "franvaroProcent": 5.5
+        },
+        {
+          "lasar": "Åk 5",
+          "franvaroProcent": 6.3
+        },
+        {
+          "lasar": "Åk 6",
+          "franvaroProcent": 7.9
+        },
+        {
+          "lasar": "Åk 7",
+          "franvaroProcent": 9.1
+        },
+        {
+          "lasar": "Åk 8",
+          "franvaroProcent": 10.7
+        },
+        {
+          "lasar": "Åk 9",
+          "franvaroProcent": 13.3
+        }
+      ]
+    },
+    {
+      "id": "medel",
+      "label": "Medel i åk 4 (10–20%)",
+      "serie": [
+        {
+          "lasar": "Åk 4",
+          "franvaroProcent": 13
+        },
+        {
+          "lasar": "Åk 5",
+          "franvaroProcent": 14
+        },
+        {
+          "lasar": "Åk 6",
+          "franvaroProcent": 15.9
+        },
+        {
+          "lasar": "Åk 7",
+          "franvaroProcent": 18.4
+        },
+        {
+          "lasar": "Åk 8",
+          "franvaroProcent": 20.6
+        },
+        {
+          "lasar": "Åk 9",
+          "franvaroProcent": 24.4
+        }
+      ]
+    },
+    {
+      "id": "hog",
+      "label": "Hög i åk 4 (>20%)",
+      "serie": [
+        {
+          "lasar": "Åk 4",
+          "franvaroProcent": 24.4
+        },
+        {
+          "lasar": "Åk 5",
+          "franvaroProcent": 25.1
+        },
+        {
+          "lasar": "Åk 6",
+          "franvaroProcent": 27.5
+        },
+        {
+          "lasar": "Åk 7",
+          "franvaroProcent": 31.2
+        },
+        {
+          "lasar": "Åk 8",
+          "franvaroProcent": 33.8
+        },
+        {
+          "lasar": "Åk 9",
+          "franvaroProcent": 37.7
+        }
+      ]
+    }
+  ],
+  "persistensProcent": 78
+}

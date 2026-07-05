@@ -393,6 +393,62 @@ writeFileSync(
   JSON.stringify(stadiumTrend, null, 2)
 );
 
+// --- 6c) lovEffekt.json: frånvaron veckan före vs veckan efter lov ---
+// Återstarten efter ett lov är en känd risksituation: elever med skör
+// skolanknytning kommer inte tillbaka direkt när skolan öppnar igen.
+const LOV = [
+  { lov: "Jullovet", manad: "Jan", faktor: 1.32 },
+  { lov: "Sportlovet", manad: "Feb", faktor: 1.22 },
+  { lov: "Påsklovet", manad: "Apr", faktor: 1.18 },
+];
+const lovEffekt = LOV.map(({ lov, manad, faktor }) => {
+  let total = 0;
+  let absent = 0;
+  for (const e of enrollment) {
+    total += e.elever;
+    absent +=
+      e.elever *
+      absenceRate({
+        arskurs: e.arskurs,
+        kon: e.kon,
+        skola: e.skola,
+        lasar: latestYear,
+        monthFactor: SEASON_FACTOR[manad],
+      });
+  }
+  const fore = (absent / total) * 100;
+  return { lov, fore: round1(fore * 0.96), efter: round1(fore * faktor) };
+});
+writeFileSync(join(OUT_DIR, "lovEffekt.json"), JSON.stringify(lovEffekt, null, 2));
+
+// --- 6d) progression.json: följer frånvaron med individen? ---
+// Kohortperspektiv: gruppera elever efter frånvaronivå i åk 4 och följ
+// gruppens genomsnitt upp till åk 9. Modellerat med stark persistens —
+// den som ligger högt tidigt ligger kvar högt.
+const PROG_GROUPS = [
+  { id: "lag", label: "Låg i åk 4 (<10%)", start: 5.5, slut: 13 },
+  { id: "medel", label: "Medel i åk 4 (10–20%)", start: 13, slut: 24 },
+  { id: "hog", label: "Hög i åk 4 (>20%)", start: 24, slut: 38 },
+];
+const PROG_AK = ["Åk 4", "Åk 5", "Åk 6", "Åk 7", "Åk 8", "Åk 9"];
+const progression = {
+  grupper: PROG_GROUPS.map((g) => ({
+    id: g.id,
+    label: g.label,
+    serie: PROG_AK.map((ak, i) => {
+      const t = i / (PROG_AK.length - 1);
+      const niva = g.start + (g.slut - g.start) * t ** 1.35;
+      return { lasar: ak, franvaroProcent: round1(niva * randRange(0.97, 1.03)) };
+    }),
+  })),
+  // andel av hög-gruppen i åk 4 som fortfarande ligger på högsta nivån i åk 9
+  persistensProcent: 78,
+};
+writeFileSync(
+  join(OUT_DIR, "progression.json"),
+  JSON.stringify(progression, null, 2)
+);
+
 // --- 7) studentDistribution.json: varje elevs egen frånvaro, inte bara snittet ---
 // Medelvärdet (~10%) döljer att de flesta elever har låg frånvaro,
 // medan en betydande grupp har mycket hög (kronisk) frånvaro. Vi samplar 500
@@ -450,6 +506,14 @@ const langvarigFranvaroAndel = bucketsOut.reduce(
   0
 );
 
+// Illustrativt samband frånvaronivå -> gymnasiebehörighet.
+const BEHORIGHET_BY_BUCKET = { 0: 0.93, 1: 0.74, 2: 0.52, 3: 0.27 };
+const ejBehorigaShare = bucketsOut.reduce(
+  (sum, b) => sum + (b.dots / SAMPLE_SIZE) * (1 - BEHORIGHET_BY_BUCKET[b.id]),
+  0
+);
+const arskullStorlek = Math.round(actualTotal / 10);
+
 const studentDistribution = {
   totalElever: actualTotal,
   sampleSize: SAMPLE_SIZE,
@@ -461,6 +525,13 @@ const studentDistribution = {
     troskelSkoldagar: 10,
     andelElever: round1(langvarigFranvaroAndel * 100),
     antalElever: Math.round(langvarigFranvaroAndel * actualTotal),
+  },
+  gymnasiebehorighet: {
+    perBucket: bucketsOut.map((b) => ({
+      label: b.label,
+      andelBehoriga: Math.round(BEHORIGHET_BY_BUCKET[b.id] * 100),
+    })),
+    ejBehorigaPerArskull: Math.round(ejBehorigaShare * arskullStorlek),
   },
 };
 writeFileSync(

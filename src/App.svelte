@@ -86,6 +86,22 @@
     <ExploreView {data} />
   </main>
 
+  <section class="epilog">
+    <div class="epilog-inner">
+      <p class="epilog-kicker">Imorgon igen</p>
+      <h2>
+        {data.overview.elevFranvarandeEnGenomsnittsdag.toLocaleString("sv-SE")}
+        stolar står tomma imorgon också.
+      </h2>
+      <p class="epilog-text">
+        Bakom varje ruta i statistiken finns ett barn. Frånvaron är den
+        tidigaste varningssignal skolan har — den stiger efter loven, den
+        biter sig fast över åren och den slutar i stängda dörrar. Men den går
+        att vända. Och varje vecka räknas.
+      </p>
+    </div>
+  </section>
+
   <footer>
     <p>
       Datan på den här sidan är syntetisk testdata, genererad för att illustrera
@@ -197,5 +213,36 @@
     font-size: 13px;
     border-top: 1px solid var(--border);
     margin-top: 40px;
+  }
+  .epilog {
+    background: radial-gradient(120% 90% at 20% 10%, var(--hero-navy) 0%, var(--hero-navy-deep) 100%);
+    color: #ffffff;
+    padding: 110px 32px;
+    text-align: center;
+  }
+  .epilog-inner {
+    max-width: 640px;
+    margin: 0 auto;
+  }
+  .epilog-kicker {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--hero-gold);
+    font-weight: 600;
+    margin: 0 0 20px;
+  }
+  .epilog h2 {
+    font-family: var(--serif);
+    font-size: clamp(30px, 5vw, 46px);
+    line-height: 1.15;
+    color: #ffffff;
+    margin: 0 0 24px;
+  }
+  .epilog-text {
+    font-size: 16px;
+    line-height: 1.65;
+    color: rgba(255, 255, 255, 0.85);
+    margin: 0;
   }
 </style>

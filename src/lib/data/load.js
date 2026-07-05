@@ -7,6 +7,8 @@ const FILES = [
   "explore",
   "studentDistribution",
   "stadiumTrend",
+  "lovEffekt",
+  "progression",
 ];
 
 export async function loadData() {

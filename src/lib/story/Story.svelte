@@ -26,7 +26,7 @@
   let statValue = $state(0);
   let statCounted = false;
   $effect(() => {
-    if (currentStep === 11 && !statCounted) {
+    if (currentStep === 14 && !statCounted) {
       statCounted = true;
       const target = data.overview.elevFranvarandeEnGenomsnittsdag;
       const proxy = { v: 0 };
@@ -62,6 +62,24 @@
     { label: "Giltig (sjuk/anmäld)", value: overall.giltigProcent, color: "var(--giltig)" },
     { label: "Ogiltig (skolk)", value: overall.ogiltigProcent, color: "var(--ogiltig)" },
   ]);
+  const lovBars = $derived(
+    data.lovEffekt.flatMap((l) => [
+      { label: `${l.lov} — veckan före`, value: l.fore, color: "var(--series-blue)" },
+      { label: `${l.lov} — veckan efter`, value: l.efter, color: "var(--series-red)" },
+    ])
+  );
+  const PROG_COLORS = { lag: "#0068b2", medel: "#98948a", hog: "#a7391d" };
+  const progressionSeries = $derived(
+    data.progression.grupper.map((g) => ({ ...g, color: PROG_COLORS[g.id] }))
+  );
+  const BUCKET_COLORS = ["#0068b2", "#499fe3", "#dc785f", "#a7391d"];
+  const behorighetBars = $derived(
+    data.studentDistribution.gymnasiebehorighet.perBucket.map((b, i) => ({
+      label: `${b.label} frånvaro`,
+      value: b.andelBehoriga,
+      color: BUCKET_COLORS[i],
+    }))
+  );
 
   // Stadietrenden — berättelsens nyckeldiagram. Högstadiet i rött.
   const STADIUM_COLORS = { lag: "#649ecf", mellan: "#0068b2", hog: "#a7391d" };
@@ -117,8 +135,16 @@
       headline: "Frånvaron följer årstiderna",
     },
     {
+      kicker: "Lovffekten",
+      headline: "Efter lovet står fler stolar tomma",
+    },
+    {
       kicker: "Årskurs",
       headline: "Trappan upp mot högstadiet",
+    },
+    {
+      kicker: "Progression",
+      headline: "Hög frånvaro tidigt biter sig fast",
     },
     {
       kicker: "Kön",
@@ -139,6 +165,10 @@
     {
       kicker: "Giltig eller ogiltig",
       headline: "Sjukanmäld — eller skolkar eleven?",
+    },
+    {
+      kicker: "Vad står på spel",
+      headline: "Från tomma stolar till stängda dörrar",
     },
     {
       kicker: "Läsår " + latestYear,
@@ -197,31 +227,49 @@
             title="Frånvaro % per läsår och månad"
           />
         {:else if currentStep === 5}
-          <BarChart data={gradeData} color="var(--series-blue)" title="Frånvaro % per årskurs, {latestYear}" />
+          <BarChart
+            data={lovBars}
+            color="var(--series-blue)"
+            title="Frånvaro % veckan före och veckan efter lov, {latestYear}"
+          />
         {:else if currentStep === 6}
+          <BarChart data={gradeData} color="var(--series-blue)" title="Frånvaro % per årskurs, {latestYear}" />
+        {:else if currentStep === 7}
+          <LineChart
+            series={progressionSeries}
+            title="Frånvaro % per årskurs, grupperat efter nivå i åk 4"
+          />
+        {:else if currentStep === 8}
           <BarChart
             data={konBars}
             color="var(--giltig)"
             title="Giltig/ogiltig frånvaro % per kön, {latestYear}"
           />
-        {:else if currentStep === 7}
-          <BarChart data={subjectBars} color="var(--series-orange)" title="Lektionsfrånvaro % per ämne i högstadiet (åk 7–9), {latestYear}" />
-        {:else if currentStep === 8}
-          <ScatterMap data={data.bySchool} title="Frånvaro % per skola, {latestYear}" />
         {:else if currentStep === 9}
+          <BarChart data={subjectBars} color="var(--series-orange)" title="Lektionsfrånvaro % per ämne i högstadiet (åk 7–9), {latestYear}" />
+        {:else if currentStep === 10}
+          <ScatterMap data={data.bySchool} title="Frånvaro % per skola, {latestYear}" />
+        {:else if currentStep === 11}
           <CorrelationScatter
             data={data.bySchool}
             title="Socioekonomiskt index vs frånvaro per skola, {latestYear}"
             xLabel="Socioekonomiskt index (högre = större utmaningar)"
             yLabel="Frånvaro %"
           />
-        {:else if currentStep === 10}
+        {:else if currentStep === 12}
           <BarChart
             data={giltigOgiltigBars}
             color="var(--giltig)"
             title="Frånvaro % efter typ, {latestYear}"
           />
-        {:else if currentStep === 11}
+        {:else if currentStep === 13}
+          <BarChart
+            data={behorighetBars}
+            color="var(--series-blue)"
+            maxValue={100}
+            title="Andel behöriga till gymnasiet efter frånvaronivå (illustrativt)"
+          />
+        {:else if currentStep === 14}
           <div class="stat-tile">
             <span class="stat-value">
               {statValue.toLocaleString("sv-SE")}
@@ -264,6 +312,12 @@
           veckan — ungefär <strong>{hogWeeksLost} veckors undervisning</strong>
           på ett enda läsår.
         </p>
+        <p>
+          Och det ackumuleras: en elev som håller den nivån genom hela
+          högstadiet förlorar sammanlagt över
+          <strong>20 veckors undervisning</strong> — mer än en hel termin av
+          sin skolgång.
+        </p>
       {:else if i === 2}
         <p>
           Men ett snitt är bara ett snitt. Om vi istället tittar på
@@ -305,7 +359,19 @@
           Men lägg märke till att vintertopparna inte längre klingar av till
           samma nivå som förr — golvet höjs, läsår för läsår.
         </p>
+        <p>Och varje gång skolan startar om efter ett längre uppehåll händer något mer.</p>
       {:else if i === 5}
+        <p>
+          Frånvaron är som högst direkt <strong>efter loven</strong>. Veckan
+          efter jullovet ligger den omkring en tredjedel högre än veckan före
+          — alla kommer helt enkelt inte tillbaka när skolan öppnar igen.
+        </p>
+        <p>
+          För elever med skör skolanknytning är varje lov en risksituation:
+          ju längre uppehåll, desto tyngre återstart. Det gör veckorna efter
+          lov till ett givet läge för skolan att agera snabbt på ny frånvaro.
+        </p>
+      {:else if i === 6}
         <p>
           Samma mönster som stadietrenden, i finare upplösning. Från
           förskoleklass till årskurs 6 stiger frånvaron långsamt. Sedan kommer
@@ -313,13 +379,28 @@
           årskurs 9 är den uppe i {gradeData[gradeData.length - 1].value}% —
           fyra gånger nivån i förskoleklass.
         </p>
-      {:else if i === 6}
+      {:else if i === 7}
+        <p>
+          Trappan i förra bilden handlar inte bara om ålder — den följer
+          individen. Grupperar man eleverna efter frånvaronivå redan i
+          <strong>årskurs 4</strong> och följer dem uppåt håller grupperna
+          isär sig hela vägen: de som låg högt tidigt ligger högst i årskurs
+          9, med god marginal.
+        </p>
+        <p>
+          I testdatat ligger omkring
+          <strong>{data.progression.persistensProcent}%</strong> av eleverna
+          med hög frånvaro i åk 4 kvar på den högsta nivån i åk 9. Hög
+          frånvaro är sällan en fas — den är en bana. Och banan syns
+          <em>flera år</em> innan den blir akut.
+        </p>
+      {:else if i === 8}
         <p>
           Skillnaden i total frånvaro mellan flickor och pojkar är liten. Men under
           ytan skiljer sig <em>typen</em> av frånvaro — flickor har något högre
           giltig (sjuk-) frånvaro, medan pojkar har något högre ogiltig frånvaro.
         </p>
-      {:else if i === 7}
+      {:else if i === 9}
         <p>
           Här zoomar vi in på högstadiet, där problemet finns — och tittar på
           lektionsfrånvaro per ämne, inte hela skoldagar. Idrott och moderna
@@ -337,13 +418,13 @@
           på det ni redan gått igenom, så tid du missar där väger tyngre —
           och kan följa med genom hela skolgången.
         </p>
-      {:else if i === 8}
+      {:else if i === 10}
         <p>
           Frånvaron varierar mellan skolor — inte bara mellan årskurser eller
           ämnen. Vissa skolor ligger tydligt över genomsnittet, andra tydligt
           under.
         </p>
-      {:else if i === 9}
+      {:else if i === 11}
         <p>
           Skillnaderna mellan skolor är inte slumpmässiga. Varje skola har ett
           <strong>socioekonomiskt index</strong> — från cirka 30 till 200, där
@@ -357,7 +438,7 @@
           Frånvaron är med andra ord inte bara en fråga om individer — den
           hänger ihop med skolans förutsättningar.
         </p>
-      {:else if i === 10}
+      {:else if i === 12}
         <p>
           Går det att skylla på skolk? Nej. Merparten av frånvaron är
           <strong>giltig</strong> — sjukanmäld eller anmäld på annat sätt.
@@ -365,7 +446,21 @@
           <strong>borta är borta</strong>. Undervisningen som missas kommer
           inte tillbaka, oavsett om frånvaron var anmäld eller inte.
         </p>
-      {:else if i === 11}
+      {:else if i === 13}
+        <p>
+          Varför måste frånvaron tas på allvar? För att den är den tidigaste
+          varningssignalen för det som avgör mest:
+          <strong>gymnasiebehörigheten</strong>. Ju högre frånvaro, desto
+          brantare faller chansen att klara den.
+        </p>
+        <p>
+          Med dagens nivåer motsvarar det ungefär
+          <strong>{data.studentDistribution.gymnasiebehorighet.ejBehorigaPerArskull}
+          elever i varje årskull</strong> som riskerar att lämna grundskolan
+          utan behörighet — dörrar som stängs vid 16 års ålder. (Sambandet är
+          illustrativt i testdatat.)
+        </p>
+      {:else if i === 14}
         <p>
           Vi har tittat på läsår, stadium, årskurs, kön, ämne, skola och
           socioekonomi var för sig. Nedan kan du utforska mönstret själv —
