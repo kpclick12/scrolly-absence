@@ -10,7 +10,6 @@
   import LineChart from "../components/LineChart.svelte";
   import DumbbellChart from "../components/DumbbellChart.svelte";
   import StackedAreaChart from "../components/StackedAreaChart.svelte";
-  import WaffleChart from "../components/WaffleChart.svelte";
   import {
     overallForYear,
     overallForYearByKon,
@@ -93,13 +92,15 @@
   // Andel elever med hög frånvaro (≥15%) — första vs senaste läsåret, för texten
   const over15First = $derived(Math.round(100 - data.bucketTrend.serie[0].shares[0]));
   const over15Now = $derived(Math.round(100 - data.bucketTrend.serie[data.bucketTrend.serie.length - 1].shares[0]));
-  // Övergripande andel som inte når gymnasiebehörighet, viktat över buckets (~14 av 100)
-  const ejBehorigPct = $derived(Math.round(
-    data.studentDistribution.buckets.reduce((acc, b, i) => {
-      const pb = data.studentDistribution.gymnasiebehorighet.perBucket[i];
-      return acc + (b.andelElever / 100) * (100 - pb.andelBehoriga);
-    }, 0)
-  ));
+  // Andel behöriga till gymnasiet per frånvaronivå — sambandet, inte en
+  // enskild siffra: ju högre frånvaro, desto brantare faller behörigheten.
+  const behorighetBars = $derived(
+    data.studentDistribution.gymnasiebehorighet.perBucket.map((b, i) => ({
+      label: `${b.label} frånvaro`,
+      value: b.andelBehoriga,
+      color: BUCKET_COLORS[i],
+    }))
+  );
 
   // Avslutande klassrum: börjar på en genomsnittsdag (~2 av 25), växer sedan
   // till den grupp som är ofta borta över läsåret (~6 av 25).
@@ -253,14 +254,11 @@
             title="Giltig/ogiltig frånvaro % per kön, {latestYear}"
           />
         {:else if currentStep === 11}
-          <WaffleChart
-            value={ejBehorigPct}
-            affectedColor="var(--series-red)"
-            baseColor="#cdd9e3"
-            affectedLabel="når inte gymnasiebehörighet"
-            baseLabel="behöriga"
-            title="100 elever i en årskull"
-            caption="Med dagens frånvaronivåer — sambandet är illustrativt i testdatat."
+          <BarChart
+            data={behorighetBars}
+            color="var(--series-blue)"
+            maxValue={100}
+            title="Andel behöriga till gymnasiet efter frånvaronivå (illustrativt)"
           />
         {:else if currentStep === 12}
           <StackedAreaChart
