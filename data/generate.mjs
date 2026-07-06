@@ -351,6 +351,8 @@ for (const lasar of LASAR) {
         );
         const rate = absenceRate({ arskurs: ak, kon, skola: s.skola, lasar });
         const invShare = invalidShare({ arskurs: ak, kon });
+        // Andel elever med ≥15% egen frånvaro — härledd ur stratumets snitt
+        const over15 = Math.min(0.9, Math.max(0.02, 2.2 * rate - 0.04)) * randRange(0.92, 1.08);
         explore.push({
           lasar,
           skola: s.skola,
@@ -360,6 +362,7 @@ for (const lasar of LASAR) {
           franvaroProcent: round1(rate * 100),
           giltigProcent: round1(rate * (1 - invShare) * 100),
           ogiltigProcent: round1(rate * invShare * 100),
+          andelOver15: round1(Math.min(90, over15 * 100)),
         });
       }
     }
@@ -424,28 +427,23 @@ const lovEffekt = LOV.map(({ lov, manad, faktor }) => {
 });
 writeFileSync(join(OUT_DIR, "lovEffekt.json"), JSON.stringify(lovEffekt, null, 2));
 
-// --- 6d) progression.json: följer frånvaron med individen? ---
-// Kohortperspektiv: gruppera elever efter frånvaronivå i åk 4 och följ
-// gruppens genomsnitt upp till åk 9. Modellerat med stark persistens —
-// den som ligger högt tidigt ligger kvar högt.
-const PROG_GROUPS = [
-  { id: "lag", label: "Låg i åk 4 (<10%)", start: 5.5, slut: 13 },
-  { id: "medel", label: "Medel i åk 4 (10–20%)", start: 13, slut: 24 },
-  { id: "hog", label: "Hög i åk 4 (>20%)", start: 24, slut: 38 },
+// --- 6d) progression.json: biter sig hög frånvaro fast? ---
+// Istället för gruppmedel (som kan dölja rörelser åt båda håll):
+// andel av varje startgrupp i åk 4 som ligger på ≥15% frånvaro i åk 9.
+const PROG_BUCKETS = [
+  { label: "0–15% i åk 4", andelOver15Ak9: 19, andelAvElever: 0.778 },
+  { label: "15–30% i åk 4", andelOver15Ak9: 64, andelAvElever: 0.152 },
+  { label: "30–50% i åk 4", andelOver15Ak9: 84, andelAvElever: 0.048 },
+  { label: "50–100% i åk 4", andelOver15Ak9: 94, andelAvElever: 0.022 },
 ];
-const PROG_AK = ["Åk 4", "Åk 5", "Åk 6", "Åk 7", "Åk 8", "Åk 9"];
+const over15Grupper = PROG_BUCKETS.slice(1);
+const over15Vikt = over15Grupper.reduce((s, b) => s + b.andelAvElever, 0);
 const progression = {
-  grupper: PROG_GROUPS.map((g) => ({
-    id: g.id,
-    label: g.label,
-    serie: PROG_AK.map((ak, i) => {
-      const t = i / (PROG_AK.length - 1);
-      const niva = g.start + (g.slut - g.start) * t ** 1.35;
-      return { lasar: ak, franvaroProcent: round1(niva * randRange(0.97, 1.03)) };
-    }),
-  })),
-  // andel av hög-gruppen i åk 4 som fortfarande ligger på högsta nivån i åk 9
-  persistensProcent: 78,
+  buckets: PROG_BUCKETS.map(({ label, andelOver15Ak9 }) => ({ label, andelOver15Ak9 })),
+  // andel av alla som låg ≥15% i åk 4 som fortfarande ligger ≥15% i åk 9
+  kvarProcent: Math.round(
+    over15Grupper.reduce((s, b) => s + b.andelOver15Ak9 * b.andelAvElever, 0) / over15Vikt
+  ),
 };
 writeFileSync(
   join(OUT_DIR, "progression.json"),

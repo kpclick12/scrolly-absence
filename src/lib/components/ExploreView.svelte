@@ -4,7 +4,11 @@
   let { data } = $props();
 
   const ALLA = "Alla";
-  const ARSKURSER = ["F", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+  const STADIER = [
+    { id: "lag", label: "F–3", arskurser: ["F", "1", "2", "3"] },
+    { id: "mellan", label: "4–6", arskurser: ["4", "5", "6"] },
+    { id: "hog", label: "7–9", arskurser: ["7", "8", "9"] },
+  ];
   const skolaOptions = $derived([ALLA, ...new Set(data.explore.map((r) => r.skola))].sort());
   const konOptions = [ALLA, "Flicka", "Pojke"];
   const lasarList = $derived([...new Set(data.explore.map((r) => r.lasar))]);
@@ -12,6 +16,7 @@
   let skola = $state(ALLA);
   let kon = $state(ALLA);
   let showTable = $state(false);
+  let metric = $state("snitt"); // "snitt" | "andel"
 
   const filtered = $derived(
     data.explore.filter(
@@ -21,34 +26,43 @@
     )
   );
 
-  // Årskurs × läsår, viktat på elevantal — samma mönster som stadietrenden,
-  // men i full upplösning och filtrerbart.
-  const heatCells = $derived.by(() => {
+  // Stadium × läsår, viktat på elevantal — både snittfrånvaro och
+  // andel elever med ≥15% frånvaro.
+  const aggregerat = $derived.by(() => {
     const acc = new Map();
     for (const r of filtered) {
-      const key = `${r.arskurs}__${r.lasar}`;
-      const cur = acc.get(key) ?? { t: 0, a: 0 };
+      const st = STADIER.find((s) => s.arskurser.includes(r.arskurs));
+      const key = `${st.id}__${r.lasar}`;
+      const cur = acc.get(key) ?? { t: 0, a: 0, o15: 0 };
       cur.t += r.totalElever;
       cur.a += (r.totalElever * r.franvaroProcent) / 100;
+      cur.o15 += (r.totalElever * r.andelOver15) / 100;
       acc.set(key, cur);
     }
-    const cells = [];
-    for (const ak of ARSKURSER) {
+    const rows = [];
+    for (const st of STADIER) {
       for (const lasar of lasarList) {
-        const cur = acc.get(`${ak}__${lasar}`);
+        const cur = acc.get(`${st.id}__${lasar}`);
         if (cur && cur.t > 0) {
-          cells.push({
-            row: ak === "F" ? "F-klass" : `Åk ${ak}`,
-            col: lasar,
-            value: Math.round((cur.a / cur.t) * 1000) / 10,
+          rows.push({
+            stadium: st.label,
+            lasar,
+            elever: cur.t,
+            snitt: Math.round((cur.a / cur.t) * 1000) / 10,
+            andelOver15: Math.round((cur.o15 / cur.t) * 1000) / 10,
           });
         }
       }
     }
-    return cells;
+    return rows;
   });
-  const heatRows = $derived(
-    ARSKURSER.map((ak) => (ak === "F" ? "F-klass" : `Åk ${ak}`))
+  const heatRows = STADIER.map((s) => s.label);
+  const heatCells = $derived(
+    aggregerat.map((r) => ({
+      row: r.stadium,
+      col: r.lasar,
+      value: metric === "snitt" ? r.snitt : r.andelOver15,
+    }))
   );
 
   const result = $derived.by(() => {
@@ -70,9 +84,9 @@
 <section class="explore">
   <h2>Utforska själv</h2>
   <p class="intro">
-    Hela mönstret i en bild: varje ruta är en årskurs under ett läsår.
-    Ju rödare, desto högre frånvaro. Filtrera på skola och kön och se om
-    högstadietrappan syns även där.
+    Hela mönstret i en bild: varje ruta är ett stadium under ett läsår.
+    Ju rödare, desto värre. Växla mellan snittfrånvaro och andelen elever
+    med hög frånvaro, filtrera på skola och kön.
   </p>
 
   <div class="filters">
@@ -93,13 +107,22 @@
   {#if result.totalElever === 0}
     <p class="empty">Inga elever matchar den här kombinationen.</p>
   {:else}
+    <div class="metric-toggle" role="group" aria-label="Välj mått">
+      <button class:active={metric === "snitt"} onclick={() => (metric = "snitt")}>
+        Snittfrånvaro %
+      </button>
+      <button class:active={metric === "andel"} onclick={() => (metric = "andel")}>
+        Andel elever ≥15 %
+      </button>
+    </div>
+
     <div class="result">
-      {#key `${skola}__${kon}`}
+      {#key `${skola}__${kon}__${metric}`}
         <Heatmap
           rows={heatRows}
           cols={lasarList}
           data={heatCells}
-          title="Frånvaro % per årskurs och läsår · {result.franvaroProcent}% i snitt {lasarList[lasarList.length - 1]} · {result.totalElever.toLocaleString('sv-SE')} elever i urvalet"
+          title="{metric === 'snitt' ? 'Snittfrånvaro %' : 'Andel elever med ≥15% frånvaro'} per stadium och läsår · {result.totalElever.toLocaleString('sv-SE')} elever i urvalet"
         />
       {/key}
     </div>
@@ -114,22 +137,20 @@
           <thead>
             <tr>
               <th>Läsår</th>
-              <th>Skola</th>
-              <th>Årskurs</th>
-              <th>Kön</th>
+              <th>Stadium</th>
               <th>Elever</th>
-              <th>Frånvaro %</th>
+              <th>Snittfrånvaro %</th>
+              <th>Andel ≥15 %</th>
             </tr>
           </thead>
           <tbody>
-            {#each filtered as r (r.lasar + r.skola + r.arskurs + r.kon)}
+            {#each aggregerat as r (r.stadium + r.lasar)}
               <tr>
                 <td>{r.lasar}</td>
-                <td>{r.skola}</td>
-                <td>{r.arskurs === "F" ? "Förskoleklass" : `Åk ${r.arskurs}`}</td>
-                <td>{r.kon}</td>
-                <td class="num">{r.totalElever}</td>
-                <td class="num">{r.franvaroProcent}</td>
+                <td>{r.stadium}</td>
+                <td class="num">{r.elever.toLocaleString("sv-SE")}</td>
+                <td class="num">{r.snitt.toFixed(1)}</td>
+                <td class="num">{r.andelOver15.toFixed(1)}</td>
               </tr>
             {/each}
           </tbody>
@@ -177,6 +198,28 @@
     border: 1px solid var(--border);
     background: var(--surface-1);
     color: var(--text-primary);
+  }
+  .metric-toggle {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+    margin-bottom: 18px;
+  }
+  .metric-toggle button {
+    font: inherit;
+    font-size: 13px;
+    padding: 7px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--surface-1);
+    color: var(--text-secondary);
+    cursor: pointer;
+  }
+  .metric-toggle button.active {
+    background: var(--hero-navy);
+    border-color: var(--hero-navy);
+    color: #ffffff;
+    font-weight: 600;
   }
   .result {
     display: flex;

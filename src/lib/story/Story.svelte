@@ -4,7 +4,6 @@
   import Classroom from "../components/Classroom.svelte";
   import Heatmap from "../components/Heatmap.svelte";
   import BarChart from "../components/BarChart.svelte";
-  import ScatterMap from "../components/ScatterMap.svelte";
   import BucketSwarm from "../components/BucketSwarm.svelte";
   import CalendarStrip from "../components/CalendarStrip.svelte";
   import CorrelationScatter from "../components/CorrelationScatter.svelte";
@@ -26,7 +25,7 @@
   let statValue = $state(0);
   let statCounted = false;
   $effect(() => {
-    if (currentStep === 14 && !statCounted) {
+    if (currentStep === 13 && !statCounted) {
       statCounted = true;
       const target = data.overview.elevFranvarandeEnGenomsnittsdag;
       const proxy = { v: 0 };
@@ -68,11 +67,14 @@
       { label: `${l.lov} — veckan efter`, value: l.efter, color: "var(--series-red)" },
     ])
   );
-  const PROG_COLORS = { lag: "#0068b2", medel: "#98948a", hog: "#a7391d" };
-  const progressionSeries = $derived(
-    data.progression.grupper.map((g) => ({ ...g, color: PROG_COLORS[g.id] }))
-  );
   const BUCKET_COLORS = ["#0068b2", "#499fe3", "#dc785f", "#a7391d"];
+  const progressionBars = $derived(
+    data.progression.buckets.map((b, i) => ({
+      label: b.label,
+      value: b.andelOver15Ak9,
+      color: BUCKET_COLORS[i],
+    }))
+  );
   const behorighetBars = $derived(
     data.studentDistribution.gymnasiebehorighet.perBucket.map((b, i) => ({
       label: `${b.label} frånvaro`,
@@ -155,11 +157,7 @@
       headline: "Vissa lektioner tappar fler elever",
     },
     {
-      kicker: "Skola",
-      headline: "Skillnader mellan skolor",
-    },
-    {
-      kicker: "Socioekonomi",
+      kicker: "Skola och socioekonomi",
       headline: "Frånvaron följer skolans förutsättningar",
     },
     {
@@ -235,9 +233,11 @@
         {:else if currentStep === 6}
           <BarChart data={gradeData} color="var(--series-blue)" title="Frånvaro % per årskurs, {latestYear}" />
         {:else if currentStep === 7}
-          <LineChart
-            series={progressionSeries}
-            title="Frånvaro % per årskurs, grupperat efter nivå i åk 4"
+          <BarChart
+            data={progressionBars}
+            color="var(--series-blue)"
+            maxValue={100}
+            title="Andel med ≥15% frånvaro i åk 9, efter nivå i åk 4"
           />
         {:else if currentStep === 8}
           <BarChart
@@ -248,28 +248,26 @@
         {:else if currentStep === 9}
           <BarChart data={subjectBars} color="var(--series-orange)" title="Lektionsfrånvaro % per ämne i högstadiet (åk 7–9), {latestYear}" />
         {:else if currentStep === 10}
-          <ScatterMap data={data.bySchool} title="Frånvaro % per skola, {latestYear}" />
-        {:else if currentStep === 11}
           <CorrelationScatter
             data={data.bySchool}
             title="Socioekonomiskt index vs frånvaro per skola, {latestYear}"
             xLabel="Socioekonomiskt index (högre = större utmaningar)"
             yLabel="Frånvaro %"
           />
-        {:else if currentStep === 12}
+        {:else if currentStep === 11}
           <BarChart
             data={giltigOgiltigBars}
             color="var(--giltig)"
             title="Frånvaro % efter typ, {latestYear}"
           />
-        {:else if currentStep === 13}
+        {:else if currentStep === 12}
           <BarChart
             data={behorighetBars}
             color="var(--series-blue)"
             maxValue={100}
             title="Andel behöriga till gymnasiet efter frånvaronivå (illustrativt)"
           />
-        {:else if currentStep === 14}
+        {:else if currentStep === 13}
           <div class="stat-tile">
             <span class="stat-value">
               {statValue.toLocaleString("sv-SE")}
@@ -381,17 +379,14 @@
         </p>
       {:else if i === 7}
         <p>
-          Trappan i förra bilden handlar inte bara om ålder — den följer
-          individen. Grupperar man eleverna efter frånvaronivå redan i
-          <strong>årskurs 4</strong> och följer dem uppåt håller grupperna
-          isär sig hela vägen: de som låg högt tidigt ligger högst i årskurs
-          9, med god marginal.
+          Gruppsnitt kan dölja rörelser åt båda håll. Så ställ frågan rakt:
+          av de elever som låg över 15% frånvaro redan i
+          <strong>årskurs 4</strong> — hur många ligger kvar där i årskurs 9?
         </p>
         <p>
-          I testdatat ligger omkring
-          <strong>{data.progression.persistensProcent}%</strong> av eleverna
-          med hög frånvaro i åk 4 kvar på den högsta nivån i åk 9. Hög
-          frånvaro är sällan en fas — den är en bana. Och banan syns
+          Svaret: omkring <strong>{data.progression.kvarProcent}%</strong>.
+          Och ju högre startnivån var, desto starkare är mönstret. Hög
+          frånvaro är sällan en fas — den är en bana. Och den syns
           <em>flera år</em> innan den blir akut.
         </p>
       {:else if i === 8}
@@ -420,13 +415,8 @@
         </p>
       {:else if i === 10}
         <p>
-          Frånvaron varierar mellan skolor — inte bara mellan årskurser eller
-          ämnen. Vissa skolor ligger tydligt över genomsnittet, andra tydligt
-          under.
-        </p>
-      {:else if i === 11}
-        <p>
-          Skillnaderna mellan skolor är inte slumpmässiga. Varje skola har ett
+          Frånvaron varierar kraftigt mellan skolor — och skillnaderna är inte
+          slumpmässiga. Varje skola har ett
           <strong>socioekonomiskt index</strong> — från cirka 30 till 200, där
           ett högre värde betyder större utmaningar i elevernas uppväxtvillkor.
         </p>
@@ -438,7 +428,7 @@
           Frånvaron är med andra ord inte bara en fråga om individer — den
           hänger ihop med skolans förutsättningar.
         </p>
-      {:else if i === 12}
+      {:else if i === 11}
         <p>
           Går det att skylla på skolk? Nej. Merparten av frånvaron är
           <strong>giltig</strong> — sjukanmäld eller anmäld på annat sätt.
@@ -446,7 +436,7 @@
           <strong>borta är borta</strong>. Undervisningen som missas kommer
           inte tillbaka, oavsett om frånvaron var anmäld eller inte.
         </p>
-      {:else if i === 13}
+      {:else if i === 12}
         <p>
           Varför måste frånvaron tas på allvar? För att den är den tidigaste
           varningssignalen för det som avgör mest:
@@ -460,7 +450,7 @@
           utan behörighet — dörrar som stängs vid 16 års ålder. (Sambandet är
           illustrativt i testdatat.)
         </p>
-      {:else if i === 14}
+      {:else if i === 13}
         <p>
           Vi har tittat på läsår, stadium, årskurs, kön, ämne, skola och
           socioekonomi var för sig. Nedan kan du utforska mönstret själv —
