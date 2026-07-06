@@ -521,6 +521,21 @@ const ejBehorigaShare = bucketsOut.reduce(
 );
 const arskullStorlek = Math.round(actualTotal / 10);
 
+// --- bucketTrend.json: hur elevgruppens sammansättning förskjuts över tid ---
+// Andel av alla elever i varje frånvaronivå, per läsår (summerar till 100).
+// Sista läsåret matchar ögonblicksbilden i studentDistribution (77/14.4/5.8/2.8).
+const bucketTrend = {
+  labels: ["0–15%", "15–30%", "30–50%", "50–100%"],
+  serie: [
+    { lasar: "2021/22", shares: [84, 10.5, 3.8, 1.7] },
+    { lasar: "2022/23", shares: [82, 11.5, 4.4, 2.1] },
+    { lasar: "2023/24", shares: [80, 12.6, 5.0, 2.4] },
+    { lasar: "2024/25", shares: [78.5, 13.6, 5.4, 2.5] },
+    { lasar: "2025/26", shares: [77, 14.4, 5.8, 2.8] },
+  ],
+};
+writeFileSync(join(OUT_DIR, "bucketTrend.json"), JSON.stringify(bucketTrend, null, 2));
+
 const studentDistribution = {
   totalElever: actualTotal,
   sampleSize: SAMPLE_SIZE,

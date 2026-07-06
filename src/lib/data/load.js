@@ -10,6 +10,7 @@ import studentDistribution from "../../data/studentDistribution.json";
 import stadiumTrend from "../../data/stadiumTrend.json";
 import lovEffekt from "../../data/lovEffekt.json";
 import progression from "../../data/progression.json";
+import bucketTrend from "../../data/bucketTrend.json";
 
 export const appData = {
   overview,
@@ -22,4 +23,5 @@ export const appData = {
   stadiumTrend,
   lovEffekt,
   progression,
+  bucketTrend,
 };

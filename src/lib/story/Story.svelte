@@ -9,35 +9,17 @@
   import CorrelationScatter from "../components/CorrelationScatter.svelte";
   import LineChart from "../components/LineChart.svelte";
   import DumbbellChart from "../components/DumbbellChart.svelte";
+  import StackedAreaChart from "../components/StackedAreaChart.svelte";
+  import WaffleChart from "../components/WaffleChart.svelte";
   import {
     overallForYear,
     overallForYearByKon,
     gradeBarData,
   } from "./aggregate.js";
 
-  import gsap from "gsap";
-
   let { data } = $props();
 
   let currentStep = $state(0);
-
-  // Slutsiffran räknas upp när steget blir aktivt — siffran är poängen,
-  // så låt den landa med tyngd istället för att bara stå där.
-  let statValue = $state(0);
-  let statCounted = false;
-  $effect(() => {
-    if (currentStep === 13 && !statCounted) {
-      statCounted = true;
-      const target = data.overview.elevFranvarandeEnGenomsnittsdag;
-      const proxy = { v: 0 };
-      gsap.to(proxy, {
-        v: target,
-        duration: 1.6,
-        ease: "power3.out",
-        onUpdate: () => (statValue = Math.round(proxy.v)),
-      });
-    }
-  });
 
   const latestYear = $derived(data.overview.senasteLasar);
   const overall = $derived(overallForYear(data.byGrade, latestYear));
@@ -79,13 +61,6 @@
   );
   // låg-gruppens hopp från åk 6 till åk 9 — poängen i steget
   const lagBucket = $derived(data.progression.buckets[0]);
-  const behorighetBars = $derived(
-    data.studentDistribution.gymnasiebehorighet.perBucket.map((b, i) => ({
-      label: `${b.label} frånvaro`,
-      value: b.andelBehoriga,
-      color: BUCKET_COLORS[i],
-    }))
-  );
 
   // Stadietrenden — berättelsens nyckeldiagram. Högstadiet i rött.
   const STADIUM_COLORS = { lag: "#649ecf", mellan: "#0068b2", hog: "#a7391d" };
@@ -118,6 +93,29 @@
   const scatteredDays = Array.from({ length: 10 }, (_, i) =>
     Math.floor((i + 0.5) * ((CAL_WEEKS * 5) / 10))
   );
+
+  // Andel elever med hög frånvaro (≥15%) — första vs senaste läsåret, för texten
+  const over15First = $derived(Math.round(100 - data.bucketTrend.serie[0].shares[0]));
+  const over15Now = $derived(Math.round(100 - data.bucketTrend.serie[data.bucketTrend.serie.length - 1].shares[0]));
+  // Övergripande andel som inte når gymnasiebehörighet, viktat över buckets (~14 av 100)
+  const ejBehorigPct = $derived(Math.round(
+    data.studentDistribution.buckets.reduce((acc, b, i) => {
+      const pb = data.studentDistribution.gymnasiebehorighet.perBucket[i];
+      return acc + (b.andelElever / 100) * (100 - pb.andelBehoriga);
+    }, 0)
+  ));
+
+  // Avslutande klassrum: börjar på en genomsnittsdag (~2 av 25), växer sedan
+  // till den grupp som är ofta borta över läsåret (~6 av 25).
+  let closingAbsent = $state(2);
+  $effect(() => {
+    if (currentStep === 14) {
+      closingAbsent = 2;
+      const t = setTimeout(() => (closingAbsent = 6), 1100);
+      return () => clearTimeout(t);
+    }
+    closingAbsent = 2;
+  });
 
   const steps = $derived([
     {
@@ -173,8 +171,12 @@
       headline: "Från tomma stolar till stängda dörrar",
     },
     {
-      kicker: "Läsår " + latestYear,
-      headline: "Utforska datan själv",
+      kicker: "Sammansättningen över tid",
+      headline: "Allt fler i riskzonen",
+    },
+    {
+      kicker: "Tillbaka i klassrummet",
+      headline: "Sex av tjugofem",
     },
   ]);
 </script>
@@ -265,21 +267,30 @@
             title="Frånvaro % efter typ, {latestYear}"
           />
         {:else if currentStep === 12}
-          <BarChart
-            data={behorighetBars}
-            color="var(--series-blue)"
-            maxValue={100}
-            title="Andel behöriga till gymnasiet efter frånvaronivå (illustrativt)"
+          <WaffleChart
+            value={ejBehorigPct}
+            affectedColor="var(--series-red)"
+            baseColor="#cdd9e3"
+            affectedLabel="når inte gymnasiebehörighet"
+            baseLabel="behöriga"
+            title="100 elever i en årskull"
+            caption="Med dagens frånvaronivåer — sambandet är illustrativt i testdatat."
           />
         {:else if currentStep === 13}
-          <div class="stat-tile">
-            <span class="stat-value">
-              {statValue.toLocaleString("sv-SE")}
-            </span>
-            <span class="stat-label">
-              av {data.overview.totalElever.toLocaleString("sv-SE")} elever borta en genomsnittsdag, {latestYear}
-            </span>
-          </div>
+          <StackedAreaChart
+            series={data.bucketTrend.serie}
+            labels={data.bucketTrend.labels}
+            colors={["#0068b2","#499fe3","#dc785f","#a7391d"]}
+            title="Elevernas frånvaronivå, andel av alla elever per läsår"
+            caption="Det blå fältet krymper, de röda växer."
+          />
+        {:else if currentStep === 14}
+          <Classroom
+            total={25}
+            cols={5}
+            absent={closingAbsent}
+            caption={closingAbsent <= 2 ? "En genomsnittlig dag — ungefär var tionde elev" : "Ofta borta under läsåret — 6 av 25 barn"}
+          />
         {/if}
       </div>
       {/key}
@@ -462,9 +473,29 @@
         </p>
       {:else if i === 13}
         <p>
-          Vi har tittat på läsår, stadium, årskurs, kön, ämne, skola och
-          socioekonomi var för sig. Nedan kan du utforska mönstret själv —
-          årskurs för årskurs, läsår för läsår.
+          Lägg ihop alla elever och följ hur gruppen förändras över tid. För
+          fem år sedan hade drygt <strong>{over15First}%</strong> av eleverna
+          hög frånvaro — över 15%. Idag är det nästan
+          <strong>var fjärde</strong>, {over15Now}%.
+        </p>
+        <p>
+          Det blå fältet — eleverna som knappt är borta — krymper läsår för
+          läsår, medan de röda växer. Problemet klättrar alltså inte bara uppåt
+          i årskurserna; det breder ut sig i hela elevgruppen.
+        </p>
+      {:else if i === 14}
+        <p>
+          Vi började med en helt vanlig dag: ett par tomma stolar i varje
+          klassrum, ungefär var tionde elev.
+        </p>
+        <p>
+          Men det är inte samma stolar varje dag. Räknar man alla barn som är
+          <strong>ofta borta</strong> under läsåret — mer än en dag i veckan —
+          handlar det om ungefär <strong>sex av tjugofem</strong> i varje klass.
+        </p>
+        <p>
+          Det är vad som står på spel bakom siffrorna. Varje tom stol är ett
+          barn vi riskerar att tappa.
         </p>
       {/if}
     </section>
@@ -507,34 +538,6 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
-  }
-  .stat-tile {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    text-align: center;
-    max-width: 380px;
-  }
-  .stat-tile::before {
-    content: "";
-    width: 56px;
-    height: 5px;
-    border-radius: 3px;
-    background: var(--series-red);
-    margin-bottom: 6px;
-  }
-  .stat-value {
-    font-family: var(--serif);
-    font-size: 68px;
-    font-weight: 700;
-    color: var(--hero-navy);
-    line-height: 1;
-    font-variant-numeric: tabular-nums;
-  }
-  .stat-label {
-    font-size: 14px;
-    color: var(--text-muted);
   }
   /* Kortets bakgrund är alltid täckande — annars blöder diagrammet igenom
      texten på mobil när kortet glider över panelen. Bara innehållet tonas. */

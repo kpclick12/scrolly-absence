@@ -4,6 +4,7 @@
     absent = 0,
     segments = null, // optional: [{ label, color, value }] summing to `absent`
     caption = "",
+    cols: colsOverride = null, // valfri fast kolumnbredd (t.ex. 5 för ett jämnt 5×5)
   } = $props();
 
   // Fast, stable "random" order so seats empty in a scattered, natural-looking
@@ -27,7 +28,7 @@
 
   let seatRank = $derived(seededOrder(total));
 
-  const cols = $derived(Math.max(4, Math.ceil(Math.sqrt(total * 1.4))));
+  const cols = $derived(colsOverride ?? Math.max(4, Math.ceil(Math.sqrt(total * 1.4))));
   const rows = $derived(Math.ceil(total / cols));
 
   const UNIT_W = 46;
