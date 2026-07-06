@@ -428,18 +428,24 @@ const lovEffekt = LOV.map(({ lov, manad, faktor }) => {
 writeFileSync(join(OUT_DIR, "lovEffekt.json"), JSON.stringify(lovEffekt, null, 2));
 
 // --- 6d) progression.json: biter sig hög frånvaro fast? ---
-// Istället för gruppmedel (som kan dölja rörelser åt båda håll):
-// andel av varje startgrupp i åk 4 som ligger på ≥15% frånvaro i åk 9.
+// Samma barn följda framåt. Vi delar in dem efter frånvaronivå i åk 4 och
+// mäter andelen ≥15% igen i åk 6 och åk 9. Två budskap: hög frånvaro tidigt
+// biter sig fast, OCH högstadiet drar upp även de som var trygga tidigt
+// (låg-gruppen mer än fördubblas från åk 6 till åk 9).
 const PROG_BUCKETS = [
-  { label: "0–15% i åk 4", andelOver15Ak9: 19, andelAvElever: 0.778 },
-  { label: "15–30% i åk 4", andelOver15Ak9: 64, andelAvElever: 0.152 },
-  { label: "30–50% i åk 4", andelOver15Ak9: 84, andelAvElever: 0.048 },
-  { label: "50–100% i åk 4", andelOver15Ak9: 94, andelAvElever: 0.022 },
+  { label: "0–15% i åk 4", andelOver15Ak6: 8, andelOver15Ak9: 19, andelAvElever: 0.778 },
+  { label: "15–30% i åk 4", andelOver15Ak6: 45, andelOver15Ak9: 64, andelAvElever: 0.152 },
+  { label: "30–50% i åk 4", andelOver15Ak6: 72, andelOver15Ak9: 84, andelAvElever: 0.048 },
+  { label: "50–100% i åk 4", andelOver15Ak6: 88, andelOver15Ak9: 94, andelAvElever: 0.022 },
 ];
 const over15Grupper = PROG_BUCKETS.slice(1);
 const over15Vikt = over15Grupper.reduce((s, b) => s + b.andelAvElever, 0);
 const progression = {
-  buckets: PROG_BUCKETS.map(({ label, andelOver15Ak9 }) => ({ label, andelOver15Ak9 })),
+  buckets: PROG_BUCKETS.map(({ label, andelOver15Ak6, andelOver15Ak9 }) => ({
+    label,
+    andelOver15Ak6,
+    andelOver15Ak9,
+  })),
   // andel av alla som låg ≥15% i åk 4 som fortfarande ligger ≥15% i åk 9
   kvarProcent: Math.round(
     over15Grupper.reduce((s, b) => s + b.andelOver15Ak9 * b.andelAvElever, 0) / over15Vikt

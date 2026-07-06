@@ -8,6 +8,7 @@
   import CalendarStrip from "../components/CalendarStrip.svelte";
   import CorrelationScatter from "../components/CorrelationScatter.svelte";
   import LineChart from "../components/LineChart.svelte";
+  import DumbbellChart from "../components/DumbbellChart.svelte";
   import {
     overallForYear,
     overallForYearByKon,
@@ -68,13 +69,16 @@
     ])
   );
   const BUCKET_COLORS = ["#0068b2", "#499fe3", "#dc785f", "#a7391d"];
-  const progressionBars = $derived(
+  const progressionDumbbell = $derived(
     data.progression.buckets.map((b, i) => ({
       label: b.label,
-      value: b.andelOver15Ak9,
+      from: b.andelOver15Ak6,
+      to: b.andelOver15Ak9,
       color: BUCKET_COLORS[i],
     }))
   );
+  // låg-gruppens hopp från åk 6 till åk 9 — poängen i steget
+  const lagBucket = $derived(data.progression.buckets[0]);
   const behorighetBars = $derived(
     data.studentDistribution.gymnasiebehorighet.perBucket.map((b, i) => ({
       label: `${b.label} frånvaro`,
@@ -233,11 +237,11 @@
         {:else if currentStep === 6}
           <BarChart data={gradeData} color="var(--series-blue)" title="Frånvaro % per årskurs, {latestYear}" />
         {:else if currentStep === 7}
-          <BarChart
-            data={progressionBars}
-            color="var(--series-blue)"
-            maxValue={100}
-            title="Andel med ≥15% frånvaro i åk 9, efter nivå i åk 4"
+          <DumbbellChart
+            data={progressionDumbbell}
+            title="Andel med ≥15% frånvaro, efter nivå i åk 4"
+            fromLabel="åk 6"
+            toLabel="åk 9"
           />
         {:else if currentStep === 8}
           <BarChart
@@ -379,15 +383,21 @@
         </p>
       {:else if i === 7}
         <p>
-          Gruppsnitt kan dölja rörelser åt båda håll. Så ställ frågan rakt:
-          av de elever som låg över 15% frånvaro redan i
-          <strong>årskurs 4</strong> — hur många ligger kvar där i årskurs 9?
+          Så vi följde <strong>samma barn</strong>. Vi delade in dem efter
+          frånvaronivå i årskurs 4 och mätte igen i årskurs 6 och årskurs 9 —
+          hur stor andel av varje grupp som då låg över 15%.
         </p>
         <p>
-          Svaret: omkring <strong>{data.progression.kvarProcent}%</strong>.
-          Och ju högre startnivån var, desto starkare är mönstret. Hög
-          frånvaro är sällan en fas — den är en bana. Och den syns
-          <em>flera år</em> innan den blir akut.
+          De som låg högt tidigt ligger kvar högt: av dem som redan var över
+          15% i åk 4 ligger omkring <strong>{data.progression.kvarProcent}%</strong>
+          kvar där i åk 9. Hög frånvaro är sällan en fas — den är en bana.
+        </p>
+        <p>
+          Men se på den lägsta gruppen: bland dem som knappt var borta i åk 4
+          <strong>mer än fördubblas</strong> andelen med hög frånvaro från åk 6
+          till åk 9 ({lagBucket.andelOver15Ak6}% → {lagBucket.andelOver15Ak9}%).
+          Högstadiet drar upp även de som var trygga tidigt. Det är inte bara
+          samma elever som halkar — det blir fler.
         </p>
       {:else if i === 8}
         <p>

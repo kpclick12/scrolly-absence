@@ -2,18 +2,22 @@
   "buckets": [
     {
       "label": "0–15% i åk 4",
+      "andelOver15Ak6": 8,
       "andelOver15Ak9": 19
     },
     {
       "label": "15–30% i åk 4",
+      "andelOver15Ak6": 45,
       "andelOver15Ak9": 64
     },
     {
       "label": "30–50% i åk 4",
+      "andelOver15Ak6": 72,
       "andelOver15Ak9": 84
     },
     {
       "label": "50–100% i åk 4",
+      "andelOver15Ak6": 88,
       "andelOver15Ak9": 94
     }
   ],
