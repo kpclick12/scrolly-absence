@@ -40,10 +40,6 @@
     { label: "Pojkar — giltig", value: pojke.giltigProcent, color: "var(--giltig)" },
     { label: "Pojkar — ogiltig", value: pojke.ogiltigProcent, color: "var(--ogiltig)" },
   ]);
-  const giltigOgiltigBars = $derived([
-    { label: "Giltig (sjuk/anmäld)", value: overall.giltigProcent, color: "var(--giltig)" },
-    { label: "Ogiltig (skolk)", value: overall.ogiltigProcent, color: "var(--ogiltig)" },
-  ]);
   const lovBars = $derived(
     data.lovEffekt.flatMap((l) => [
       { label: `${l.lov} — veckan före`, value: l.fore, color: "var(--series-blue)" },
@@ -109,7 +105,7 @@
   // till den grupp som är ofta borta över läsåret (~6 av 25).
   let closingAbsent = $state(2);
   $effect(() => {
-    if (currentStep === 14) {
+    if (currentStep === 13) {
       closingAbsent = 2;
       const t = setTimeout(() => (closingAbsent = 6), 1100);
       return () => clearTimeout(t);
@@ -151,10 +147,6 @@
       headline: "Hög frånvaro tidigt biter sig fast",
     },
     {
-      kicker: "Kön",
-      headline: "Flickor och pojkar",
-    },
-    {
       kicker: "Ämne i högstadiet",
       headline: "Vissa lektioner tappar fler elever",
     },
@@ -164,7 +156,7 @@
     },
     {
       kicker: "Giltig eller ogiltig",
-      headline: "Sjukanmäld — eller skolkar eleven?",
+      headline: "Sjukanmäld — men borta ändå",
     },
     {
       kicker: "Vad står på spel",
@@ -246,27 +238,21 @@
             toLabel="åk 9"
           />
         {:else if currentStep === 8}
-          <BarChart
-            data={konBars}
-            color="var(--giltig)"
-            title="Giltig/ogiltig frånvaro % per kön, {latestYear}"
-          />
-        {:else if currentStep === 9}
           <BarChart data={subjectBars} color="var(--series-orange)" title="Lektionsfrånvaro % per ämne i högstadiet (åk 7–9), {latestYear}" />
-        {:else if currentStep === 10}
+        {:else if currentStep === 9}
           <CorrelationScatter
             data={data.bySchool}
             title="Socioekonomiskt index vs frånvaro per skola, {latestYear}"
             xLabel="Socioekonomiskt index (högre = större utmaningar)"
             yLabel="Frånvaro %"
           />
-        {:else if currentStep === 11}
+        {:else if currentStep === 10}
           <BarChart
-            data={giltigOgiltigBars}
+            data={konBars}
             color="var(--giltig)"
-            title="Frånvaro % efter typ, {latestYear}"
+            title="Giltig/ogiltig frånvaro % per kön, {latestYear}"
           />
-        {:else if currentStep === 12}
+        {:else if currentStep === 11}
           <WaffleChart
             value={ejBehorigPct}
             affectedColor="var(--series-red)"
@@ -276,7 +262,7 @@
             title="100 elever i en årskull"
             caption="Med dagens frånvaronivåer — sambandet är illustrativt i testdatat."
           />
-        {:else if currentStep === 13}
+        {:else if currentStep === 12}
           <StackedAreaChart
             series={data.bucketTrend.serie}
             labels={data.bucketTrend.labels}
@@ -284,7 +270,7 @@
             title="Elevernas frånvaronivå, andel av alla elever per läsår"
             caption="Det blå fältet krymper, de röda växer."
           />
-        {:else if currentStep === 14}
+        {:else if currentStep === 13}
           <Classroom
             total={25}
             cols={5}
@@ -412,12 +398,6 @@
         </p>
       {:else if i === 8}
         <p>
-          Skillnaden i total frånvaro mellan flickor och pojkar är liten. Men under
-          ytan skiljer sig <em>typen</em> av frånvaro — flickor har något högre
-          giltig (sjuk-) frånvaro, medan pojkar har något högre ogiltig frånvaro.
-        </p>
-      {:else if i === 9}
-        <p>
           Här zoomar vi in på högstadiet, där problemet finns — och tittar på
           lektionsfrånvaro per ämne, inte hela skoldagar. Idrott och moderna
           språk tappar flest elever, men även kärnämnena ligger högt.
@@ -434,7 +414,7 @@
           på det ni redan gått igenom, så tid du missar där väger tyngre —
           och kan följa med genom hela skolgången.
         </p>
-      {:else if i === 10}
+      {:else if i === 9}
         <p>
           Frånvaron varierar kraftigt mellan skolor — och skillnaderna är inte
           slumpmässiga. Varje skola har ett
@@ -449,15 +429,19 @@
           Frånvaron är med andra ord inte bara en fråga om individer — den
           hänger ihop med skolans förutsättningar.
         </p>
-      {:else if i === 11}
+      {:else if i === 10}
         <p>
           Går det att skylla på skolk? Nej. Merparten av frånvaron är
           <strong>giltig</strong> — sjukanmäld eller anmäld på annat sätt.
+          Skillnaden mellan flickor och pojkar är liten; under ytan har flickor
+          något mer giltig (sjuk-)frånvaro och pojkar något mer ogiltig.
+        </p>
+        <p>
           Men för eleven spelar uppdelningen mindre roll:
           <strong>borta är borta</strong>. Undervisningen som missas kommer
           inte tillbaka, oavsett om frånvaron var anmäld eller inte.
         </p>
-      {:else if i === 12}
+      {:else if i === 11}
         <p>
           Varför måste frånvaron tas på allvar? För att den är den tidigaste
           varningssignalen för det som avgör mest:
@@ -471,7 +455,7 @@
           utan behörighet — dörrar som stängs vid 16 års ålder. (Sambandet är
           illustrativt i testdatat.)
         </p>
-      {:else if i === 13}
+      {:else if i === 12}
         <p>
           Lägg ihop alla elever och följ hur gruppen förändras över tid. För
           fem år sedan hade drygt <strong>{over15First}%</strong> av eleverna
@@ -483,7 +467,7 @@
           läsår, medan de röda växer. Problemet klättrar alltså inte bara uppåt
           i årskurserna; det breder ut sig i hela elevgruppen.
         </p>
-      {:else if i === 14}
+      {:else if i === 13}
         <p>
           Vi började med en helt vanlig dag: ett par tomma stolar i varje
           klassrum, ungefär var tionde elev.
