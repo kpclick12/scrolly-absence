@@ -77,11 +77,46 @@
         stolar står tomma imorgon också.
       </h2>
       <p class="epilog-text">
-        Bakom varje ruta i statistiken finns ett barn. Frånvaron är den
+        Bakom varje siffra i statistiken finns ett barn. Frånvaron är den
         tidigaste varningssignal skolan har — den stiger efter loven, den
         biter sig fast över åren och den slutar i stängda dörrar. Men den går
         att vända. Och varje vecka räknas.
       </p>
+    </div>
+  </section>
+
+  <section class="sources" aria-label="Om datat och källorna">
+    <div class="sources-inner">
+      <h2>Om datat och källorna</h2>
+      <ul>
+        <li>
+          Alla siffror på den här sidan är <strong>syntetiskt testdata</strong>
+          (cirka 50 000 elever), framtaget för att utveckla berättelsen —
+          inte verklig frånvarostatistik.
+        </li>
+        <li>
+          Frånvaro anges som andel av planerad undervisningstid. Ämnessteget
+          använder lektionsfrånvaro; övriga steg frånvaro på dagnivå.
+        </li>
+        <li>
+          Gränsen 15 % motsvarar ungefär en missad skoldag i veckan — en nivå
+          som ofta används som riktmärke för problematisk frånvaro.
+        </li>
+        <li>
+          Sambanden på sidan (behörighet, socioekonomi) är korrelationer och
+          säger inte vad som orsakar vad.
+        </li>
+        <li>
+          Om etablering efter skolan:
+          <a
+            href="https://www.scb.se/contentassets/6ff64321080743098e42407073d31d14/uf0549_2018a01_br_a40br1803.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            >SCB:s temarapport om inträdet på arbetsmarknaden efter
+            gymnasieskolan (2018)</a
+          >.
+        </li>
+      </ul>
     </div>
   </section>
 
@@ -221,5 +256,37 @@
     line-height: 1.65;
     color: rgba(255, 255, 255, 0.85);
     margin: 0;
+  }
+  /* Källförteckning — samma ljusa yta som footer, men med lite mer luft */
+  .sources {
+    background: var(--surface-1);
+    border-top: 1px solid var(--border);
+  }
+  .sources-inner {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 48px 24px;
+  }
+  .sources h2 {
+    font-family: var(--serif);
+    font-size: 18px;
+    margin: 0 0 16px;
+    color: var(--text-primary);
+  }
+  .sources ul {
+    margin: 0;
+    padding-left: 20px;
+  }
+  .sources li {
+    font-size: 13.5px;
+    line-height: 1.6;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+  }
+  .sources li:last-child {
+    margin-bottom: 0;
+  }
+  .sources a {
+    color: var(--series-blue);
   }
 </style>

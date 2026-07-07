@@ -34,7 +34,9 @@
     };
   });
 
-  // Enkel minsta-kvadrat-linje för att visa riktningen på sambandet
+  // Enkel minsta-kvadrat-linje (OLS) som visar sambandets riktning —
+  // den visar bara association, inte orsak och verkan. Ändpunkterna
+  // klipps till skalans x-domän, inte datats faktiska min/max.
   const trend = $derived.by(() => {
     const n = data.length;
     if (n < 2) return null;
@@ -48,7 +50,13 @@
     }
     const slope = num / den;
     const intercept = my - slope * mx;
-    return { x1: 30, y1: intercept + slope * 30, x2: 200, y2: intercept + slope * 200 };
+    const [xMin, xMax] = x.domain();
+    return {
+      x1: xMin,
+      y1: intercept + slope * xMin,
+      x2: xMax,
+      y2: intercept + slope * xMax,
+    };
   });
 
   const xTicks = [50, 100, 150, 200];
@@ -130,7 +138,7 @@
     font-weight: 600;
   }
   .trend {
-    stroke: var(--text-muted);
+    stroke: var(--hero-navy);
     stroke-width: 1.5;
     stroke-dasharray: 5 4;
     opacity: 0;
@@ -152,7 +160,7 @@
   }
   @keyframes trend-in {
     to {
-      opacity: 0.7;
+      opacity: 0.55;
     }
   }
 </style>

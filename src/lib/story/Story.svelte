@@ -39,11 +39,17 @@
     { label: "Pojkar — giltig", value: pojke.giltigProcent, color: "var(--giltig)" },
     { label: "Pojkar — ogiltig", value: pojke.ogiltigProcent, color: "var(--ogiltig)" },
   ]);
-  const lovBars = $derived(
-    data.lovEffekt.flatMap((l) => [
-      { label: `${l.lov} — veckan före`, value: l.fore, color: "var(--series-blue)" },
-      { label: `${l.lov} — veckan efter`, value: l.efter, color: "var(--series-red)" },
-    ])
+  // Loveffekten som hantel: veckan före → veckan efter, per lov.
+  const lovDumbbell = $derived(
+    data.lovEffekt.map((l) => ({
+      label: l.lov,
+      from: l.fore,
+      to: l.efter,
+      color: "var(--series-red)",
+    }))
+  );
+  const lovMax = $derived(
+    Math.ceil(Math.max(...data.lovEffekt.map((l) => l.efter)) * 1.15)
   );
   const BUCKET_COLORS = ["#0068b2", "#499fe3", "#dc785f", "#a7391d"];
   const progressionDumbbell = $derived(
@@ -136,7 +142,7 @@
       headline: "Frånvaron följer årstiderna",
     },
     {
-      kicker: "Lovffekten",
+      kicker: "Loveffekten",
       headline: "Efter lovet står fler stolar tomma",
     },
     {
@@ -224,9 +230,11 @@
             title="Frånvaro % per läsår och månad"
           />
         {:else if currentStep === 5}
-          <BarChart
-            data={lovBars}
-            color="var(--series-blue)"
+          <DumbbellChart
+            data={lovDumbbell}
+            fromLabel="veckan före"
+            toLabel="veckan efter"
+            maxValue={lovMax}
             title="Frånvaro % veckan före och veckan efter lov, {latestYear}"
           />
         {:else if currentStep === 6}
@@ -425,7 +433,8 @@
           genomsnittet, medan skolor med
           <span class="badge badge-red">högt index</span> oftare ligger över.
           Frånvaron är med andra ord inte bara en fråga om individer — den
-          hänger ihop med skolans förutsättningar.
+          hänger ihop med skolans förutsättningar. Vad som är orsak och
+          verkan kan bilden däremot inte avgöra.
         </p>
       {:else if i === 10}
         <p>
@@ -443,15 +452,26 @@
         <p>
           Varför måste frånvaron tas på allvar? För att den är den tidigaste
           varningssignalen för det som avgör mest:
-          <strong>gymnasiebehörigheten</strong>. Ju högre frånvaro, desto
-          brantare faller chansen att klara den.
+          <strong>gymnasiebehörigheten</strong>. Bland elever med hög frånvaro
+          är andelen som når behörighet betydligt lägre — med dagens nivåer
+          motsvarar det ungefär
+          <strong>{data.studentDistribution.gymnasiebehorighet.ejBehorigaPerArskull}
+          elever i varje årskull</strong>.
         </p>
         <p>
-          Med dagens nivåer motsvarar det ungefär
-          <strong>{data.studentDistribution.gymnasiebehorighet.ejBehorigaPerArskull}
-          elever i varje årskull</strong> som riskerar att lämna grundskolan
-          utan behörighet — dörrar som stängs vid 16 års ålder. (Sambandet är
+          Vad som orsakar vad kan ett sådant här samband inte svara på.
+          Missade lektioner ger kunskapsluckor — men bakomliggande svårigheter
+          driver ofta både frånvaron och studieresultaten samtidigt. Oavsett
+          riktning är frånvaron den signal som syns först. (Sambandet är
           illustrativt i testdatat.)
+        </p>
+        <p>
+          SCB har följt eleverna vidare i livet: de som varken blev behöriga
+          eller senare slutförde gymnasiet står mycket oftare
+          <strong>helt utanför arbete och studier</strong>, även efter lång
+          tid. Men samma uppföljning visar att dörren går att öppna igen —
+          obehöriga som inom fyra år ändå slutförde gymnasiet etablerade sig
+          bättre på arbetsmarknaden än behöriga som hoppade av.
         </p>
       {:else if i === 12}
         <p>

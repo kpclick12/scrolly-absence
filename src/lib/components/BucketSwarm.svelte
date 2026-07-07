@@ -60,6 +60,12 @@
 
   let dotEls = $state([]);
 
+  // GSAP drivs av JS och lyder inte CSS:s prefers-reduced-motion — kolla
+  // manuellt och nolla ut speltiden så att swarmen inte snurrar runt.
+  const reducedMotion =
+    typeof window !== "undefined" &&
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
   $effect(() => {
     dots.forEach((dot, i) => {
       const el = dotEls[i];
@@ -68,9 +74,9 @@
       gsap.to(el, {
         attr: { cx: t.x, cy: t.y },
         fill: t.color,
-        duration: 0.9,
+        duration: reducedMotion ? 0 : 0.9,
         ease: "power3.inOut",
-        delay: (i % 40) * 0.004,
+        delay: reducedMotion ? 0 : (i % 40) * 0.004,
       });
     });
   });
